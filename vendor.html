@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZAVO - Vendor Dashboard & Portal</title>
+    <style>
+        :root { --zavo-blue: #0f4c81; --zavo-yellow: #ffb703; --zavo-dark: #0f172a; --zavo-gray: #64748b; --zavo-bg: #f8fafc; --zavo-green: #10b981; --zavo-red: #ef4444; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--zavo-bg); color: var(--zavo-dark); display: flex; min-height: 100vh; flex-direction: column; }
+        
+        header { background: white; border-bottom: 1px solid #e2e8f0; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .brand { font-size: 20px; font-weight: 900; color: var(--zavo-blue); text-decoration: none; }
+        .brand span { color: var(--zavo-yellow); }
+
+        .layout { display: flex; flex: 1; }
+        .sidebar { width: 220px; background: white; border-right: 1px solid #e2e8f0; padding: 20px 10px; display: flex; flex-direction: column; gap: 4px; }
+        .nav-btn { padding: 10px 14px; border-radius: 8px; color: var(--zavo-gray); text-decoration: none; font-weight: 600; font-size: 13px; cursor: pointer; border: none; background: transparent; width: 100%; text-align: left; }
+        .nav-btn.active, .nav-btn:hover { background: #e0f2fe; color: var(--zavo-blue); }
+
+        .content { flex: 1; padding: 20px; max-width: 1000px; }
+        .panel { background: white; border-radius: 12px; padding: 20px; border: 1px solid #e2e8f0; margin-bottom: 20px; }
+        .panel-title { font-size: 16px; font-weight: 700; color: var(--zavo-blue); margin-bottom: 12px; }
+
+        input, textarea, select { width: 100%; padding: 10px 12px; margin-bottom: 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 13px; }
+        textarea { resize: vertical; height: 100px; }
+        .btn-primary { background: var(--zavo-blue); color: white; border: none; padding: 10px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+        
+        .alert-box { background: #fffbeb; border: 1px solid #fde68a; padding: 12px; border-radius: 8px; font-size: 12px; color: #b45309; margin-bottom: 15px; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th { text-align: left; padding: 10px; background: #f8fafc; color: var(--zavo-gray); font-weight: 600; border-bottom: 1px solid #e2e8f0; }
+        td { padding: 12px 10px; border-bottom: 1px solid #f1f5f9; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="/" class="brand">ZAVO<span>.</span> Vendor Portal</a>
+        <div id="vendorHeader" style="font-size:12px; font-weight:700;">Loading Vendor...</div>
+    </header>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <button class="nav-btn active" onclick="switchTab('dashboard')">📊 Dashboard</button>
+            <button class="nav-btn" onclick="switchTab('products')">📦 My Products</button>
+            <button class="nav-btn" onclick="switchTab('add-product')">➕ Post New Product</button>
+            <button class="nav-btn" onclick="switchTab('application')">🏢 Legal & Application Status</button>
+            <button class="nav-btn" onclick="logout()" style="margin-top:auto; color:red;">🚪 Logout</button>
+        </aside>
+
+        <main class="content">
+            <div id="tab-dashboard" class="panel">
+                <div class="panel-title" id="welcomeMsg">Welcome to your Vendor Store</div>
+                <p style="font-size:13px; color:#64748b;">Manage your approved listings, stock levels, and review application statuses.</p>
+            </div>
+
+            <div id="tab-products" class="panel" style="display:none;">
+                <div class="panel-title">My Product Listings</div>
+                <table>
+                    <thead><tr><th>Title</th><th>Price (KSh)</th><th>Stock</th><th>Status</th></tr></thead>
+                    <tbody id="myProductsTbody"><tr><td colspan="4" style="text-align:center;">Loading products...</td></tr></tbody>
+                </table>
+            </div>
+
+            <div id="tab-add-product" class="panel" style="display:none;">
+                <div class="panel-title">Post New Product Listing</div>
+                <div class="alert-box">
+                    ⚠️ <strong>Compliance Policy:</strong> External URLs, website links, or phone numbers are strictly prohibited in product titles, descriptions, or image fields.
+                </div>
+                <form id="productForm">
+                    <label style="font-size:12px; font-weight:600;">Product Title</label>
+                    <input type="text" id="pTitle" placeholder="e.g., Heavy Duty Solar Floodlight" required>
+                    
+                    <label style="font-size:12px; font-weight:600;">Category</label>
+                    <select id="pCategory">
+                        <option value="Electronics">Electronics & Solar</option>
+                        <option value="Fashion">Fashion & Apparel</option>
+                        <option value="Home">Home & Living</option>
+                        <option value="Health">Health & Beauty</option>
+                    </select>
+
+                    <label style="font-size:12px; font-weight:600;">Price (KSh)</label>
+                    <input type="number" id="pPrice" placeholder="2500" required>
+
+                    <label style="font-size:12px; font-weight:600;">Stock Quantity</label>
+                    <input type="number" id="pStock" placeholder="50" required>
+
+                    <label style="font-size:12px; font-weight:600;">Product Description (No Links or Phone Numbers)</label>
+                    <textarea id="pDesc" placeholder="Describe product features clearly..." required></textarea>
+
+                    <label style="font-size:12px; font-weight:600;">Product Image URL</label>
+                    <input type="text" id="pImage" placeholder="https://images.zavo.co.ke/products/sample.jpg" required>
+
+                    <button type="submit" class="btn-primary">Submit for Admin Review</button>
+                </form>
+                <div id="postMsg" style="margin-top:10px; font-size:13px; font-weight:600;"></div>
+            </div>
+
+            <div id="tab-application" class="panel" style="display:none;">
+                <div class="panel-title">Vendor Legal Verification & Status</div>
+                <p style="font-size:13px; color:#64748b; margin-bottom:15px;">Your application status is managed under ZAVO vendor protection guidelines.</p>
+                <div id="appStatusBox" style="padding:15px; background:#f1f5f9; border-radius:8px; font-size:13px; font-weight:700;">Status: Pending Verification</div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const user = JSON.parse(localStorage.getItem('zavo_user') || 'null');
+        if (!user) {
+            alert('Please sign in to access the vendor portal.');
+            window.location.href = '/login.html';
+        }
+        document.getElementById('vendorHeader').textContent = user.name + ' (' + user.email + ')';
+        document.getElementById('welcomeMsg').textContent = 'Welcome back, ' + user.name + ' 👋';
+
+        function containsForbiddenContent(text) {
+            const urlPattern = /(https?:\/\/|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/\S*)?|www\.)/i;
+            const phonePattern = /(\+?\d{10,13}|\b07\d{8}\b|\b01\d{8}\b)/;
+            return urlPattern.test(text) || phonePattern.test(text);
+        }
+
+        document.getElementById('productForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('pTitle').value;
+            const desc = document.getElementById('pDesc').value;
+            const image = document.getElementById('pImage').value;
+            const price = document.getElementById('pPrice').value;
+            const stock = document.getElementById('pStock').value;
+            const category = document.getElementById('pCategory').value;
+            const msg = document.getElementById('postMsg');
+
+            if (containsForbiddenContent(title) || containsForbiddenContent(desc) || containsForbiddenContent(image)) {
+                msg.style.color = 'var(--zavo-red)';
+                msg.textContent = '❌ Error: External URLs, website domains, or phone numbers are prohibited.';
+                return;
+            }
+
+            const res = await fetch('/api/vendor/products', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ vendor_id: user.email, title, desc, price: Number(price), stock: Number(stock), category, images: [image] })
+            });
+            const data = await res.json();
+            if (data.success) {
+                msg.style.color = 'var(--zavo-green)';
+                msg.textContent = '✅ Product submitted successfully! Awaiting admin review.';
+                document.getElementById('productForm').reset();
+                loadVendorProducts();
+            } else {
+                msg.style.color = 'var(--zavo-red)';
+                msg.textContent = '❌ ' + data.error;
+            }
+        });
+
+        async function loadVendorProducts() {
+            const res = await fetch('/api/vendor/products?vendor_id=' + encodeURIComponent(user.email));
+            const data = await res.json();
+            const tbody = document.getElementById('myProductsTbody');
+            if (data.products && data.products.length > 0) {
+                tbody.innerHTML = data.products.map(p => `
+                    <tr>
+                        <td><strong>${p.title}</strong></td>
+                        <td>KSh ${Number(p.price).toLocaleString()}</td>
+                        <td>${p.stock}</td>
+                        <td><span style="color:${p.status==='active'?'green':'orange'}; font-weight:700;">${p.status}</span></td>
+                    </tr>
+                `).join('');
+            } else {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b;">No products submitted yet.</td></tr>';
+            }
+        }
+
+        function switchTab(t) {
+            ['dashboard', 'products', 'add-product', 'application'].forEach(tab => {
+                document.getElementById('tab-' + tab).style.display = (tab === t) ? 'block' : 'none';
+            });
+            if (t === 'products') loadVendorProducts();
+        }
+
+        function logout() {
+            localStorage.removeItem('zavo_user');
+            window.location.href = '/login.html';
+        }
+
+        loadVendorProducts();
+    </script>
+</body>
+</html>
