@@ -1,322 +1,717 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAVO - Multi-Vendor Marketplace</title>
-    <style>
-        :root {
-            --zavo-blue: #0f4c81;
-            --zavo-yellow: #ffb703;
-            --zavo-dark: #1e293b;
-            --zavo-light: #f8fafc;
-            --zavo-gray: #64748b;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f4c81">
+  <meta name="description" content="Shop products from ZAVO marketplace vendors and discover great deals in Kenya.">
+  <title>ZAVO | Multi-Vendor Marketplace</title>
+  <style>
+    :root {
+      --zavo-blue: #0f4c81;
+      --zavo-yellow: #ffb703;
+      --zavo-dark: #1e293b;
+      --zavo-light: #f8fafc;
+      --zavo-gray: #64748b;
+      --zavo-border: #e2e8f0;
+      --zavo-radius: 12px;
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
+    * { box-sizing: border-box; }
+    html { color-scheme: light; }
 
-        body {
-            background-color: var(--zavo-light);
-            color: var(--zavo-dark);
-            padding-bottom: 70px;
-        }
+    body {
+      margin: 0;
+      padding: 0 0 calc(76px + env(safe-area-inset-bottom));
+      background: var(--zavo-light);
+      color: var(--zavo-dark);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Arial, sans-serif;
+    }
 
-        /* Header Navigation */
-        header {
-            background-color: var(--zavo-blue);
-            color: white;
-            padding: 12px 16px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        }
+    a { color: inherit; }
+    button, input { font: inherit; }
 
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 12px 16px;
+      color: #fff;
+      background: var(--zavo-blue);
+      box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    }
 
-        .logo {
-            font-size: 24px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            color: white;
-            text-decoration: none;
-        }
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
 
-        .logo span {
-            color: var(--zavo-yellow);
-        }
+    .logo {
+      color: #fff;
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
 
-        .header-actions {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
+    .logo span { color: var(--zavo-yellow); }
 
-        .btn-auth {
-            background-color: var(--zavo-yellow);
-            color: var(--zavo-dark);
-            border: none;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 13px;
-            text-decoration: none;
-            cursor: pointer;
-        }
+    .btn-auth {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 20px;
+      background: var(--zavo-yellow);
+      color: var(--zavo-dark);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
 
-        /* Search Bar */
-        .search-container {
-            display: flex;
-            background: white;
-            border-radius: 25px;
-            padding: 4px 12px;
-            overflow: hidden;
-        }
+    .search-container {
+      display: flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: 25px;
+      background: #fff;
+    }
 
-        .search-container input {
-            border: none;
-            outline: none;
-            width: 100%;
-            padding: 8px;
-            font-size: 14px;
-        }
+    .search-container input {
+      width: 100%;
+      min-width: 0;
+      padding: 9px 4px;
+      color: var(--zavo-dark);
+      background: transparent;
+      border: 0;
+      outline: 0;
+    }
 
-        /* Hero Banner */
-        .hero {
-            background: linear-gradient(135deg, var(--zavo-blue), #1e3a8a);
-            color: white;
-            padding: 24px 16px;
-            text-align: center;
-            margin-bottom: 16px;
-        }
+    .search-container input:focus-visible {
+      outline: 2px solid var(--zavo-yellow);
+      outline-offset: 2px;
+    }
 
-        .hero h1 {
-            font-size: 22px;
-            margin-bottom: 6px;
-        }
+    .hero {
+      margin-bottom: 18px;
+      padding: 26px 16px;
+      text-align: center;
+      color: #fff;
+      background: linear-gradient(135deg, var(--zavo-blue), #1e3a8a);
+    }
 
-        .hero p {
-            font-size: 13px;
-            color: #cbd5e1;
-        }
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: clamp(21px, 5vw, 28px);
+    }
 
-        /* Catalog Section */
-        .container {
-            padding: 0 16px;
-        }
+    .hero p {
+      margin: 0;
+      color: #e2e8f0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
 
-        .section-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--zavo-dark);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
 
-        /* Dynamic Product Grid */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 12px;
-        }
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 12px;
+      font-size: 18px;
+    }
 
-        .product-card {
-            background: white;
-            border-radius: 12px;
-            padding: 10px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            border: 1px solid #e2e8f0;
-        }
+    .cart-link {
+      color: var(--zavo-blue);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+    }
 
-        .product-image-placeholder {
-            width: 100%;
-            height: 120px;
-            background-color: #f1f5f9;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--zavo-gray);
-            font-size: 12px;
-            margin-bottom: 8px;
-        }
+    .cart-count {
+      display: inline-flex;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 5px;
+      margin-left: 3px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      color: var(--zavo-dark);
+      background: var(--zavo-yellow);
+      font-size: 11px;
+    }
 
-        .product-title {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 4px;
-            line-height: 1.2;
-            color: var(--zavo-dark);
-        }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
 
-        .product-price {
-            color: var(--zavo-blue);
-            font-weight: 800;
-            font-size: 15px;
-            margin-bottom: 8px;
-        }
+    .product-card {
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 10px;
+      border: 1px solid var(--zavo-border);
+      border-radius: var(--zavo-radius);
+      background: #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    }
 
-        .btn-add-cart {
-            width: 100%;
-            background-color: var(--zavo-blue);
-            color: white;
-            border: none;
-            padding: 8px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 12px;
-            cursor: pointer;
-        }
+    .product-image,
+    .product-image-placeholder {
+      display: flex;
+      width: 100%;
+      height: 140px;
+      margin-bottom: 9px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: #f1f5f9;
+      color: var(--zavo-gray);
+    }
 
-        /* States */
-        .loading, .empty-state {
-            text-align: center;
-            padding: 40px 16px;
-            color: var(--zavo-gray);
-            font-size: 14px;
-        }
+    .product-image { object-fit: contain; }
 
-        /* Bottom Mobile Navigation Bar */
-        .mobile-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            border-top: 1px solid #e2e8f0;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-        }
+    .product-image-placeholder { font-size: 12px; }
 
-        .nav-item {
-            text-align: center;
-            color: var(--zavo-gray);
-            text-decoration: none;
-            font-size: 11px;
-            font-weight: 600;
-        }
+    .product-title {
+      margin-bottom: 6px;
+      color: var(--zavo-dark);
+      font-size: 14px;
+      font-weight: 650;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
 
-        .nav-item.active {
-            color: var(--zavo-blue);
-        }
-    </style>
+    .product-price {
+      margin-bottom: 10px;
+      color: var(--zavo-blue);
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .btn-add-cart {
+      width: 100%;
+      padding: 10px 8px;
+      border: 0;
+      border-radius: 7px;
+      color: #fff;
+      background: var(--zavo-blue);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-add-cart:hover { filter: brightness(1.08); }
+
+    .btn-add-cart:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+    }
+
+    .btn-add-cart:focus-visible,
+    a:focus-visible {
+      outline: 3px solid #d97706;
+      outline-offset: 2px;
+    }
+
+    .loading,
+    .empty-state,
+    .error-state {
+      grid-column: 1 / -1;
+      padding: 36px 16px;
+      text-align: center;
+      color: var(--zavo-gray);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .retry-button {
+      margin-top: 12px;
+      padding: 9px 14px;
+      border: 0;
+      border-radius: 7px;
+      background: var(--zavo-blue);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .mobile-nav {
+      position: fixed;
+      z-index: 20;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      justify-content: space-around;
+      gap: 4px;
+      padding: 10px 4px calc(10px + env(safe-area-inset-bottom));
+      border-top: 1px solid var(--zavo-border);
+      background: #fff;
+      box-shadow: 0 -2px 10px rgba(0,0,0,.05);
+    }
+
+    .nav-item {
+      flex: 1;
+      text-align: center;
+      color: var(--zavo-gray);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 650;
+      padding: 4px 2px;
+    }
+
+    .nav-item.active { color: var(--zavo-blue); }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (min-width: 620px) {
+      .product-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .product-image,
+      .product-image-placeholder { height: 180px; }
+
+      .hero { padding: 34px 20px; }
+    }
+
+    @media (min-width: 900px) {
+      .product-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .site-header {
+        padding-right: max(16px, calc((100vw - 1168px) / 2));
+        padding-left: max(16px, calc((100vw - 1168px) / 2));
+      }
+    }
+  </style>
 </head>
+
 <body>
-
-    <!-- Header Navigation -->
-    <header>
-        <div class="header-top">
-            <a href="#" class="logo">ZAVO<span>.</span></a>
-            <div class="header-actions">
-                <a href="/login" class="btn-auth">Sign In</a>
-            </div>
-        </div>
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search products, vendors, or deals..." oninput="filterProducts()">
-        </div>
-    </header>
-
-    <!-- Banner -->
-    <div class="hero">
-        <h1>Discover Top Deals & Reseller Hub</h1>
-        <p>Direct from verified suppliers. Earn with ZAVO network.</p>
+  <header class="site-header">
+    <div class="header-top">
+      <a href="/" class="logo" aria-label="ZAVO home">ZAVO<span>.</span></a>
+      <a href="/login.html" class="btn-auth">Sign In</a>
     </div>
 
-    <!-- Main Content Container -->
-    <div class="container">
-        <div class="section-title">
-            <span>Featured Products</span>
-        </div>
+    <form class="search-container" id="searchForm" role="search">
+      <label class="sr-only" for="searchInput">Search products</label>
+      <input
+        type="search"
+        id="searchInput"
+        placeholder="Search products, vendors or categories..."
+        autocomplete="off"
+      >
+    </form>
+  </header>
 
-        <!-- Dynamic Product Listing -->
-        <div id="productGrid" class="product-grid">
-            <div class="loading">Loading products from ZAVO network...</div>
-        </div>
+  <section class="hero" aria-labelledby="heroTitle">
+    <h1 id="heroTitle">Discover Top Deals &amp; Reseller Hub</h1>
+    <p>Discover products from suppliers and grow with the ZAVO network.</p>
+  </section>
+
+  <main>
+    <div class="section-title">
+      <h2 style="margin:0;font-size:inherit;">Featured Products</h2>
+      <a class="cart-link" href="/cart.html">
+        Cart <span id="cartCount" class="cart-count"
+          aria-label="Items in cart">0</span>
+      </a>
     </div>
 
-    <!-- Mobile Bottom Navigation -->
-    <nav class="mobile-nav">
-        <a href="#" class="nav-item active">Shop</a>
-        <a href="/vendor.html" class="nav-item">Vendors</a>
-        <a href="/reseller.html" class="nav-item">Resellers</a>
-        <a href="/admin.html" class="nav-item">Admin</a>
-    </nav>
+    <div id="productGrid" class="product-grid" aria-live="polite" aria-busy="true">
+      <div class="loading">Loading products from ZAVO...</div>
+    </div>
+  </main>
 
-    <script>
-        const API_URL = "https://deals.zavo-stores.workers.dev/api/products";
-        let allProducts = [];
+  <nav class="mobile-nav" aria-label="Main navigation">
+    <a href="/" class="nav-item active" aria-current="page">Shop</a>
+    <a href="/vendor.html" class="nav-item">Vendors</a>
+    <a href="/reseller.html" class="nav-item">Resellers</a>
+    <a href="/cart.html" class="nav-item">Cart</a>
+  </nav>
 
-        // Fetch active products from backend Cloudflare D1
-        async function fetchProducts() {
-            const grid = document.getElementById("productGrid");
-            try {
-                const response = await fetch(API_URL);
-                const data = await response.json();
+  <script>
+    (() => {
+      "use strict";
 
-                if (data.success && data.products && data.products.length > 0) {
-                    allProducts = data.products;
-                    renderProducts(allProducts);
-                } else {
-                    grid.innerHTML = `<div class="empty-state">No products available at the moment. Check back soon!</div>`;
-                }
-            } catch (error) {
-                console.error("Error loading products:", error);
-                grid.innerHTML = `<div class="empty-state">Unable to load catalog. Please check your network connection.</div>`;
-            }
+      const API_URL = "https://deals.zavo-stores.workers.dev/api/products";
+      const CART_KEY = "zavo_cart";
+
+      const grid = document.getElementById("productGrid");
+      const searchInput = document.getElementById("searchInput");
+      const searchForm = document.getElementById("searchForm");
+      const cartCount = document.getElementById("cartCount");
+
+      let allProducts = [];
+
+      function asText(value) {
+        return value == null ? "" : String(value);
+      }
+
+      function formatPrice(value) {
+        const amount = typeof value === "number" ? value : Number(value);
+
+        if (!Number.isFinite(amount) || amount < 0) {
+          return null;
         }
 
-        // Render product cards into DOM
-        function renderProducts(products) {
-            const grid = document.getElementById("productGrid");
-            grid.innerHTML = products.map(p => `
-                <div class="product-card">
-                    <div>
-                        <div class="product-image-placeholder">ZAVO Item</div>
-                        <div class="product-title">${escapeHtml(p.title)}</div>
-                        <div class="product-price">KES ${Number(p.price).toLocaleString()}</div>
-                    </div>
-                    <button class="btn-add-cart" onclick="addToCart('${p.id}')">Add to Cart</button>
-                </div>
-            `).join("");
+        return amount.toLocaleString("en-KE", {
+          maximumFractionDigits: 2
+        });
+      }
+
+      function getCart() {
+        try {
+          const parsed = JSON.parse(
+            localStorage.getItem(CART_KEY) || "[]"
+          );
+
+          if (!Array.isArray(parsed)) return [];
+
+          return parsed
+            .filter(item => item && item.id != null)
+            .map(item => ({
+              ...item,
+              quantity: Math.max(
+                1,
+                Math.floor(Number(item.quantity) || 1)
+              )
+            }));
+        } catch (error) {
+          console.warn("Could not read the saved cart:", error);
+          return [];
+        }
+      }
+
+      function saveCart(cart) {
+        try {
+          localStorage.setItem(CART_KEY, JSON.stringify(cart));
+          updateCartCount();
+          return true;
+        } catch (error) {
+          console.error("Could not save the cart:", error);
+
+          alert(
+            "Your browser could not save the cart. Check available " +
+            "device storage or browser settings and try again."
+          );
+
+          return false;
+        }
+      }
+
+      function updateCartCount() {
+        const count = getCart().reduce(
+          (sum, item) => sum + item.quantity,
+          0
+        );
+
+        cartCount.textContent = String(count);
+      }
+
+      function addToCart(productId) {
+        const product = allProducts.find(
+          item => String(item.id) === String(productId)
+        );
+
+        if (!product) {
+          alert(
+            "This product could not be found. Please refresh the page " +
+            "and try again."
+          );
+          return;
         }
 
-        // Search Filter
-        function filterProducts() {
-            const query = document.getElementById("searchInput").value.toLowerCase();
-            const filtered = allProducts.filter(p => p.title.toLowerCase().includes(query));
-            renderProducts(filtered);
+        const price = formatPrice(product.price);
+
+        if (price === null) {
+          alert(
+            "This product currently has an invalid price and cannot " +
+            "be added to the cart."
+          );
+          return;
         }
 
-        // Helper to escape HTML characters
-        function escapeHtml(str) {
-            return str ? str.replace(/[&<>'"]/g, 
-                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-            ) : '';
+        const cart = getCart();
+
+        const existing = cart.find(
+          item => String(item.id) === String(product.id)
+        );
+
+        if (existing) {
+          existing.quantity += 1;
+        } else {
+          cart.push({
+            id: product.id,
+            title: asText(product.title || "Untitled product"),
+            price: Number(product.price),
+            quantity: 1,
+            image: getImageUrl(product)
+          });
         }
 
-        function addToCart(productId) {
-            alert("Product " + productId + " added to cart!");
+        if (saveCart(cart)) {
+          alert(
+            asText(product.title || "Product") +
+            " added to your cart."
+          );
+        }
+      }
+
+      function getImageUrl(product) {
+        const candidate = asText(
+          product.image_url || product.image || product.imageUrl
+        ).trim();
+
+        if (!candidate) return "";
+
+        try {
+          const url = new URL(candidate, window.location.href);
+
+          if (
+            url.protocol !== "https:" &&
+            url.protocol !== "http:"
+          ) {
+            return "";
+          }
+
+          return url.href;
+        } catch {
+          return "";
+        }
+      }
+
+      function addPlaceholder(parent) {
+        const placeholder = document.createElement("div");
+        placeholder.className = "product-image-placeholder";
+        placeholder.textContent = "ZAVO Item";
+        parent.appendChild(placeholder);
+      }
+
+      function createProductCard(product) {
+        const card = document.createElement("article");
+        card.className = "product-card";
+
+        const content = document.createElement("div");
+        const imageUrl = getImageUrl(product);
+
+        if (imageUrl) {
+          const image = document.createElement("img");
+          image.className = "product-image";
+          image.src = imageUrl;
+          image.alt = asText(product.title || "ZAVO product");
+          image.loading = "lazy";
+          image.decoding = "async";
+          image.referrerPolicy = "no-referrer";
+
+          image.addEventListener("error", () => {
+            const placeholder = document.createElement("div");
+            placeholder.className = "product-image-placeholder";
+            placeholder.textContent = "Image unavailable";
+            image.replaceWith(placeholder);
+          }, { once: true });
+
+          content.appendChild(image);
+        } else {
+          addPlaceholder(content);
         }
 
-        // Initialize on load
-        fetchProducts();
-    </script>
+        const title = document.createElement("h3");
+        title.className = "product-title";
+        title.textContent = asText(
+          product.title || "Untitled product"
+        );
+        content.appendChild(title);
+
+        const price = document.createElement("p");
+        price.className = "product-price";
+
+        const formattedPrice = formatPrice(product.price);
+
+        price.textContent = formattedPrice === null
+          ? "Price unavailable"
+          : "KES " + formattedPrice;
+
+        content.appendChild(price);
+
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "btn-add-cart";
+        button.textContent = "Add to Cart";
+        button.disabled = formattedPrice === null || product.id == null;
+
+        button.addEventListener("click", () => {
+          addToCart(product.id);
+        });
+
+        card.append(content, button);
+        return card;
+      }
+
+      function showMessage(
+        message,
+        className = "empty-state",
+        retry = false
+      ) {
+        grid.replaceChildren();
+
+        const box = document.createElement("div");
+        box.className = className;
+        box.appendChild(document.createTextNode(message));
+
+        if (retry) {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "retry-button";
+          button.textContent = "Try again";
+          button.addEventListener("click", loadProducts);
+
+          box.appendChild(document.createElement("br"));
+          box.appendChild(button);
+        }
+
+        grid.appendChild(box);
+        grid.setAttribute("aria-busy", "false");
+      }
+
+      function renderProducts(products) {
+        grid.replaceChildren();
+
+        if (!products.length) {
+          showMessage(
+            searchInput.value.trim()
+              ? "No products match your search. Try another keyword."
+              : "No products are available at the moment. Please check back soon."
+          );
+          return;
+        }
+
+        const fragment = document.createDocumentFragment();
+
+        products.forEach(product => {
+          fragment.appendChild(createProductCard(product));
+        });
+
+        grid.appendChild(fragment);
+        grid.setAttribute("aria-busy", "false");
+      }
+
+      function filterProducts() {
+        const query = searchInput.value.trim().toLocaleLowerCase();
+
+        const filtered = allProducts.filter(product => {
+          const fields = [
+            product.title,
+            product.vendor_name,
+            product.vendor,
+            product.category,
+            product.description
+          ];
+
+          return fields
+            .map(asText)
+            .join(" ")
+            .toLocaleLowerCase()
+            .includes(query);
+        });
+
+        renderProducts(filtered);
+      }
+
+      async function loadProducts() {
+        grid.setAttribute("aria-busy", "true");
+        grid.replaceChildren();
+
+        const loading = document.createElement("div");
+        loading.className = "loading";
+        loading.textContent = "Loading products from ZAVO...";
+        grid.appendChild(loading);
+
+        try {
+          const response = await fetch(API_URL, {
+            method: "GET",
+            headers: { "Accept": "application/json" },
+            cache: "no-store"
+          });
+
+          if (!response.ok) {
+            throw new Error(
+              "Product API returned HTTP " + response.status
+            );
+          }
+
+          const data = await response.json();
+
+          if (
+            !data ||
+            data.success !== true ||
+            !Array.isArray(data.products)
+          ) {
+            throw new Error("Unexpected product API response format");
+          }
+
+          allProducts = data.products.filter(product =>
+            product &&
+            product.id != null &&
+            product.title != null
+          );
+
+          filterProducts();
+        } catch (error) {
+          console.error("Failed to load ZAVO products:", error);
+
+          showMessage(
+            "We couldn't load the product catalog. Please check your " +
+            "connection and try again.",
+            "error-state",
+            true
+          );
+        }
+      }
+
+      searchForm.addEventListener("submit", event => {
+        event.preventDefault();
+      });
+
+      searchInput.addEventListener("input", filterProducts);
+
+      window.addEventListener("storage", event => {
+        if (event.key === CART_KEY || event.key === null) {
+          updateCartCount();
+        }
+      });
+
+      updateCartCount();
+      loadProducts();
+    })();
+  </script>
 </body>
 </html>
