@@ -1,65 +1,545 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAVO - Reseller & Influencer eShop</title>
-    <style>
-        :root { --zavo-blue: #0f4c81; --zavo-yellow: #ffb703; --zavo-dark: #0f172a; --zavo-gray: #64748b; --zavo-bg: #f8fafc; --zavo-green: #10b981; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: var(--zavo-bg); color: var(--zavo-dark); padding: 20px; display: flex; justify-content: center; }
-        .reseller-card { background: white; border-radius: 12px; padding: 24px; max-width: 600px; width: 100%; border: 1px solid #e2e8f0; }
-        h2 { color: var(--zavo-blue); margin-bottom: 10px; font-size: 20px; }
-        .link-box { background: #f1f5f9; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 13px; margin: 15px 0; word-break: break-all; border: 1px solid #cbd5e1; }
-        .stat-grid { display: flex; gap: 10px; margin-bottom: 20px; }
-        .stat-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; flex: 1; text-align: center; }
-        .stat-num { font-size: 20px; font-weight: 800; color: var(--zavo-blue); }
-        .btn-action { background: var(--zavo-blue); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 700; width: 100%; cursor: pointer; font-size: 14px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="description" content="Manage your ZAVO reseller referral link and commission summary.">
+  <title>ZAVO | Reseller Portal</title>
+  <style>
+    :root {
+      --zavo-blue: #0f4c81;
+      --zavo-yellow: #ffb703;
+      --zavo-dark: #0f172a;
+      --zavo-gray: #64748b;
+      --zavo-bg: #f8fafc;
+      --zavo-green: #059669;
+      --zavo-border: #e2e8f0;
+      --zavo-red: #b91c1c;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 24px 16px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      background: var(--zavo-bg);
+      color: var(--zavo-dark);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    button, input { font: inherit; }
+
+    .reseller-card {
+      width: 100%;
+      max-width: 680px;
+      padding: 24px;
+      background: #fff;
+      border: 1px solid var(--zavo-border);
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, .06);
+    }
+
+    .brand {
+      display: inline-block;
+      margin-bottom: 18px;
+      color: var(--zavo-dark);
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: .5px;
+      text-decoration: none;
+    }
+
+    .brand span { color: var(--zavo-yellow); }
+
+    h1 {
+      margin: 0 0 8px;
+      color: var(--zavo-blue);
+      font-size: 23px;
+    }
+
+    .intro {
+      margin: 0 0 20px;
+      color: var(--zavo-gray);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .status {
+      display: none;
+      margin: 0 0 16px;
+      padding: 11px 12px;
+      border: 1px solid var(--zavo-border);
+      border-radius: 8px;
+      font-size: 13px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .status.show { display: block; }
+    .status.error { color: var(--zavo-red); background: #fef2f2; border-color: #fecaca; }
+    .status.info { color: #334155; background: #f8fafc; }
+    .status.success { color: #065f46; background: #ecfdf5; border-color: #a7f3d0; }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .stat-card {
+      min-width: 0;
+      padding: 14px 10px;
+      border: 1px solid var(--zavo-border);
+      border-radius: 9px;
+      background: #f8fafc;
+      text-align: center;
+    }
+
+    .stat-label {
+      color: var(--zavo-gray);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .stat-num {
+      margin-top: 7px;
+      color: var(--zavo-blue);
+      font-size: clamp(17px, 3.8vw, 22px);
+      font-weight: 800;
+      overflow-wrap: anywhere;
+    }
+
+    .stat-num.pending { color: #b45309; }
+    .stat-num.paid { color: var(--zavo-green); }
+
+    .section-label {
+      display: block;
+      margin: 0 0 8px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .link-box {
+      min-height: 46px;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background: #f1f5f9;
+      color: #0f172a;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .btn {
+      min-height: 44px;
+      padding: 11px 14px;
+      border: 0;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .btn:focus-visible, a:focus-visible {
+      outline: 3px solid rgba(255,183,3,.7);
+      outline-offset: 3px;
+    }
+
+    .btn-primary { background: var(--zavo-blue); color: #fff; }
+    .btn-secondary { background: #e2e8f0; color: #0f172a; }
+    .btn:disabled { opacity: .6; cursor: wait; }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .footer-links a, .footer-links button {
+      padding: 0;
+      border: 0;
+      background: none;
+      color: var(--zavo-blue);
+      text-decoration: none;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .small-note {
+      margin: 18px 0 0;
+      color: var(--zavo-gray);
+      text-align: center;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 12px; }
+      .reseller-card { padding: 19px 15px; }
+      .stat-grid { grid-template-columns: 1fr; }
+
+      .stat-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        text-align: left;
+      }
+
+      .stat-num { margin-top: 0; }
+      .actions { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-    <div class="reseller-card">
-        <h2>Influencer & Reseller Portal</h2>
-        <p style="font-size:13px; color:var(--zavo-gray); margin-bottom:15px;">Promote your unique eShop link. Commissions are securely tracked and credited upon verified order delivery.</p>
-        
-        <div class="stat-grid">
-            <div class="stat-card">
-                <div style="font-size:11px; color:var(--zavo-gray);">Attributed Clicks</div>
-                <div class="stat-num" id="statClicks">0</div>
-            </div>
-            <div class="stat-card">
-                <div style="font-size:11px; color:var(--zavo-gray);">Pending Earnings</div>
-                <div class="stat-num" style="color:orange;">KSh 0</div>
-            </div>
-            <div class="stat-card">
-                <div style="font-size:11px; color:var(--zavo-gray);">Paid Commissions</div>
-                <div class="stat-num" style="color:var(--zavo-green);">KSh 0</div>
-            </div>
-        </div>
+  <main class="reseller-card">
+    <a class="brand" href="/" aria-label="ZAVO storefront">ZAVO<span>.</span></a>
 
-        <label style="font-size:12px; font-weight:600;">Your Trackable eShop Referral Link</label>
-        <div class="link-box" id="refLink">Generating secure link...</div>
-        
-        <button class="btn-action" onclick="copyRefLink()">Copy Referral Link</button>
-        <div style="margin-top:15px; text-align:center;"><a href="/" style="font-size:12px; color:var(--zavo-blue); text-decoration:none;">← Return to Storefront</a></div>
+    <h1>Reseller &amp; Influencer Portal</h1>
+
+    <p class="intro">
+      Share your referral link and track attributed visits and eligible commissions.
+      Commission totals should be confirmed by ZAVO's server after qualifying orders
+      meet the programme rules.
+    </p>
+
+    <div id="status" class="status info show" role="status" aria-live="polite">
+      Checking your account…
     </div>
 
-    <script>
-        const user = JSON.parse(localStorage.getItem('zavo_user') || 'null');
-        if (!user) {
-            alert('Please sign in to access your Reseller Dashboard.');
-            window.location.href = '/login.html';
+    <section aria-label="Reseller statistics" class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-label">Attributed clicks</div>
+        <div class="stat-num" id="statClicks">—</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Pending commissions</div>
+        <div class="stat-num pending" id="statPending">—</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Paid commissions</div>
+        <div class="stat-num paid" id="statPaid">—</div>
+      </div>
+    </section>
+
+    <section aria-labelledby="referralLabel">
+      <label class="section-label" id="referralLabel" for="refLink">
+        Your trackable referral link
+      </label>
+
+      <div class="link-box" id="refLink">Loading referral link…</div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="copyButton" type="button" disabled>
+          Copy referral link
+        </button>
+
+        <button class="btn btn-secondary" id="refreshButton" type="button">
+          Refresh dashboard
+        </button>
+      </div>
+    </section>
+
+    <nav class="footer-links" aria-label="Account navigation">
+      <a href="/">← Return to storefront</a>
+      <button id="logoutButton" type="button">Sign out</button>
+    </nav>
+
+    <p class="small-note">
+      Do not share your password or session details. Referral counts and commissions
+      are supplied by the ZAVO server; this page does not calculate or award
+      commissions in your browser.
+    </p>
+  </main>
+
+  <script>
+    (() => {
+      "use strict";
+
+      // Required Worker endpoints:
+      // GET  /api/auth/me
+      // GET  /api/auth/csrf
+      // GET  /api/reseller/dashboard
+      // POST /api/auth/logout
+      //
+      // Keep this empty when the page and API use the same origin.
+      // If your API is hosted on another origin, configure that origin and
+      // the corresponding credentialed CORS/cookie settings on the Worker.
+      const API_BASE = "";
+
+      const statusEl = document.getElementById("status");
+      const clicksEl = document.getElementById("statClicks");
+      const pendingEl = document.getElementById("statPending");
+      const paidEl = document.getElementById("statPaid");
+      const linkEl = document.getElementById("refLink");
+      const copyButton = document.getElementById("copyButton");
+      const refreshButton = document.getElementById("refreshButton");
+      const logoutButton = document.getElementById("logoutButton");
+
+      let referralUrl = "";
+      let csrfToken = "";
+
+      function showStatus(message, type = "info") {
+        statusEl.textContent = message;
+        statusEl.className = `status show ${type}`;
+      }
+
+      async function api(path, options = {}) {
+        const headers = new Headers(options.headers || {});
+        headers.set("Accept", "application/json");
+
+        if (options.body && !headers.has("Content-Type")) {
+          headers.set("Content-Type", "application/json");
         }
 
-        // Generate normalized referral code from user name or email prefix
-        const refCode = user.name ? user.name.toLowerCase().replace(/[^a-z0-9]/g, '') : 'affiliate';
-        const fullLink = window.location.origin + '/?ref=' + refCode;
-        document.getElementById('refLink').textContent = fullLink;
-
-        function copyRefLink() {
-            navigator.clipboard.writeText(fullLink);
-            alert('Referral link copied to clipboard!');
+        if (csrfToken && options.method &&
+            options.method.toUpperCase() !== "GET") {
+          headers.set("X-CSRF-Token", csrfToken);
         }
-    </script>
+
+        const response = await fetch(`${API_BASE}${path}`, {
+          ...options,
+          headers,
+          credentials: "same-origin",
+          cache: "no-store"
+        });
+
+        let data;
+
+        try {
+          data = await response.json();
+        } catch {
+          throw new Error("The server returned an unreadable response.");
+        }
+
+        if (!response.ok || !data || data.success !== true) {
+          if (response.status === 401) {
+            window.location.replace("/login.html");
+            throw new Error("Please sign in to continue.");
+          }
+
+          throw new Error(
+            typeof data?.error === "string"
+              ? data.error
+              : "The request could not be completed."
+          );
+        }
+
+        return data;
+      }
+
+      function formatMoney(value, currency = "KES") {
+        const amount = Number(value);
+
+        if (!Number.isFinite(amount) || amount < 0) {
+          return "Unavailable";
+        }
+
+        try {
+          return new Intl.NumberFormat("en-KE", {
+            style: "currency",
+            currency,
+            maximumFractionDigits: 2
+          }).format(amount);
+        } catch {
+          return `${currency} ${amount.toFixed(2)}`;
+        }
+      }
+
+      function validReferralCode(value) {
+        return typeof value === "string" &&
+          /^[A-Za-z0-9_-]{3,80}$/.test(value);
+      }
+
+      async function loadDashboard() {
+        refreshButton.disabled = true;
+        copyButton.disabled = true;
+
+        showStatus(
+          "Checking your account and loading your reseller dashboard…",
+          "info"
+        );
+
+        try {
+          // Verify the actual server-side session.
+          const me = await api("/api/auth/me");
+
+          if (
+            !me.user ||
+            !["reseller", "affiliate", "vendor", "admin"].includes(me.user.role)
+          ) {
+            showStatus(
+              "Your account is not enabled for the reseller programme. Contact ZAVO support.",
+              "error"
+            );
+            linkEl.textContent = "Reseller access not available";
+            return;
+          }
+
+          // Obtain the CSRF token used for the sign-out request.
+          try {
+            const csrfResponse = await fetch(`${API_BASE}/api/auth/csrf`, {
+              method: "GET",
+              credentials: "same-origin",
+              cache: "no-store",
+              headers: { "Accept": "application/json" }
+            });
+
+            const csrfData = await csrfResponse.json();
+
+            if (
+              csrfResponse.ok &&
+              csrfData.success === true &&
+              typeof csrfData.csrfToken === "string"
+            ) {
+              csrfToken = csrfData.csrfToken;
+            }
+          } catch (_) {
+            // Dashboard data can still load; sign-out will explain if
+            // the CSRF token could not be obtained.
+          }
+
+          const dashboard = await api("/api/reseller/dashboard");
+
+          if (!validReferralCode(dashboard.referral_code)) {
+            throw new Error(
+              "The server has not assigned a valid referral code to this account."
+            );
+          }
+
+          const currency =
+            typeof dashboard.currency === "string" &&
+            /^[A-Z]{3}$/.test(dashboard.currency)
+              ? dashboard.currency
+              : "KES";
+
+          const clicks = Number(dashboard.clicks);
+
+          clicksEl.textContent =
+            Number.isSafeInteger(clicks) && clicks >= 0
+              ? clicks.toLocaleString("en-KE")
+              : "Unavailable";
+
+          pendingEl.textContent =
+            formatMoney(dashboard.pending_commission, currency);
+
+          paidEl.textContent =
+            formatMoney(dashboard.paid_commission, currency);
+
+          const url = new URL("/", window.location.origin);
+          url.searchParams.set("ref", dashboard.referral_code);
+
+          referralUrl = url.toString();
+          linkEl.textContent = referralUrl;
+          copyButton.disabled = false;
+
+          showStatus("Your reseller dashboard is up to date.", "success");
+        } catch (error) {
+          console.error("ZAVO reseller dashboard error:", error);
+
+          showStatus(
+            error instanceof Error
+              ? error.message
+              : "Unable to load your dashboard.",
+            "error"
+          );
+
+          if (!referralUrl) {
+            linkEl.textContent = "Referral link unavailable";
+          }
+        } finally {
+          refreshButton.disabled = false;
+        }
+      }
+
+      async function copyReferralLink() {
+        if (!referralUrl) return;
+
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(referralUrl);
+          } else {
+            const temporary = document.createElement("textarea");
+            temporary.value = referralUrl;
+            temporary.setAttribute("readonly", "");
+            temporary.style.position = "fixed";
+            temporary.style.opacity = "0";
+
+            document.body.appendChild(temporary);
+            temporary.select();
+
+            const copied = document.execCommand("copy");
+            temporary.remove();
+
+            if (!copied) {
+              throw new Error("Copying is not supported in this browser.");
+            }
+          }
+
+          showStatus("Referral link copied to clipboard.", "success");
+        } catch (_) {
+          showStatus(
+            "Could not copy automatically. Press and hold the referral link to copy it.",
+            "error"
+          );
+        }
+      }
+
+      async function logout() {
+        logoutButton.disabled = true;
+
+        try {
+          if (!csrfToken) {
+            throw new Error(
+              "Refresh the dashboard and try signing out again."
+            );
+          }
+
+          await api("/api/auth/logout", {
+            method: "POST",
+            body: JSON.stringify({})
+          });
+
+          window.location.replace("/login.html");
+        } catch (error) {
+          showStatus(
+            error instanceof Error
+              ? error.message
+              : "Could not sign out.",
+            "error"
+          );
+        } finally {
+          logoutButton.disabled = false;
+        }
+      }
+
+      copyButton.addEventListener("click", copyReferralLink);
+      refreshButton.addEventListener("click", loadDashboard);
+      logoutButton.addEventListener("click", logout);
+
+      loadDashboard();
+    })();
+  </script>
 </body>
 </html>
