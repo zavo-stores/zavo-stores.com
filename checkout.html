@@ -1,114 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAVO - Secure Checkout</title>
-    <style>
-        :root { --zavo-blue: #0f4c81; --zavo-yellow: #ffb703; --zavo-dark: #0f172a; --zavo-gray: #64748b; --zavo-bg: #f8fafc; --zavo-green: #10b981; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: var(--zavo-bg); color: var(--zavo-dark); padding: 20px; display: flex; justify-content: center; }
-        .checkout-card { background: white; border-radius: 12px; padding: 24px; max-width: 600px; width: 100%; border: 1px solid #e2e8f0; }
-        h2 { color: var(--zavo-blue); margin-bottom: 15px; font-size: 20px; }
-        input, select { width: 100%; padding: 10px 12px; margin-bottom: 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 13px; }
-        .cart-summary { background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; }
-        .btn-pay { background: var(--zavo-yellow); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 700; width: 100%; cursor: pointer; font-size: 15px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZAVO - Secure Checkout</title>
+  <style>
+    :root {
+      --zavo-blue: #0f4c81;
+      --zavo-yellow: #ffb703;
+      --zavo-dark: #0f172a;
+      --zavo-gray: #64748b;
+      --zavo-bg: #f8fafc;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: var(--zavo-bg);
+      color: var(--zavo-dark);
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .checkout-card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      max-width: 600px;
+      width: 100%;
+      border: 1px solid #e2e8f0;
+    }
+
+    h2 {
+      color: var(--zavo-blue);
+      margin-bottom: 15px;
+      font-size: 20px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px 12px;
+      margin: 6px 0 12px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      font-size: 14px;
+    }
+
+    label {
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .cart-summary {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 13px;
+    }
+
+    .btn-pay {
+      background: var(--zavo-yellow);
+      color: #000;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      width: 100%;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .btn-pay:disabled {
+      opacity: .65;
+      cursor: wait;
+    }
+
+    #checkoutMsg {
+      margin-top: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      overflow-wrap: anywhere;
+    }
+  </style>
 </head>
+
 <body>
-    <div class="checkout-card">
-        <h2>Secure ZAVO Checkout</h2>
-        
-        <div class="cart-summary" id="cartSummary">
-            <strong>Cart Items:</strong> <span id="itemCount">0 items selected</span>
-        </div>
+  <main class="checkout-card">
+    <h2>Secure ZAVO Checkout</h2>
 
-        <form id="checkoutForm">
-            <label style="font-size:12px; font-weight:600;">Full Name *</label>
-            <input type="text" id="cName" placeholder="Sylvester Owino" required>
-
-            <label style="font-size:12px; font-weight:600;">Phone Number (M-Pesa / Delivery) *</label>
-            <input type="text" id="cPhone" placeholder="0715811494" required>
-
-            <label style="font-size:12px; font-weight:600;">Email Address *</label>
-            <input type="email" id="cEmail" placeholder="customer@zavo.co.ke" required>
-
-            <label style="font-size:12px; font-weight:600;">County (Kenya 47 Counties) *</label>
-            <select id="cCounty" required>
-                <option value="">Select County...</option>
-                <option value="Nairobi">Nairobi</option>
-                <option value="Homa Bay">Homa Bay</option>
-                <option value="Mombasa">Mombasa</option>
-                <option value="Kisumu">Kisumu</option>
-                <option value="Kiambu">Kiambu</option>
-                <option value="Nakuru">Nakuru</option>
-            </select>
-
-            <label style="font-size:12px; font-weight:600;">Town / Sub-County *</label>
-            <input type="text" id="cTown" placeholder="e.g. Ndhiwa / CBD" required>
-
-            <label style="font-size:12px; font-weight:600;">Street Address / Building / Landmark *</label>
-            <input type="text" id="cAddress" placeholder="Apartment name, street..." required>
-
-            <button type="submit" class="btn-pay">Confirm & Pay Securely</button>
-        </form>
-        <div id="checkoutMsg" style="margin-top:10px; font-size:13px; font-weight:600; text-align:center;"></div>
-        <div style="margin-top:15px; text-align:center;"><a href="/" style="font-size:12px; color:var(--zavo-blue); text-decoration:none;">← Return to Storefront</a></div>
+    <div class="cart-summary" id="cartSummary">
+      <strong>Cart Items:</strong>
+      <span id="itemCount">0 items selected</span>
     </div>
 
-    <script>
-        // Load cart items from local storage to display count
-        const cartItems = JSON.parse(localStorage.getItem('zavo_cart') || '[]');
-        document.getElementById('itemCount').textContent = cartItems.length + ' item(s) in cart';
+    <form id="checkoutForm">
+      <label for="cName">Full Name *</label>
+      <input
+        type="text"
+        id="cName"
+        autocomplete="name"
+        placeholder="Your full name"
+        required
+      >
 
-        document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+      <label for="cPhone">Phone Number (M-Pesa / Delivery) *</label>
+      <input
+        type="tel"
+        id="cPhone"
+        autocomplete="tel"
+        placeholder="0712345678"
+        required
+      >
 
-            if (cartItems.length === 0) {
-                alert('Your cart is empty! Please add products before checking out.');
-                window.location.href = '/';
-                return;
-            }
+      <label for="cEmail">Email Address *</label>
+      <input
+        type="email"
+        id="cEmail"
+        autocomplete="email"
+        placeholder="you@example.com"
+        required
+      >
 
-            // Retrieve locked-in referral code captured by storefront
-            const refCode = localStorage.getItem('zavo_ref') || null;
+      <label for="cCounty">County (Kenya) *</label>
+      <select id="cCounty" required>
+        <option value="">Select County...</option>
+        <option value="Baringo">Baringo</option>
+        <option value="Bomet">Bomet</option>
+        <option value="Bungoma">Bungoma</option>
+        <option value="Busia">Busia</option>
+        <option value="Elgeyo-Marakwet">Elgeyo-Marakwet</option>
+        <option value="Embu">Embu</option>
+        <option value="Garissa">Garissa</option>
+        <option value="Homa Bay">Homa Bay</option>
+        <option value="Isiolo">Isiolo</option>
+        <option value="Kajiado">Kajiado</option>
+        <option value="Kakamega">Kakamega</option>
+        <option value="Kericho">Kericho</option>
+        <option value="Kiambu">Kiambu</option>
+        <option value="Kilifi">Kilifi</option>
+        <option value="Kirinyaga">Kirinyaga</option>
+        <option value="Kisii">Kisii</option>
+        <option value="Kisumu">Kisumu</option>
+        <option value="Kitui">Kitui</option>
+        <option value="Kwale">Kwale</option>
+        <option value="Laikipia">Laikipia</option>
+        <option value="Lamu">Lamu</option>
+        <option value="Machakos">Machakos</option>
+        <option value="Makueni">Makueni</option>
+        <option value="Mandera">Mandera</option>
+        <option value="Marsabit">Marsabit</option>
+        <option value="Meru">Meru</option>
+        <option value="Migori">Migori</option>
+        <option value="Mombasa">Mombasa</option>
+        <option value="Murang'a">Murang'a</option>
+        <option value="Nairobi">Nairobi</option>
+        <option value="Nakuru">Nakuru</option>
+        <option value="Nandi">Nandi</option>
+        <option value="Narok">Narok</option>
+        <option value="Nyamira">Nyamira</option>
+        <option value="Nyandarua">Nyandarua</option>
+        <option value="Nyeri">Nyeri</option>
+        <option value="Samburu">Samburu</option>
+        <option value="Siaya">Siaya</option>
+        <option value="Taita-Taveta">Taita-Taveta</option>
+        <option value="Tana River">Tana River</option>
+        <option value="Tharaka-Nithi">Tharaka-Nithi</option>
+        <option value="Trans Nzoia">Trans Nzoia</option>
+        <option value="Turkana">Turkana</option>
+        <option value="Uasin Gishu">Uasin Gishu</option>
+        <option value="Vihiga">Vihiga</option>
+        <option value="Wajir">Wajir</option>
+        <option value="West Pokot">West Pokot</option>
+      </select>
 
-            const orderPayload = {
-                customer_name: document.getElementById('cName').value,
-                customer_phone: document.getElementById('cPhone').value,
-                customer_email: document.getElementById('cEmail').value,
-                county: document.getElementById('cCounty').value,
-                town: document.getElementById('cTown').value,
-                delivery_address: document.getElementById('cAddress').value,
-                items: cartItems, // Sent to server so backend recalculates authoritative totals safely
-                ref_code: refCode
-            };
+      <label for="cTown">Town / Sub-County *</label>
+      <input
+        type="text"
+        id="cTown"
+        placeholder="e.g. Ndhiwa / CBD"
+        required
+      >
 
-            const msgDiv = document.getElementById('checkoutMsg');
-            msgDiv.style.color = '#64748b';
-            msgDiv.textContent = 'Processing secure order...';
+      <label for="cAddress">Street Address / Building / Landmark *</label>
+      <input
+        type="text"
+        id="cAddress"
+        autocomplete="street-address"
+        placeholder="Apartment, street, or landmark"
+        required
+      >
 
-            try {
-                const res = await fetch('/api/checkout', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(orderPayload)
-                });
-                const data = await res.json();
-                
-                if (data.success) {
-                    localStorage.removeItem('zavo_cart'); // Clear cart after successful order creation
-                    msgDiv.style.color = 'green';
-                    msgDiv.textContent = 'Order successfully placed! Reference: ' + data.order_id;
-                } else {
-                    msgDiv.style.color = 'red';
-                    msgDiv.textContent = 'Error: ' + data.error;
-                }
-            } catch (err) {
-                msgDiv.style.color = 'red';
-                msgDiv.textContent = 'Network error connecting to ZAVO backend.';
-            }
-        });
-    </script>
+      <button type="submit" class="btn-pay" id="payButton">
+        Confirm &amp; Pay Securely
+      </button>
+    </form>
+
+    <div id="checkoutMsg" role="status" aria-live="polite"></div>
+
+    <div style="margin-top:15px;text-align:center">
+      <a
+        href="/"
+        style="font-size:12px;color:var(--zavo-blue);text-decoration:none"
+      >← Return to Storefront</a>
+    </div>
+  </main>
+
+  <!-- Paystack InlineJS v2 -->
+  <script src="https://js.paystack.co/v2/inline.js"></script>
+
+  <!-- ZAVO checkout logic -->
+  <script src="/checkout.js" defer></script>
 </body>
 </html>
