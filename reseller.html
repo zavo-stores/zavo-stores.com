@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZAVO - Reseller & Influencer eShop</title>
+    <style>
+        :root { --zavo-blue: #0f4c81; --zavo-yellow: #ffb703; --zavo-dark: #0f172a; --zavo-gray: #64748b; --zavo-bg: #f8fafc; --zavo-green: #10b981; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--zavo-bg); color: var(--zavo-dark); padding: 20px; display: flex; justify-content: center; }
+        .reseller-card { background: white; border-radius: 12px; padding: 24px; max-width: 600px; width: 100%; border: 1px solid #e2e8f0; }
+        h2 { color: var(--zavo-blue); margin-bottom: 10px; font-size: 20px; }
+        .link-box { background: #f1f5f9; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 13px; margin: 15px 0; word-break: break-all; border: 1px solid #cbd5e1; }
+        .stat-grid { display: flex; gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; flex: 1; text-align: center; }
+        .stat-num { font-size: 20px; font-weight: 800; color: var(--zavo-blue); }
+        .btn-action { background: var(--zavo-blue); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 700; width: 100%; cursor: pointer; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="reseller-card">
+        <h2>Influencer & Reseller Portal</h2>
+        <p style="font-size:13px; color:var(--zavo-gray); margin-bottom:15px;">Promote your unique eShop link. Commissions are securely tracked and credited upon verified order delivery.</p>
+        
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div style="font-size:11px; color:var(--zavo-gray);">Attributed Clicks</div>
+                <div class="stat-num" id="statClicks">0</div>
+            </div>
+            <div class="stat-card">
+                <div style="font-size:11px; color:var(--zavo-gray);">Pending Earnings</div>
+                <div class="stat-num" style="color:orange;">KSh 0</div>
+            </div>
+            <div class="stat-card">
+                <div style="font-size:11px; color:var(--zavo-gray);">Paid Commissions</div>
+                <div class="stat-num" style="color:var(--zavo-green);">KSh 0</div>
+            </div>
+        </div>
+
+        <label style="font-size:12px; font-weight:600;">Your Trackable eShop Referral Link</label>
+        <div class="link-box" id="refLink">Generating secure link...</div>
+        
+        <button class="btn-action" onclick="copyRefLink()">Copy Referral Link</button>
+        <div style="margin-top:15px; text-align:center;"><a href="/" style="font-size:12px; color:var(--zavo-blue); text-decoration:none;">← Return to Storefront</a></div>
+    </div>
+
+    <script>
+        const user = JSON.parse(localStorage.getItem('zavo_user') || 'null');
+        if (!user) {
+            alert('Please sign in to access your Reseller Dashboard.');
+            window.location.href = '/login.html';
+        }
+
+        // Generate normalized referral code from user name or email prefix
+        const refCode = user.name ? user.name.toLowerCase().replace(/[^a-z0-9]/g, '') : 'affiliate';
+        const fullLink = window.location.origin + '/?ref=' + refCode;
+        document.getElementById('refLink').textContent = fullLink;
+
+        function copyRefLink() {
+            navigator.clipboard.writeText(fullLink);
+            alert('Referral link copied to clipboard!');
+        }
+    </script>
+</body>
+</html>
