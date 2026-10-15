@@ -51,7 +51,7 @@
         <main class="content">
             <div id="tab-dashboard" class="panel">
                 <div class="panel-title" id="welcomeMsg">Welcome to your Vendor Store</div>
-                <p style="font-size:13px; color:#64748b;">Manage your approved listings, stock levels, and review application statuses.</p>
+                <p style="font-size:13px; color:#64748b;">Manage your approved listings, stock levels, and review application statuses securely.</p>
             </div>
 
             <div id="tab-products" class="panel" style="display:none;">
@@ -80,10 +80,10 @@
                     </select>
 
                     <label style="font-size:12px; font-weight:600;">Price (KSh)</label>
-                    <input type="number" id="pPrice" placeholder="2500" required>
+                    <input type="number" id="pPrice" placeholder="2500" min="1" required>
 
                     <label style="font-size:12px; font-weight:600;">Stock Quantity</label>
-                    <input type="number" id="pStock" placeholder="50" required>
+                    <input type="number" id="pStock" placeholder="50" min="0" required>
 
                     <label style="font-size:12px; font-weight:600;">Product Description (No Links or Phone Numbers)</label>
                     <textarea id="pDesc" placeholder="Describe product features clearly..." required></textarea>
@@ -106,7 +106,7 @@
 
     <script>
         const user = JSON.parse(localStorage.getItem('zavo_user') || 'null');
-        if (!user) {
+        if (!user || !user.email) {
             alert('Please sign in to access the vendor portal.');
             window.location.href = '/login.html';
         }
@@ -114,16 +114,16 @@
         document.getElementById('welcomeMsg').textContent = 'Welcome back, ' + user.name + ' 👋';
 
         function containsForbiddenContent(text) {
-            const urlPattern = /(https?:\/\/|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/\S*)?|www\.)/i;
+            const urlPattern = /(https?:\/\/[^\s]+|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/\S*)?|www\.)/i;
             const phonePattern = /(\+?\d{10,13}|\b07\d{8}\b|\b01\d{8}\b)/;
             return urlPattern.test(text) || phonePattern.test(text);
         }
 
         document.getElementById('productForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const title = document.getElementById('pTitle').value;
-            const desc = document.getElementById('pDesc').value;
-            const image = document.getElementById('pImage').value;
+            const title = document.getElementById('pTitle').value.trim();
+            const desc = document.getElementById('pDesc').value.trim();
+            const image = document.getElementById('pImage').value.trim();
             const price = document.getElementById('pPrice').value;
             const stock = document.getElementById('pStock').value;
             const category = document.getElementById('pCategory').value;
@@ -135,39 +135,46 @@
                 return;
             }
 
-            const res = await fetch('/api/vendor/products', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ vendor_id: user.email, title, desc, price: Number(price), stock: Number(stock), category, images: [image] })
-            });
-            const data = await res.json();
-            if (data.success) {
-                msg.style.color = 'var(--zavo-green)';
-                msg.textContent = '✅ Product submitted successfully! Awaiting admin review.';
-                document.getElementById('productForm').reset();
-                loadVendorProducts();
-            } else {
+            try {
+                const res = await fetch('/api/vendor/products', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ vendor_id: user.email, title, desc, price: Number(price), stock: Number(stock), category, images: [image] })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    msg.style.color = 'var(--zavo-green)';
+                    msg.textContent = '✅ Product submitted successfully! Awaiting admin review.';
+                    document.getElementById('productForm').reset();
+                    loadVendorProducts();
+                } else {
+                    msg.style.color = 'var(--zavo-red)';
+                    msg.textContent = '❌ ' + (data.error || 'Submission failed.');
+                }
+            } catch (err) {
                 msg.style.color = 'var(--zavo-red)';
-                msg.textContent = '❌ ' + data.error;
+                msg.textContent = '❌ Network connection error.';
             }
         });
 
         async function loadVendorProducts() {
-            const res = await fetch('/api/vendor/products?vendor_id=' + encodeURIComponent(user.email));
-            const data = await res.json();
-            const tbody = document.getElementById('myProductsTbody');
-            if (data.products && data.products.length > 0) {
-                tbody.innerHTML = data.products.map(p => `
-                    <tr>
-                        <td><strong>${p.title}</strong></td>
-                        <td>KSh ${Number(p.price).toLocaleString()}</td>
-                        <td>${p.stock}</td>
-                        <td><span style="color:${p.status==='active'?'green':'orange'}; font-weight:700;">${p.status}</span></td>
-                    </tr>
-                `).join('');
-            } else {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b;">No products submitted yet.</td></tr>';
-            }
+            try {
+                const res = await fetch('/api/vendor/products?vendor_id=' + encodeURIComponent(user.email));
+                const data = await res.json();
+                const tbody = document.getElementById('myProductsTbody');
+                if (data.products && data.products.length > 0) {
+                    tbody.innerHTML = data.products.map(p => `
+                        <tr>
+                            <td><strong>${p.title}</strong></td>
+                            <td>KSh ${Number(p.price).toLocaleString()}</td>
+                            <td>${p.stock}</td>
+                            <td><span style="color:${p.status==='active'?'green':'orange'}; font-weight:700;">${p.status}</span></td>
+                        </tr>
+                    `).join('');
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b;">No products submitted yet.</td></tr>';
+                }
+            } catch (e) {}
         }
 
         function switchTab(t) {
