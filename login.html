@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZAVO - Account Access & Sign In</title>
+    <style>
+        :root { --zavo-blue: #0f4c81; --zavo-yellow: #ffb703; --zavo-dark: #0f172a; --zavo-gray: #64748b; --zavo-bg: #f8fafc; --zavo-red: #ef4444; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--zavo-dark); color: white; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+        .auth-card { background: #1e293b; border-radius: 16px; padding: 28px; width: 100%; max-width: 400px; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        h2 { color: var(--zavo-yellow); margin-bottom: 6px; font-size: 22px; text-align: center; }
+        p { font-size: 13px; color: var(--zavo-gray); text-align: center; margin-bottom: 20px; }
+        label { font-size: 12px; font-weight: 600; color: #cbd5e1; display: block; margin-bottom: 6px; }
+        input { width: 100%; padding: 12px; margin-bottom: 14px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: white; font-size: 14px; outline: none; }
+        input:focus { border-color: var(--zavo-yellow); }
+        .btn-submit { width: 100%; padding: 12px; border-radius: 8px; border: none; background: var(--zavo-yellow); color: #000; font-weight: 700; cursor: pointer; font-size: 15px; transition: opacity 0.2s; }
+        .btn-submit:hover { opacity: 0.9; }
+        #msg { margin-top: 12px; font-size: 13px; font-weight: 600; text-align: center; }
+        .nav-link { display: block; text-align: center; margin-top: 15px; font-size: 12px; color: #94a3b8; text-decoration: none; }
+        .nav-link:hover { color: white; }
+    </style>
+</head>
+<body>
+    <div class="auth-card">
+        <h2>ZAVO Portal</h2>
+        <p>Sign in to access your account dashboard</p>
+        
+        <form id="authForm">
+            <label>Full Name</label>
+            <input type="text" id="name" placeholder="Sylvester Owino" required>
+
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="user@zavo.co.ke" required>
+
+            <label>Password</label>
+            <input type="password" id="password" placeholder="••••••••" required>
+
+            <button type="submit" class="btn-submit">Sign In / Register</button>
+        </form>
+        
+        <div id="msg"></div>
+        <a href="/" class="nav-link">← Return to Public Storefront</a>
+    </div>
+
+    <script>
+        const SUPER_ADMIN_EMAIL = "sylvesterowinowino31@gmail.com";
+
+        document.getElementById('authForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim().toLowerCase();
+            const password = document.getElementById('password').value;
+            const msgDiv = document.getElementById('msg');
+
+            msgDiv.style.color = '#cbd5e1';
+            msgDiv.textContent = 'Authenticating...';
+
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password })
+                });
+                const data = await res.json();
+                
+                if (data.success) {
+                    localStorage.setItem('zavo_user', JSON.stringify(data.user));
+                    msgDiv.style.color = '#10b981';
+                    msgDiv.textContent = 'Success! Redirecting...';
+
+                    // Corrected Role-Based Routing
+                    setTimeout(() => {
+                        if (email === SUPER_ADMIN_EMAIL) {
+                            window.location.href = '/admin.html';
+                        } else if (email.includes('vendor') || email.includes('supplier')) {
+                            window.location.href = '/vendor.html';
+                        } else {
+                            window.location.href = '/'; // Standard shoppers return to store catalog
+                        }
+                    }, 500);
+                } else {
+                    msgDiv.style.color = 'var(--zavo-red)';
+                    msgDiv.textContent = data.error || 'Authentication failed.';
+                }
+            } catch (err) {
+                msgDiv.style.color = 'var(--zavo-red)';
+                msgDiv.textContent = 'Network connection error.';
+            }
+        });
+    </script>
+</body>
+</html>
