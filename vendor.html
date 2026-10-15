@@ -1,195 +1,1058 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAVO - Vendor Dashboard & Portal</title>
-    <style>
-        :root { --zavo-blue: #0f4c81; --zavo-yellow: #ffb703; --zavo-dark: #0f172a; --zavo-gray: #64748b; --zavo-bg: #f8fafc; --zavo-green: #10b981; --zavo-red: #ef4444; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: var(--zavo-bg); color: var(--zavo-dark); display: flex; min-height: 100vh; flex-direction: column; }
-        
-        header { background: white; border-bottom: 1px solid #e2e8f0; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .brand { font-size: 20px; font-weight: 900; color: var(--zavo-blue); text-decoration: none; }
-        .brand span { color: var(--zavo-yellow); }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Manage your ZAVO vendor account and product listings.">
+  <title>ZAVO — Vendor Dashboard</title>
 
-        .layout { display: flex; flex: 1; }
-        .sidebar { width: 220px; background: white; border-right: 1px solid #e2e8f0; padding: 20px 10px; display: flex; flex-direction: column; gap: 4px; }
-        .nav-btn { padding: 10px 14px; border-radius: 8px; color: var(--zavo-gray); text-decoration: none; font-weight: 600; font-size: 13px; cursor: pointer; border: none; background: transparent; width: 100%; text-align: left; }
-        .nav-btn.active, .nav-btn:hover { background: #e0f2fe; color: var(--zavo-blue); }
+  <style>
+    :root {
+      --blue: #0f4c81;
+      --yellow: #ffb703;
+      --dark: #0f172a;
+      --gray: #64748b;
+      --bg: #f8fafc;
+      --green: #047857;
+      --red: #b91c1c;
+      --border: #e2e8f0;
+    }
 
-        .content { flex: 1; padding: 20px; max-width: 1000px; }
-        .panel { background: white; border-radius: 12px; padding: 20px; border: 1px solid #e2e8f0; margin-bottom: 20px; }
-        .panel-title { font-size: 16px; font-weight: 700; color: var(--zavo-blue); margin-bottom: 12px; }
+    * { box-sizing: border-box; }
 
-        input, textarea, select { width: 100%; padding: 10px 12px; margin-bottom: 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 13px; }
-        textarea { resize: vertical; height: 100px; }
-        .btn-primary { background: var(--zavo-blue); color: white; border: none; padding: 10px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; }
-        
-        .alert-box { background: #fffbeb; border: 1px solid #fde68a; padding: 12px; border-radius: 8px; font-size: 12px; color: #b45309; margin-bottom: 15px; }
-        table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        th { text-align: left; padding: 10px; background: #f8fafc; color: var(--zavo-gray); font-weight: 600; border-bottom: 1px solid #e2e8f0; }
-        td { padding: 12px 10px; border-bottom: 1px solid #f1f5f9; }
-    </style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+      color: var(--dark);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+
+    button, input, textarea, select { font: inherit; }
+
+    header {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand {
+      color: var(--blue);
+      font-size: 20px;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .brand span { color: var(--yellow); }
+
+    #vendorHeader {
+      font-size: 12px;
+      font-weight: 700;
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    .layout {
+      display: flex;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .sidebar {
+      flex: 0 0 220px;
+      background: #fff;
+      border-right: 1px solid var(--border);
+      padding: 20px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-btn {
+      padding: 11px 14px;
+      border-radius: 8px;
+      color: var(--gray);
+      font-weight: 650;
+      font-size: 13px;
+      cursor: pointer;
+      border: 0;
+      background: transparent;
+      width: 100%;
+      text-align: left;
+    }
+
+    .nav-btn.active,
+    .nav-btn:hover,
+    .nav-btn:focus-visible {
+      background: #e0f2fe;
+      color: var(--blue);
+    }
+
+    button:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible,
+    select:focus-visible {
+      outline: 3px solid #93c5fd;
+      outline-offset: 2px;
+    }
+
+    .content {
+      flex: 1;
+      min-width: 0;
+      width: 100%;
+      max-width: 1100px;
+      padding: 20px;
+    }
+
+    .panel {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .panel-title {
+      font-size: 17px;
+      font-weight: 750;
+      color: var(--blue);
+      margin-bottom: 12px;
+    }
+
+    .muted {
+      color: var(--gray);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .alert-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      color: #92400e;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 14px;
+    }
+
+    .field { min-width: 0; }
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      margin: 0 0 6px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    input, textarea, select {
+      display: block;
+      width: 100%;
+      padding: 11px 12px;
+      margin: 0 0 14px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      background: #fff;
+      color: var(--dark);
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    .btn-primary, .btn-secondary {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      border: 0;
+      border-radius: 8px;
+      padding: 11px 16px;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .btn-secondary {
+      background: #e2e8f0;
+      color: var(--dark);
+    }
+
+    .message {
+      margin-top: 12px;
+      font-size: 13px;
+      font-weight: 650;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .message.error { color: var(--red); }
+    .message.success { color: var(--green); }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      min-width: 520px;
+    }
+
+    th {
+      text-align: left;
+      padding: 10px;
+      background: #f8fafc;
+      color: var(--gray);
+      font-weight: 700;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #f1f5f9;
+      overflow-wrap: anywhere;
+    }
+
+    .status {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 4px 8px;
+      background: #fef3c7;
+      color: #92400e;
+      font-size: 11px;
+      font-weight: 750;
+      text-transform: capitalize;
+    }
+
+    .status.active,
+    .status.approved,
+    .status.delivered {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .status.rejected,
+    .status.suspended,
+    .status.archived {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .hidden, [hidden] { display: none !important; }
+
+    @media (max-width: 720px) {
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      #vendorHeader { text-align: left; }
+
+      .layout { flex-direction: column; }
+
+      .sidebar {
+        flex: auto;
+        width: 100%;
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+        padding: 10px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .nav-btn {
+        font-size: 12px;
+        padding: 10px;
+      }
+
+      .content { padding: 12px; }
+      .panel { padding: 15px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+    }
+  </style>
 </head>
+
 <body>
+  <header>
+    <a href="/" class="brand">ZAVO<span>.</span> Vendor Portal</a>
+    <div id="vendorHeader" aria-live="polite">Checking your session…</div>
+  </header>
 
-    <header>
-        <a href="/" class="brand">ZAVO<span>.</span> Vendor Portal</a>
-        <div id="vendorHeader" style="font-size:12px; font-weight:700;">Loading Vendor...</div>
-    </header>
+  <div class="layout" id="portalLayout" hidden>
+    <aside class="sidebar" aria-label="Vendor navigation">
+      <button class="nav-btn active" type="button" data-tab="dashboard">
+        📊 Dashboard
+      </button>
 
-    <div class="layout">
-        <aside class="sidebar">
-            <button class="nav-btn active" onclick="switchTab('dashboard')">📊 Dashboard</button>
-            <button class="nav-btn" onclick="switchTab('products')">📦 My Products</button>
-            <button class="nav-btn" onclick="switchTab('add-product')">➕ Post New Product</button>
-            <button class="nav-btn" onclick="switchTab('application')">🏢 Legal & Application Status</button>
-            <button class="nav-btn" onclick="logout()" style="margin-top:auto; color:red;">🚪 Logout</button>
-        </aside>
+      <button class="nav-btn" type="button" data-tab="products">
+        📦 My Products
+      </button>
 
-        <main class="content">
-            <div id="tab-dashboard" class="panel">
-                <div class="panel-title" id="welcomeMsg">Welcome to your Vendor Store</div>
-                <p style="font-size:13px; color:#64748b;">Manage your approved listings, stock levels, and review application statuses securely.</p>
+      <button class="nav-btn" type="button" data-tab="add-product">
+        ➕ Post New Product
+      </button>
+
+      <button class="nav-btn" type="button" data-tab="application">
+        🏢 Application Status
+      </button>
+
+      <button class="nav-btn" type="button" id="logoutBtn" style="color:#b91c1c">
+        🚪 Logout
+      </button>
+    </aside>
+
+    <main class="content">
+      <section id="tab-dashboard" class="panel" aria-labelledby="welcomeMsg">
+        <div class="panel-title" id="welcomeMsg">
+          Welcome to your vendor store
+        </div>
+
+        <p class="muted">
+          Manage product listings and check your application status.
+          Your access and permissions must be verified by the server.
+        </p>
+
+        <div id="dashboardNotice" class="message" role="status"></div>
+      </section>
+
+      <section id="tab-products" class="panel hidden" aria-labelledby="productsTitle">
+        <div class="panel-title" id="productsTitle">My Product Listings</div>
+
+        <p class="muted">
+          Products and statuses are loaded from your authenticated vendor account.
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Price (KSh)</th>
+                <th>Stock</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+
+            <tbody id="myProductsTbody">
+              <tr><td colspan="4">Loading products…</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="productsMsg" class="message" role="status" aria-live="polite"></div>
+      </section>
+
+      <section id="tab-add-product" class="panel hidden" aria-labelledby="addProductTitle">
+        <div class="panel-title" id="addProductTitle">
+          Post New Product Listing
+        </div>
+
+        <div class="alert-box">
+          <strong>Listing policy:</strong>
+          Do not include phone numbers, external website links, or contact
+          details in product titles or descriptions. Provide an HTTPS image URL.
+          The Worker must validate all submitted data independently.
+        </div>
+
+        <form id="productForm">
+          <div class="form-grid">
+            <div class="field full">
+              <label for="pTitle">Product title</label>
+              <input
+                type="text"
+                id="pTitle"
+                name="title"
+                placeholder="e.g., Heavy Duty Solar Floodlight"
+                minlength="3"
+                maxlength="120"
+                autocomplete="off"
+                required
+              >
             </div>
 
-            <div id="tab-products" class="panel" style="display:none;">
-                <div class="panel-title">My Product Listings</div>
-                <table>
-                    <thead><tr><th>Title</th><th>Price (KSh)</th><th>Stock</th><th>Status</th></tr></thead>
-                    <tbody id="myProductsTbody"><tr><td colspan="4" style="text-align:center;">Loading products...</td></tr></tbody>
-                </table>
+            <div class="field">
+              <label for="pCategory">Category</label>
+              <select id="pCategory" name="category" required>
+                <option value="Electronics">Electronics &amp; Solar</option>
+                <option value="Fashion">Fashion &amp; Apparel</option>
+                <option value="Home">Home &amp; Living</option>
+                <option value="Health">Health &amp; Beauty</option>
+                <option value="General">Other</option>
+              </select>
             </div>
 
-            <div id="tab-add-product" class="panel" style="display:none;">
-                <div class="panel-title">Post New Product Listing</div>
-                <div class="alert-box">
-                    ⚠️ <strong>Compliance Policy:</strong> External URLs, website links, or phone numbers are strictly prohibited in product titles, descriptions, or image fields.
-                </div>
-                <form id="productForm">
-                    <label style="font-size:12px; font-weight:600;">Product Title</label>
-                    <input type="text" id="pTitle" placeholder="e.g., Heavy Duty Solar Floodlight" required>
-                    
-                    <label style="font-size:12px; font-weight:600;">Category</label>
-                    <select id="pCategory">
-                        <option value="Electronics">Electronics & Solar</option>
-                        <option value="Fashion">Fashion & Apparel</option>
-                        <option value="Home">Home & Living</option>
-                        <option value="Health">Health & Beauty</option>
-                    </select>
-
-                    <label style="font-size:12px; font-weight:600;">Price (KSh)</label>
-                    <input type="number" id="pPrice" placeholder="2500" min="1" required>
-
-                    <label style="font-size:12px; font-weight:600;">Stock Quantity</label>
-                    <input type="number" id="pStock" placeholder="50" min="0" required>
-
-                    <label style="font-size:12px; font-weight:600;">Product Description (No Links or Phone Numbers)</label>
-                    <textarea id="pDesc" placeholder="Describe product features clearly..." required></textarea>
-
-                    <label style="font-size:12px; font-weight:600;">Product Image URL</label>
-                    <input type="text" id="pImage" placeholder="https://images.zavo.co.ke/products/sample.jpg" required>
-
-                    <button type="submit" class="btn-primary">Submit for Admin Review</button>
-                </form>
-                <div id="postMsg" style="margin-top:10px; font-size:13px; font-weight:600;"></div>
+            <div class="field">
+              <label for="pPrice">Price (KSh)</label>
+              <input
+                type="number"
+                id="pPrice"
+                name="price"
+                placeholder="2500"
+                min="1"
+                max="100000000"
+                step="1"
+                inputmode="numeric"
+                required
+              >
             </div>
 
-            <div id="tab-application" class="panel" style="display:none;">
-                <div class="panel-title">Vendor Legal Verification & Status</div>
-                <p style="font-size:13px; color:#64748b; margin-bottom:15px;">Your application status is managed under ZAVO vendor protection guidelines.</p>
-                <div id="appStatusBox" style="padding:15px; background:#f1f5f9; border-radius:8px; font-size:13px; font-weight:700;">Status: Pending Verification</div>
+            <div class="field">
+              <label for="pStock">Stock quantity</label>
+              <input
+                type="number"
+                id="pStock"
+                name="stock"
+                placeholder="50"
+                min="0"
+                max="1000000"
+                step="1"
+                inputmode="numeric"
+                required
+              >
             </div>
-        </main>
-    </div>
 
-    <script>
-        const user = JSON.parse(localStorage.getItem('zavo_user') || 'null');
+            <div class="field full">
+              <label for="pImage">Product image URL (HTTPS)</label>
+              <input
+                type="url"
+                id="pImage"
+                name="image"
+                placeholder="https://example.com/product-image.jpg"
+                maxlength="2000"
+                required
+              >
+            </div>
+
+            <div class="field full">
+              <label for="pDesc">Product description</label>
+              <textarea
+                id="pDesc"
+                name="description"
+                placeholder="Describe the product's features, size, material, compatibility, and what is included…"
+                minlength="10"
+                maxlength="3000"
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary" id="submitProductBtn">
+            Submit for Admin Review
+          </button>
+        </form>
+
+        <div id="postMsg" class="message" role="status" aria-live="polite"></div>
+      </section>
+
+      <section id="tab-application" class="panel hidden" aria-labelledby="applicationTitle">
+        <div class="panel-title" id="applicationTitle">
+          Vendor Application Status
+        </div>
+
+        <p class="muted">
+          Your application status is retrieved from the server.
+        </p>
+
+        <div
+          id="appStatusBox"
+          style="padding:15px;background:#f1f5f9;border-radius:8px;font-size:13px;font-weight:700"
+          role="status"
+          aria-live="polite"
+        >
+          Checking application status…
+        </div>
+
+        <div id="appMsg" class="message" role="status" aria-live="polite"></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    'use strict';
+
+    // This version assumes the API is served from the same origin as this page.
+    // If the Worker is hosted separately, configure its exact CORS origin,
+    // cookie settings, and API_BASE before using a cross-origin deployment.
+    const API_BASE = '';
+
+    const API = {
+      csrf: '/api/auth/csrf',
+      me: '/api/auth/me',
+      products: '/api/vendor/products',
+      application: '/api/vendor/application',
+      logout: '/api/auth/logout'
+    };
+
+    const el = (id) => document.getElementById(id);
+
+    let currentUser = null;
+    let csrfToken = '';
+    let isSubmitting = false;
+    let redirected = false;
+
+    async function apiFetch(path, options = {}) {
+      const headers = new Headers(options.headers || {});
+      const method = (options.method || 'GET').toUpperCase();
+
+      if (
+        ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method) &&
+        csrfToken
+      ) {
+        headers.set('X-CSRF-Token', csrfToken);
+      }
+
+      const response = await fetch(`${API_BASE}${path}`, {
+        ...options,
+        method,
+        headers,
+        credentials: 'same-origin',
+        cache: 'no-store'
+      });
+
+      const contentType = response.headers.get('content-type') || '';
+      let data;
+
+      if (contentType.includes('application/json')) {
+        try {
+          data = await response.json();
+        } catch {
+          data = {};
+        }
+      } else {
+        const responseText = await response.text().catch(() => '');
+        data = {
+          error: responseText || `Request failed (${response.status})`
+        };
+      }
+
+      if (!response.ok) {
+        const error = new Error(
+          data.error ||
+          data.message ||
+          `Request failed (${response.status})`
+        );
+
+        error.status = response.status;
+        error.data = data;
+        throw error;
+      }
+
+      return data;
+    }
+
+    function setMessage(node, text, type = '') {
+      node.textContent = text;
+      node.className = `message${type ? ` ${type}` : ''}`;
+    }
+
+    function redirectToLogin() {
+      if (redirected) return;
+
+      redirected = true;
+      window.location.replace('/login.html');
+    }
+
+    function displayName(user) {
+      const name = typeof user?.name === 'string'
+        ? user.name.trim()
+        : '';
+
+      return name || user?.email || 'Vendor';
+    }
+
+    function statusLabel(value) {
+      return String(value || 'unknown').replace(/[_-]/g, ' ');
+    }
+
+    function containsForbiddenText(value) {
+      const text = String(value || '');
+
+      const urlPattern =
+        /(?:https?:\/\/|www\.)\S+|\b(?:[a-z0-9-]+\.)+(?:com|net|org|co\.ke|ke|io|shop|store|info|biz)\b/i;
+
+      const phonePattern =
+        /(?:\+?254\s?\d{9}|\b0[17]\d{8}\b|\b\d[\d ()-]{8,}\d\b)/;
+
+      return urlPattern.test(text) || phonePattern.test(text);
+    }
+
+    function validHttpsImageUrl(value) {
+      try {
+        const url = new URL(value);
+
+        return (
+          url.protocol === 'https:' &&
+          Boolean(url.hostname) &&
+          !url.username &&
+          !url.password
+        );
+      } catch {
+        return false;
+      }
+    }
+
+    function renderProducts(products) {
+      const tbody = el('myProductsTbody');
+      tbody.replaceChildren();
+
+      if (!Array.isArray(products) || products.length === 0) {
+        const row = document.createElement('tr');
+        const cell = document.createElement('td');
+
+        cell.colSpan = 4;
+        cell.textContent = 'No products submitted yet.';
+
+        row.appendChild(cell);
+        tbody.appendChild(row);
+        return;
+      }
+
+      for (const product of products) {
+        const row = document.createElement('tr');
+
+        const titleCell = document.createElement('td');
+        const title = document.createElement('strong');
+
+        title.textContent = String(
+          product.title ?? 'Untitled product'
+        );
+
+        titleCell.appendChild(title);
+
+        const priceCell = document.createElement('td');
+        const price = Number(product.price);
+
+        priceCell.textContent = Number.isFinite(price)
+          ? `KSh ${price.toLocaleString('en-KE')}`
+          : '—';
+
+        const stockCell = document.createElement('td');
+        const stock = Number(product.stock);
+
+        stockCell.textContent = Number.isFinite(stock)
+          ? String(stock)
+          : '—';
+
+        const statusCell = document.createElement('td');
+        const status = document.createElement('span');
+
+        const statusText = String(
+          product.status ?? 'unknown'
+        ).toLowerCase();
+
+        status.className =
+          `status ${statusText.replace(/[^a-z0-9_-]/g, '')}`;
+
+        status.textContent = statusLabel(statusText);
+        statusCell.appendChild(status);
+
+        row.append(titleCell, priceCell, stockCell, statusCell);
+        tbody.appendChild(row);
+      }
+    }
+
+    async function loadVendorProducts() {
+      const tbody = el('myProductsTbody');
+      tbody.replaceChildren();
+
+      const row = document.createElement('tr');
+      const cell = document.createElement('td');
+
+      cell.colSpan = 4;
+      cell.textContent = 'Loading products…';
+
+      row.appendChild(cell);
+      tbody.appendChild(row);
+
+      setMessage(el('productsMsg'), '');
+
+      try {
+        // The server must determine product ownership from the session.
+        // Do not send a vendor_id supplied by the browser.
+        const data = await apiFetch(API.products);
+
+        renderProducts(
+          data.products ||
+          data.data?.products ||
+          []
+        );
+      } catch (error) {
+        renderProducts([]);
+
+        setMessage(
+          el('productsMsg'),
+          `Could not load products: ${error.message}`,
+          'error'
+        );
+
+        if (error.status === 401) redirectToLogin();
+      }
+    }
+
+    async function loadApplicationStatus() {
+      const box = el('appStatusBox');
+
+      box.textContent = 'Checking application status…';
+      setMessage(el('appMsg'), '');
+
+      try {
+        const data = await apiFetch(API.application);
+        const application = data.application || data;
+
+        const status =
+          application.status ||
+          application.vendor_status;
+
+        box.textContent =
+          typeof status === 'string' && status.trim()
+            ? `Status: ${statusLabel(status)}`
+            : 'The server did not return an application status.';
+
+        if (application.business_name) {
+          box.textContent +=
+            ` · Business: ${String(application.business_name)}`;
+        }
+
+        if (application.message) {
+          setMessage(el('appMsg'), String(application.message));
+        }
+      } catch (error) {
+        box.textContent = 'Application status is currently unavailable.';
+
+        const detail = error.status === 404
+          ? 'The current Worker does not yet implement GET /api/vendor/application. Add that route before relying on this panel.'
+          : `Could not retrieve application status: ${error.message}`;
+
+        setMessage(el('appMsg'), detail, 'error');
+
+        if (error.status === 401) redirectToLogin();
+      }
+    }
+
+    async function initializePortal() {
+      try {
+        // Fetch a CSRF token before making protected POST requests.
+        const csrf = await apiFetch(API.csrf);
+
+        csrfToken = typeof csrf.csrfToken === 'string'
+          ? csrf.csrfToken
+          : '';
+
+        if (!csrfToken) {
+          throw new Error(
+            'The security-token endpoint did not return csrfToken.'
+          );
+        }
+
+        const data = await apiFetch(API.me);
+        const user = data.user || data.account || data;
+
         if (!user || !user.email) {
-            alert('Please sign in to access the vendor portal.');
-            window.location.href = '/login.html';
-        }
-        document.getElementById('vendorHeader').textContent = user.name + ' (' + user.email + ')';
-        document.getElementById('welcomeMsg').textContent = 'Welcome back, ' + user.name + ' 👋';
-
-        function containsForbiddenContent(text) {
-            const urlPattern = /(https?:\/\/[^\s]+|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/\S*)?|www\.)/i;
-            const phonePattern = /(\+?\d{10,13}|\b07\d{8}\b|\b01\d{8}\b)/;
-            return urlPattern.test(text) || phonePattern.test(text);
+          throw new Error(
+            'Your session is not valid. Please sign in again.'
+          );
         }
 
-        document.getElementById('productForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const title = document.getElementById('pTitle').value.trim();
-            const desc = document.getElementById('pDesc').value.trim();
-            const image = document.getElementById('pImage').value.trim();
-            const price = document.getElementById('pPrice').value;
-            const stock = document.getElementById('pStock').value;
-            const category = document.getElementById('pCategory').value;
-            const msg = document.getElementById('postMsg');
+        if (user.role !== 'vendor') {
+          throw new Error(
+            'This account is not identified by the server as a vendor. ' +
+            'Vendor approval and role assignment must be completed by an administrator.'
+          );
+        }
 
-            if (containsForbiddenContent(title) || containsForbiddenContent(desc) || containsForbiddenContent(image)) {
-                msg.style.color = 'var(--zavo-red)';
-                msg.textContent = '❌ Error: External URLs, website domains, or phone numbers are prohibited.';
-                return;
-            }
+        currentUser = user;
 
-            try {
-                const res = await fetch('/api/vendor/products', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ vendor_id: user.email, title, desc, price: Number(price), stock: Number(stock), category, images: [image] })
-                });
-                const data = await res.json();
-                if (data.success) {
-                    msg.style.color = 'var(--zavo-green)';
-                    msg.textContent = '✅ Product submitted successfully! Awaiting admin review.';
-                    document.getElementById('productForm').reset();
-                    loadVendorProducts();
-                } else {
-                    msg.style.color = 'var(--zavo-red)';
-                    msg.textContent = '❌ ' + (data.error || 'Submission failed.');
-                }
-            } catch (err) {
-                msg.style.color = 'var(--zavo-red)';
-                msg.textContent = '❌ Network connection error.';
-            }
+        el('vendorHeader').textContent =
+          `${displayName(user)} (${user.email})`;
+
+        el('welcomeMsg').textContent =
+          `Welcome back, ${displayName(user)}!`;
+
+        el('portalLayout').hidden = false;
+
+        if (!user.vendor_id) {
+          setMessage(
+            el('dashboardNotice'),
+            'Your account has the vendor role but no vendor profile is linked. ' +
+            'Contact ZAVO support or the administrator to complete vendor setup.',
+            'error'
+          );
+        } else {
+          setMessage(
+            el('dashboardNotice'),
+            'Your account was authenticated. Product actions remain subject to server-side vendor approval.'
+          );
+        }
+
+        await Promise.allSettled([
+          loadVendorProducts(),
+          loadApplicationStatus()
+        ]);
+      } catch (error) {
+        el('vendorHeader').textContent = 'Unable to verify session';
+
+        el('dashboardNotice').textContent =
+          `Could not verify your account: ${error.message}`;
+
+        el('dashboardNotice').className = 'message error';
+        el('portalLayout').hidden = true;
+
+        if (
+          error.status === 401 ||
+          /session|sign in/i.test(error.message)
+        ) {
+          redirectToLogin();
+        }
+      }
+    }
+
+    el('productForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      if (isSubmitting) return;
+
+      const title = el('pTitle').value.trim();
+      const description = el('pDesc').value.trim();
+      const image = el('pImage').value.trim();
+      const category = el('pCategory').value;
+      const price = Number(el('pPrice').value);
+      const stock = Number(el('pStock').value);
+      const msg = el('postMsg');
+
+      if (title.length < 3 || title.length > 120) {
+        return setMessage(
+          msg,
+          'Enter a product title between 3 and 120 characters.',
+          'error'
+        );
+      }
+
+      if (description.length < 10 || description.length > 3000) {
+        return setMessage(
+          msg,
+          'Enter a description between 10 and 3,000 characters.',
+          'error'
+        );
+      }
+
+      if (
+        containsForbiddenText(title) ||
+        containsForbiddenText(description)
+      ) {
+        return setMessage(
+          msg,
+          'Product title and description must not contain website links, domains, or phone numbers.',
+          'error'
+        );
+      }
+
+      if (!validHttpsImageUrl(image)) {
+        return setMessage(
+          msg,
+          'Enter a valid HTTPS image URL.',
+          'error'
+        );
+      }
+
+      if (
+        !Number.isSafeInteger(price) ||
+        price < 1 ||
+        price > 100000000
+      ) {
+        return setMessage(
+          msg,
+          'Enter a whole-number price from KSh 1 to KSh 100,000,000.',
+          'error'
+        );
+      }
+
+      if (
+        !Number.isSafeInteger(stock) ||
+        stock < 0 ||
+        stock > 1000000
+      ) {
+        return setMessage(
+          msg,
+          'Enter a whole-number stock quantity from 0 to 1,000,000.',
+          'error'
+        );
+      }
+
+      if (!csrfToken) {
+        return setMessage(
+          msg,
+          'Security token is missing. Refresh the page and sign in again.',
+          'error'
+        );
+      }
+
+      isSubmitting = true;
+
+      const button = el('submitProductBtn');
+      button.disabled = true;
+      button.textContent = 'Submitting…';
+
+      setMessage(msg, '');
+
+      try {
+        const data = await apiFetch(API.products, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+
+          // The Worker accepts description (or desc).
+          // The image must be an HTTPS URL.
+          body: JSON.stringify({
+            title,
+            description,
+            price,
+            stock,
+            category,
+            images: [image]
+          })
         });
 
-        async function loadVendorProducts() {
-            try {
-                const res = await fetch('/api/vendor/products?vendor_id=' + encodeURIComponent(user.email));
-                const data = await res.json();
-                const tbody = document.getElementById('myProductsTbody');
-                if (data.products && data.products.length > 0) {
-                    tbody.innerHTML = data.products.map(p => `
-                        <tr>
-                            <td><strong>${p.title}</strong></td>
-                            <td>KSh ${Number(p.price).toLocaleString()}</td>
-                            <td>${p.stock}</td>
-                            <td><span style="color:${p.status==='active'?'green':'orange'}; font-weight:700;">${p.status}</span></td>
-                        </tr>
-                    `).join('');
-                } else {
-                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b;">No products submitted yet.</td></tr>';
-                }
-            } catch (e) {}
+        if (data.success === false) {
+          throw new Error(
+            data.error || 'Product submission failed.'
+          );
         }
 
-        function switchTab(t) {
-            ['dashboard', 'products', 'add-product', 'application'].forEach(tab => {
-                document.getElementById('tab-' + tab).style.display = (tab === t) ? 'block' : 'none';
-            });
-            if (t === 'products') loadVendorProducts();
-        }
+        setMessage(
+          msg,
+          data.message ||
+            'Product submitted for review. Check your listings for its status.',
+          'success'
+        );
 
-        function logout() {
-            localStorage.removeItem('zavo_user');
-            window.location.href = '/login.html';
-        }
+        el('productForm').reset();
 
+        await loadVendorProducts();
+        switchTab('products');
+      } catch (error) {
+        setMessage(
+          msg,
+          `Could not submit product: ${error.message}`,
+          'error'
+        );
+
+        if (error.status === 401) redirectToLogin();
+      } finally {
+        isSubmitting = false;
+        button.disabled = false;
+        button.textContent = 'Submit for Admin Review';
+      }
+    });
+
+    function switchTab(tabName) {
+      const allowed = [
+        'dashboard',
+        'products',
+        'add-product',
+        'application'
+      ];
+
+      if (!allowed.includes(tabName)) return;
+
+      for (const tab of allowed) {
+        el(`tab-${tab}`).classList.toggle(
+          'hidden',
+          tab !== tabName
+        );
+      }
+
+      document.querySelectorAll('.nav-btn[data-tab]').forEach((button) => {
+        const active = button.dataset.tab === tabName;
+
+        button.classList.toggle('active', active);
+
+        if (active) {
+          button.setAttribute('aria-current', 'page');
+        } else {
+          button.removeAttribute('aria-current');
+        }
+      });
+
+      if (tabName === 'products') {
         loadVendorProducts();
-    </script>
+      }
+
+      if (tabName === 'application') {
+        loadApplicationStatus();
+      }
+    }
+
+    document.querySelectorAll('.nav-btn[data-tab]').forEach((button) => {
+      button.addEventListener(
+        'click',
+        () => switchTab(button.dataset.tab)
+      );
+    });
+
+    el('logoutBtn').addEventListener('click', async () => {
+      const button = el('logoutBtn');
+      button.disabled = true;
+
+      try {
+        if (!csrfToken) {
+          const csrf = await apiFetch(API.csrf);
+
+          csrfToken = typeof csrf.csrfToken === 'string'
+            ? csrf.csrfToken
+            : '';
+        }
+
+        await apiFetch(API.logout, {
+          method: 'POST'
+        });
+      } catch (error) {
+        console.warn(
+          'Server logout request failed:',
+          error.message
+        );
+      } finally {
+        // This only clears browser-side housekeeping data.
+        // The server must invalidate the session for a secure logout.
+        try {
+          localStorage.removeItem('zavo_user');
+        } catch {}
+
+        redirectToLogin();
+      }
+    });
+
+    initializePortal();
+  </script>
 </body>
 </html>
