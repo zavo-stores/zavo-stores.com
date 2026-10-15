@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZAVO - Secure Checkout</title>
+    <style>
+        :root { --zavo-blue: #0f4c81; --zavo-yellow: #ffb703; --zavo-dark: #0f172a; --zavo-gray: #64748b; --zavo-bg: #f8fafc; --zavo-green: #10b981; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--zavo-bg); color: var(--zavo-dark); padding: 20px; display: flex; justify-content: center; }
+        .checkout-card { background: white; border-radius: 12px; padding: 24px; max-width: 600px; width: 100%; border: 1px solid #e2e8f0; }
+        h2 { color: var(--zavo-blue); margin-bottom: 15px; font-size: 20px; }
+        input, select { width: 100%; padding: 10px 12px; margin-bottom: 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 13px; }
+        .cart-summary { background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; }
+        .btn-pay { background: var(--zavo-yellow); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 700; width: 100%; cursor: pointer; font-size: 15px; }
+    </style>
+</head>
+<body>
+    <div class="checkout-card">
+        <h2>Secure ZAVO Checkout</h2>
+        
+        <div class="cart-summary" id="cartSummary">
+            <strong>Cart Items:</strong> <span id="itemCount">0 items selected</span>
+        </div>
+
+        <form id="checkoutForm">
+            <label style="font-size:12px; font-weight:600;">Full Name *</label>
+            <input type="text" id="cName" placeholder="Sylvester Owino" required>
+
+            <label style="font-size:12px; font-weight:600;">Phone Number (M-Pesa / Delivery) *</label>
+            <input type="text" id="cPhone" placeholder="0715811494" required>
+
+            <label style="font-size:12px; font-weight:600;">Email Address *</label>
+            <input type="email" id="cEmail" placeholder="customer@zavo.co.ke" required>
+
+            <label style="font-size:12px; font-weight:600;">County (Kenya 47 Counties) *</label>
+            <select id="cCounty" required>
+                <option value="">Select County...</option>
+                <option value="Nairobi">Nairobi</option>
+                <option value="Homa Bay">Homa Bay</option>
+                <option value="Mombasa">Mombasa</option>
+                <option value="Kisumu">Kisumu</option>
+                <option value="Kiambu">Kiambu</option>
+                <option value="Nakuru">Nakuru</option>
+            </select>
+
+            <label style="font-size:12px; font-weight:600;">Town / Sub-County *</label>
+            <input type="text" id="cTown" placeholder="e.g. Ndhiwa / CBD" required>
+
+            <label style="font-size:12px; font-weight:600;">Street Address / Building / Landmark *</label>
+            <input type="text" id="cAddress" placeholder="Apartment name, street..." required>
+
+            <button type="submit" class="btn-pay">Confirm & Pay Securely</button>
+        </form>
+        <div id="checkoutMsg" style="margin-top:10px; font-size:13px; font-weight:600; text-align:center;"></div>
+        <div style="margin-top:15px; text-align:center;"><a href="/" style="font-size:12px; color:var(--zavo-blue); text-decoration:none;">← Return to Storefront</a></div>
+    </div>
+
+    <script>
+        // Load cart items from local storage to display count
+        const cartItems = JSON.parse(localStorage.getItem('zavo_cart') || '[]');
+        document.getElementById('itemCount').textContent = cartItems.length + ' item(s) in cart';
+
+        document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (cartItems.length === 0) {
+                alert('Your cart is empty! Please add products before checking out.');
+                window.location.href = '/';
+                return;
+            }
+
+            // Retrieve locked-in referral code captured by storefront
+            const refCode = localStorage.getItem('zavo_ref') || null;
+
+            const orderPayload = {
+                customer_name: document.getElementById('cName').value,
+                customer_phone: document.getElementById('cPhone').value,
+                customer_email: document.getElementById('cEmail').value,
+                county: document.getElementById('cCounty').value,
+                town: document.getElementById('cTown').value,
+                delivery_address: document.getElementById('cAddress').value,
+                items: cartItems, // Sent to server so backend recalculates authoritative totals safely
+                ref_code: refCode
+            };
+
+            const msgDiv = document.getElementById('checkoutMsg');
+            msgDiv.style.color = '#64748b';
+            msgDiv.textContent = 'Processing secure order...';
+
+            try {
+                const res = await fetch('/api/checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderPayload)
+                });
+                const data = await res.json();
+                
+                if (data.success) {
+                    localStorage.removeItem('zavo_cart'); // Clear cart after successful order creation
+                    msgDiv.style.color = 'green';
+                    msgDiv.textContent = 'Order successfully placed! Reference: ' + data.order_id;
+                } else {
+                    msgDiv.style.color = 'red';
+                    msgDiv.textContent = 'Error: ' + data.error;
+                }
+            } catch (err) {
+                msgDiv.style.color = 'red';
+                msgDiv.textContent = 'Network error connecting to ZAVO backend.';
+            }
+        });
+    </script>
+</body>
+</html>
