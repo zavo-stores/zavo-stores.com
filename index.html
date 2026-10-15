@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZAVO - Multi-Vendor Marketplace</title>
+    <style>
+        :root {
+            --zavo-blue: #0f4c81;
+            --zavo-yellow: #ffb703;
+            --zavo-dark: #1e293b;
+            --zavo-light: #f8fafc;
+            --zavo-gray: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--zavo-light);
+            color: var(--zavo-dark);
+            padding-bottom: 70px;
+        }
+
+        /* Header Navigation */
+        header {
+            background-color: var(--zavo-blue);
+            color: white;
+            padding: 12px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--zavo-yellow);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn-auth {
+            background-color: var(--zavo-yellow);
+            color: var(--zavo-dark);
+            border: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 13px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Search Bar */
+        .search-container {
+            display: flex;
+            background: white;
+            border-radius: 25px;
+            padding: 4px 12px;
+            overflow: hidden;
+        }
+
+        .search-container input {
+            border: none;
+            outline: none;
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+        }
+
+        /* Hero Banner */
+        .hero {
+            background: linear-gradient(135deg, var(--zavo-blue), #1e3a8a);
+            color: white;
+            padding: 24px 16px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-size: 22px;
+            margin-bottom: 6px;
+        }
+
+        .hero p {
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+
+        /* Catalog Section */
+        .container {
+            padding: 0 16px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--zavo-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Dynamic Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid #e2e8f0;
+        }
+
+        .product-image-placeholder {
+            width: 100%;
+            height: 120px;
+            background-color: #f1f5f9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--zavo-gray);
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .product-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            line-height: 1.2;
+            color: var(--zavo-dark);
+        }
+
+        .product-price {
+            color: var(--zavo-blue);
+            font-weight: 800;
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        .btn-add-cart {
+            width: 100%;
+            background-color: var(--zavo-blue);
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* States */
+        .loading, .empty-state {
+            text-align: center;
+            padding: 40px 16px;
+            color: var(--zavo-gray);
+            font-size: 14px;
+        }
+
+        /* Bottom Mobile Navigation Bar */
+        .mobile-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid #e2e8f0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav-item {
+            text-align: center;
+            color: var(--zavo-gray);
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .nav-item.active {
+            color: var(--zavo-blue);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="header-top">
+            <a href="#" class="logo">ZAVO<span>.</span></a>
+            <div class="header-actions">
+                <a href="/login" class="btn-auth">Sign In</a>
+            </div>
+        </div>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search products, vendors, or deals..." oninput="filterProducts()">
+        </div>
+    </header>
+
+    <!-- Banner -->
+    <div class="hero">
+        <h1>Discover Top Deals & Reseller Hub</h1>
+        <p>Direct from verified suppliers. Earn with ZAVO network.</p>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container">
+        <div class="section-title">
+            <span>Featured Products</span>
+        </div>
+
+        <!-- Dynamic Product Listing -->
+        <div id="productGrid" class="product-grid">
+            <div class="loading">Loading products from ZAVO network...</div>
+        </div>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-nav">
+        <a href="#" class="nav-item active">Shop</a>
+        <a href="/vendor.html" class="nav-item">Vendors</a>
+        <a href="/reseller.html" class="nav-item">Resellers</a>
+        <a href="/admin.html" class="nav-item">Admin</a>
+    </nav>
+
+    <script>
+        const API_URL = "https://deals.zavo-stores.workers.dev/api/products";
+        let allProducts = [];
+
+        // Fetch active products from backend Cloudflare D1
+        async function fetchProducts() {
+            const grid = document.getElementById("productGrid");
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+
+                if (data.success && data.products && data.products.length > 0) {
+                    allProducts = data.products;
+                    renderProducts(allProducts);
+                } else {
+                    grid.innerHTML = `<div class="empty-state">No products available at the moment. Check back soon!</div>`;
+                }
+            } catch (error) {
+                console.error("Error loading products:", error);
+                grid.innerHTML = `<div class="empty-state">Unable to load catalog. Please check your network connection.</div>`;
+            }
+        }
+
+        // Render product cards into DOM
+        function renderProducts(products) {
+            const grid = document.getElementById("productGrid");
+            grid.innerHTML = products.map(p => `
+                <div class="product-card">
+                    <div>
+                        <div class="product-image-placeholder">ZAVO Item</div>
+                        <div class="product-title">${escapeHtml(p.title)}</div>
+                        <div class="product-price">KES ${Number(p.price).toLocaleString()}</div>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart('${p.id}')">Add to Cart</button>
+                </div>
+            `).join("");
+        }
+
+        // Search Filter
+        function filterProducts() {
+            const query = document.getElementById("searchInput").value.toLowerCase();
+            const filtered = allProducts.filter(p => p.title.toLowerCase().includes(query));
+            renderProducts(filtered);
+        }
+
+        // Helper to escape HTML characters
+        function escapeHtml(str) {
+            return str ? str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            ) : '';
+        }
+
+        function addToCart(productId) {
+            alert("Product " + productId + " added to cart!");
+        }
+
+        // Initialize on load
+        fetchProducts();
+    </script>
+</body>
+</html>
