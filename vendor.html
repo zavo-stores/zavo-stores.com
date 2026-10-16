@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,281 +20,73 @@
     }
 
     * { box-sizing: border-box; }
-
     body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background: var(--bg);
-      color: var(--dark);
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      margin: 0; min-height: 100vh; display: flex; flex-direction: column;
+      background: var(--bg); color: var(--dark); font-family: system-ui, -apple-system, sans-serif;
     }
-
     button, input, textarea, select { font: inherit; }
 
     header {
-      background: #fff;
-      border-bottom: 1px solid var(--border);
-      padding: 12px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
+      background: #fff; border-bottom: 1px solid var(--border); padding: 12px 20px;
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
     }
-
-    .brand {
-      color: var(--blue);
-      font-size: 20px;
-      font-weight: 900;
-      text-decoration: none;
-    }
-
+    .brand { color: var(--blue); font-size: 20px; font-weight: 900; text-decoration: none; }
     .brand span { color: var(--yellow); }
+    #vendorHeader { font-size: 12px; font-weight: 700; text-align: right; }
 
-    #vendorHeader {
-      font-size: 12px;
-      font-weight: 700;
-      text-align: right;
-      overflow-wrap: anywhere;
-    }
-
-    .layout {
-      display: flex;
-      flex: 1;
-      min-width: 0;
-    }
-
+    .layout { display: flex; flex: 1; min-width: 0; }
     .sidebar {
-      flex: 0 0 220px;
-      background: #fff;
-      border-right: 1px solid var(--border);
-      padding: 20px 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+      flex: 0 0 220px; background: #fff; border-right: 1px solid var(--border);
+      padding: 20px 10px; display: flex; flex-direction: column; gap: 4px;
     }
-
     .nav-btn {
-      padding: 11px 14px;
-      border-radius: 8px;
-      color: var(--gray);
-      font-weight: 650;
-      font-size: 13px;
-      cursor: pointer;
-      border: 0;
-      background: transparent;
-      width: 100%;
-      text-align: left;
+      padding: 11px 14px; border-radius: 8px; color: var(--gray); font-weight: 650;
+      font-size: 13px; cursor: pointer; border: 0; background: transparent; width: 100%; text-align: left;
     }
+    .nav-btn.active, .nav-btn:hover { background: #e0f2fe; color: var(--blue); }
 
-    .nav-btn.active,
-    .nav-btn:hover,
-    .nav-btn:focus-visible {
-      background: #e0f2fe;
-      color: var(--blue);
-    }
-
-    button:focus-visible,
-    input:focus-visible,
-    textarea:focus-visible,
-    select:focus-visible {
-      outline: 3px solid #93c5fd;
-      outline-offset: 2px;
-    }
-
-    .content {
-      flex: 1;
-      min-width: 0;
-      width: 100%;
-      max-width: 1100px;
-      padding: 20px;
-    }
-
-    .panel {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-
-    .panel-title {
-      font-size: 17px;
-      font-weight: 750;
-      color: var(--blue);
-      margin-bottom: 12px;
-    }
-
-    .muted {
-      color: var(--gray);
-      font-size: 13px;
-      line-height: 1.55;
-    }
+    .content { flex: 1; min-width: 0; width: 100%; max-width: 1100px; padding: 20px; }
+    .panel { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+    .panel-title { font-size: 17px; font-weight: 750; color: var(--blue); margin-bottom: 12px; }
+    .muted { color: var(--gray); font-size: 13px; line-height: 1.55; }
 
     .alert-box {
-      background: #fffbeb;
-      border: 1px solid #fde68a;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 12px;
-      color: #92400e;
-      margin-bottom: 15px;
-      line-height: 1.5;
+      background: #fffbeb; border: 1px solid #fde68a; padding: 12px;
+      border-radius: 8px; font-size: 12px; color: #92400e; margin-bottom: 15px;
     }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0 14px;
-    }
-
+    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 14px; }
     .field { min-width: 0; }
     .field.full { grid-column: 1 / -1; }
 
-    label {
-      display: block;
-      margin: 0 0 6px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
+    label { display: block; margin: 0 0 6px; font-size: 12px; font-weight: 700; }
     input, textarea, select {
-      display: block;
-      width: 100%;
-      padding: 11px 12px;
-      margin: 0 0 14px;
-      border-radius: 8px;
-      border: 1px solid #cbd5e1;
-      background: #fff;
-      color: var(--dark);
-      font-size: 14px;
+      display: block; width: 100%; padding: 11px 12px; margin: 0 0 14px;
+      border-radius: 8px; border: 1px solid #cbd5e1; background: #fff; color: var(--dark); font-size: 14px;
     }
-
-    textarea {
-      resize: vertical;
-      min-height: 110px;
-    }
-
-    .btn-primary, .btn-secondary {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      border: 0;
-      border-radius: 8px;
-      padding: 11px 16px;
-      font-weight: 750;
-      cursor: pointer;
-    }
+    textarea { resize: vertical; min-height: 100px; }
 
     .btn-primary {
-      background: var(--blue);
-      color: #fff;
+      display: inline-flex; justify-content: center; align-items: center; gap: 8px;
+      border: 0; border-radius: 8px; padding: 11px 16px; font-weight: 750; cursor: pointer;
+      background: var(--blue); color: #fff; width: 100%;
     }
+    .btn-primary:disabled { opacity: 0.6; cursor: wait; }
 
-    .btn-primary:disabled {
-      opacity: 0.6;
-      cursor: wait;
-    }
-
-    .btn-secondary {
-      background: #e2e8f0;
-      color: var(--dark);
-    }
-
-    .message {
-      margin-top: 12px;
-      font-size: 13px;
-      font-weight: 650;
-      line-height: 1.5;
-      overflow-wrap: anywhere;
-    }
-
+    .message { margin-top: 12px; font-size: 13px; font-weight: 650; }
     .message.error { color: var(--red); }
     .message.success { color: var(--green); }
 
-    .table-wrap {
-      width: 100%;
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-      min-width: 520px;
-    }
-
-    th {
-      text-align: left;
-      padding: 10px;
-      background: #f8fafc;
-      color: var(--gray);
-      font-weight: 700;
-      border-bottom: 1px solid var(--border);
-    }
-
-    td {
-      padding: 12px 10px;
-      border-bottom: 1px solid #f1f5f9;
-      overflow-wrap: anywhere;
-    }
-
-    .status {
-      display: inline-block;
-      border-radius: 999px;
-      padding: 4px 8px;
-      background: #fef3c7;
-      color: #92400e;
-      font-size: 11px;
-      font-weight: 750;
-      text-transform: capitalize;
-    }
-
-    .status.active,
-    .status.approved,
-    .status.delivered {
-      background: #d1fae5;
-      color: #065f46;
-    }
-
-    .status.rejected,
-    .status.suspended,
-    .status.archived {
-      background: #fee2e2;
-      color: #991b1b;
-    }
-
-    .hidden, [hidden] { display: none !important; }
+    .table-wrap { width: 100%; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 520px; }
+    th { text-align: left; padding: 10px; background: #f8fafc; color: var(--gray); border-bottom: 1px solid var(--border); }
+    td { padding: 12px 10px; border-bottom: 1px solid #f1f5f9; }
+    .status { display: inline-block; border-radius: 999px; padding: 4px 8px; background: #d1fae5; color: #065f46; font-size: 11px; font-weight: 750; }
+    .hidden { display: none !important; }
 
     @media (max-width: 720px) {
-      header {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      #vendorHeader { text-align: left; }
-
       .layout { flex-direction: column; }
-
-      .sidebar {
-        flex: auto;
-        width: 100%;
-        border-right: 0;
-        border-bottom: 1px solid var(--border);
-        padding: 10px;
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .nav-btn {
-        font-size: 12px;
-        padding: 10px;
-      }
-
-      .content { padding: 12px; }
-      .panel { padding: 15px; }
+      .sidebar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .form-grid { grid-template-columns: 1fr; }
       .field.full { grid-column: auto; }
     }
@@ -310,48 +101,22 @@
 
   <div class="layout" id="portalLayout" hidden>
     <aside class="sidebar" aria-label="Vendor navigation">
-      <button class="nav-btn active" type="button" data-tab="dashboard">
-        📊 Dashboard
-      </button>
-
-      <button class="nav-btn" type="button" data-tab="products">
-        📦 My Products
-      </button>
-
-      <button class="nav-btn" type="button" data-tab="add-product">
-        ➕ Post New Product
-      </button>
-
-      <button class="nav-btn" type="button" data-tab="application">
-        🏢 Application Status
-      </button>
-
-      <button class="nav-btn" type="button" id="logoutBtn" style="color:#b91c1c">
-        🚪 Logout
-      </button>
+      <button class="nav-btn active" type="button" data-tab="dashboard">📊 Dashboard</button>
+      <button class="nav-btn" type="button" data-tab="products">📦 My Products</button>
+      <button class="nav-btn" type="button" data-tab="add-product">➕ Post New Product</button>
+      <button class="nav-btn" type="button" data-tab="application">🏢 Application Status</button>
+      <button class="nav-btn" type="button" id="logoutBtn" style="color:var(--red)">🚪 Logout</button>
     </aside>
 
     <main class="content">
-      <section id="tab-dashboard" class="panel" aria-labelledby="welcomeMsg">
-        <div class="panel-title" id="welcomeMsg">
-          Welcome to your vendor store
-        </div>
-
-        <p class="muted">
-          Manage product listings and check your application status.
-          Your access and permissions must be verified by the server.
-        </p>
-
+      <section id="tab-dashboard" class="panel">
+        <div class="panel-title" id="welcomeMsg">Welcome to your vendor store</div>
+        <p class="muted">Manage your multi-media product listings and track your seller fulfilment status.</p>
         <div id="dashboardNotice" class="message" role="status"></div>
       </section>
 
-      <section id="tab-products" class="panel hidden" aria-labelledby="productsTitle">
-        <div class="panel-title" id="productsTitle">My Product Listings</div>
-
-        <p class="muted">
-          Products and statuses are loaded from your authenticated vendor account.
-        </p>
-
+      <section id="tab-products" class="panel hidden">
+        <div class="panel-title">My Product Listings</div>
         <div class="table-wrap">
           <table>
             <thead>
@@ -362,697 +127,212 @@
                 <th>Status</th>
               </tr>
             </thead>
-
             <tbody id="myProductsTbody">
               <tr><td colspan="4">Loading products…</td></tr>
             </tbody>
           </table>
         </div>
-
-        <div id="productsMsg" class="message" role="status" aria-live="polite"></div>
+        <div id="productsMsg" class="message"></div>
       </section>
 
-      <section id="tab-add-product" class="panel hidden" aria-labelledby="addProductTitle">
-        <div class="panel-title" id="addProductTitle">
-          Post New Product Listing
-        </div>
-
+      <section id="tab-add-product" class="panel hidden">
+        <div class="panel-title">Post New Product Listing (Up to 10 Images &amp; 5 Videos)</div>
         <div class="alert-box">
-          <strong>Listing policy:</strong>
-          Do not include phone numbers, external website links, or contact
-          details in product titles or descriptions. Provide an HTTPS image URL.
-          The Worker must validate all submitted data independently.
+          <strong>Guidelines:</strong> Ensure clear product images (up to 10) and optional videos (up to 5). No external phone numbers or links in descriptions.
         </div>
 
         <form id="productForm">
           <div class="form-grid">
             <div class="field full">
-              <label for="pTitle">Product title</label>
-              <input
-                type="text"
-                id="pTitle"
-                name="title"
-                placeholder="e.g., Heavy Duty Solar Floodlight"
-                minlength="3"
-                maxlength="120"
-                autocomplete="off"
-                required
-              >
+              <label for="pTitle">Product title *</label>
+              <input type="text" id="pTitle" placeholder="e.g., Heavy Duty Solar Floodlight" minlength="3" maxlength="120" required>
             </div>
 
             <div class="field">
-              <label for="pCategory">Category</label>
-              <select id="pCategory" name="category" required>
+              <label for="pCategory">Category *</label>
+              <select id="pCategory" required>
                 <option value="Electronics">Electronics &amp; Solar</option>
                 <option value="Fashion">Fashion &amp; Apparel</option>
                 <option value="Home">Home &amp; Living</option>
-                <option value="Health">Health &amp; Beauty</option>
-                <option value="General">Other</option>
+                <option value="General">General</option>
               </select>
             </div>
 
             <div class="field">
-              <label for="pPrice">Price (KSh)</label>
-              <input
-                type="number"
-                id="pPrice"
-                name="price"
-                placeholder="2500"
-                min="1"
-                max="100000000"
-                step="1"
-                inputmode="numeric"
-                required
-              >
+              <label for="pPrice">Price (KSh) *</label>
+              <input type="number" id="pPrice" placeholder="2500" min="1" required>
             </div>
 
             <div class="field">
-              <label for="pStock">Stock quantity</label>
-              <input
-                type="number"
-                id="pStock"
-                name="stock"
-                placeholder="50"
-                min="0"
-                max="1000000"
-                step="1"
-                inputmode="numeric"
-                required
-              >
+              <label for="pStock">Stock quantity *</label>
+              <input type="number" id="pStock" placeholder="50" min="0" required>
+            </div>
+
+            <div class="field">
+              <label for="pRating">Initial Rating (1-5)</label>
+              <select id="pRating">
+                <option value="5">★★★★★ (5/5)</option>
+                <option value="4" selected>★★★★☆ (4/5)</option>
+                <option value="3">★★★☆☆ (3/5)</option>
+              </select>
             </div>
 
             <div class="field full">
-              <label for="pImage">Product image URL (HTTPS)</label>
-              <input
-                type="url"
-                id="pImage"
-                name="image"
-                placeholder="https://example.com/product-image.jpg"
-                maxlength="2000"
-                required
-              >
+              <label for="pImages">Product Image URLs (Comma-separated HTTPS, up to 10) *</label>
+              <textarea id="pImages" placeholder="https://.../img1.jpg, https://.../img2.jpg" required></textarea>
             </div>
 
             <div class="field full">
-              <label for="pDesc">Product description</label>
-              <textarea
-                id="pDesc"
-                name="description"
-                placeholder="Describe the product's features, size, material, compatibility, and what is included…"
-                minlength="10"
-                maxlength="3000"
-                required
-              ></textarea>
+              <label for="pVideos">Product Video URLs (Comma-separated HTTPS, up to 5 - Optional)</label>
+              <textarea id="pVideos" placeholder="https://.../vid1.mp4"></textarea>
+            </div>
+
+            <div class="field full">
+              <label for="pReviews">Initial Customer Reviews (Optional)</label>
+              <input type="text" id="pReviews" placeholder="Aisha Njeri: Excellent quality! | Brian Otieno: Fast delivery.">
+            </div>
+
+            <div class="field full">
+              <label for="pDesc">Product description *</label>
+              <textarea id="pDesc" placeholder="Describe features, size, warranty..." required></textarea>
             </div>
           </div>
 
-          <button type="submit" class="btn-primary" id="submitProductBtn">
-            Submit for Admin Review
-          </button>
+          <button type="submit" class="btn-primary" id="submitProductBtn">Submit Product for Listing</button>
         </form>
-
-        <div id="postMsg" class="message" role="status" aria-live="polite"></div>
+        <div id="postMsg" class="message"></div>
       </section>
 
-      <section id="tab-application" class="panel hidden" aria-labelledby="applicationTitle">
-        <div class="panel-title" id="applicationTitle">
-          Vendor Application Status
-        </div>
-
-        <p class="muted">
-          Your application status is retrieved from the server.
-        </p>
-
-        <div
-          id="appStatusBox"
-          style="padding:15px;background:#f1f5f9;border-radius:8px;font-size:13px;font-weight:700"
-          role="status"
-          aria-live="polite"
-        >
-          Checking application status…
-        </div>
-
-        <div id="appMsg" class="message" role="status" aria-live="polite"></div>
+      <section id="tab-application" class="panel hidden">
+        <div class="panel-title">Vendor Application Status</div>
+        <div id="appStatusBox" style="padding:15px;background:#f1f5f9;border-radius:8px;font-size:13px;font-weight:700">Checking application status…</div>
+        <div id="appMsg" class="message"></div>
       </section>
     </main>
   </div>
 
   <script>
     'use strict';
-
-    // This version assumes the API is served from the same origin as this page.
-    // If the Worker is hosted separately, configure its exact CORS origin,
-    // cookie settings, and API_BASE before using a cross-origin deployment.
-    const API_BASE = '';
-
-    const API = {
-      csrf: '/api/auth/csrf',
-      me: '/api/auth/me',
-      products: '/api/vendor/products',
-      application: '/api/vendor/application',
-      logout: '/api/auth/logout'
-    };
-
-    const el = (id) => document.getElementById(id);
-
-    let currentUser = null;
+    const API_BASE = "https://zavo-api.zavo-stores.workers.dev";
     let csrfToken = '';
-    let isSubmitting = false;
-    let redirected = false;
 
     async function apiFetch(path, options = {}) {
       const headers = new Headers(options.headers || {});
-      const method = (options.method || 'GET').toUpperCase();
-
-      if (
-        ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method) &&
-        csrfToken
-      ) {
+      if (csrfToken && ['POST', 'PUT', 'DELETE'].includes((options.method || 'GET').toUpperCase())) {
         headers.set('X-CSRF-Token', csrfToken);
       }
-
-      const response = await fetch(`${API_BASE}${path}`, {
-        ...options,
-        method,
-        headers,
-        credentials: 'same-origin',
-        cache: 'no-store'
-      });
-
-      const contentType = response.headers.get('content-type') || '';
-      let data;
-
-      if (contentType.includes('application/json')) {
-        try {
-          data = await response.json();
-        } catch {
-          data = {};
-        }
-      } else {
-        const responseText = await response.text().catch(() => '');
-        data = {
-          error: responseText || `Request failed (${response.status})`
-        };
-      }
-
-      if (!response.ok) {
-        const error = new Error(
-          data.error ||
-          data.message ||
-          `Request failed (${response.status})`
-        );
-
-        error.status = response.status;
-        error.data = data;
-        throw error;
-      }
-
+      const response = await fetch(`${API_BASE}${path}`, { ...options, headers, credentials: 'include' });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || `Request failed (${response.status})`);
       return data;
     }
 
-    function setMessage(node, text, type = '') {
-      node.textContent = text;
-      node.className = `message${type ? ` ${type}` : ''}`;
-    }
-
-    function redirectToLogin() {
-      if (redirected) return;
-
-      redirected = true;
-      window.location.replace('/login.html');
-    }
-
-    function displayName(user) {
-      const name = typeof user?.name === 'string'
-        ? user.name.trim()
-        : '';
-
-      return name || user?.email || 'Vendor';
-    }
-
-    function statusLabel(value) {
-      return String(value || 'unknown').replace(/[_-]/g, ' ');
-    }
-
-    function containsForbiddenText(value) {
-      const text = String(value || '');
-
-      const urlPattern =
-        /(?:https?:\/\/|www\.)\S+|\b(?:[a-z0-9-]+\.)+(?:com|net|org|co\.ke|ke|io|shop|store|info|biz)\b/i;
-
-      const phonePattern =
-        /(?:\+?254\s?\d{9}|\b0[17]\d{8}\b|\b\d[\d ()-]{8,}\d\b)/;
-
-      return urlPattern.test(text) || phonePattern.test(text);
-    }
-
-    function validHttpsImageUrl(value) {
+    async function init() {
       try {
-        const url = new URL(value);
+        const csrfRes = await fetch(`${API_BASE}/api/auth/csrf`);
+        const csrfData = await csrfRes.json();
+        if (csrfData.success) csrfToken = csrfData.csrfToken;
 
-        return (
-          url.protocol === 'https:' &&
-          Boolean(url.hostname) &&
-          !url.username &&
-          !url.password
-        );
-      } catch {
-        return false;
+        const meData = await apiFetch('/api/auth/me');
+        if (!meData.user || meData.user.role !== 'vendor') {
+          window.location.replace('/login.html');
+          return;
+        }
+
+        document.getElementById('vendorHeader').textContent = `${meData.user.name} (${meData.user.email})`;
+        document.getElementById('portalLayout').hidden = false;
+        loadProducts();
+      } catch (err) {
+        window.location.replace('/login.html');
       }
     }
 
-    function renderProducts(products) {
-      const tbody = el('myProductsTbody');
-      tbody.replaceChildren();
+    async function loadProducts() {
+      try {
+        const data = await apiFetch('/api/vendor/products');
+        const tbody = document.getElementById('myProductsTbody');
+        tbody.innerHTML = '';
+        if (!data.products || data.products.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="4">No products posted yet.</td></tr>';
+          return;
+        }
+        data.products.forEach(p => {
+          tbody.innerHTML += `<tr><td><strong>${p.title}</strong></td><td>KSh ${Number(p.price).toLocaleString()}</td><td>${p.stock}</td><td><span class="status">${p.status}</span></td></tr>`;
+        });
+      } catch (err) {
+        document.getElementById('productsMsg').textContent = 'Failed to load listings.';
+        document.getElementById('productsMsg').className = 'message error';
+      }
+    }
 
-      if (!Array.isArray(products) || products.length === 0) {
-        const row = document.createElement('tr');
-        const cell = document.createElement('td');
+    document.getElementById('productForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById('postMsg');
+      msg.textContent = 'Submitting product...';
+      msg.className = 'message';
 
-        cell.colSpan = 4;
-        cell.textContent = 'No products submitted yet.';
+      const images = document.getElementById('pImages').value.split(',').map(s => s.trim()).filter(Boolean);
+      const videos = document.getElementById('pVideos').value.split(',').map(s => s.trim()).filter(Boolean);
 
-        row.appendChild(cell);
-        tbody.appendChild(row);
+      if (images.length === 0 || images.length > 10) {
+        msg.textContent = 'Error: Provide between 1 and 10 image URLs.';
+        msg.className = 'message error';
         return;
       }
 
-      for (const product of products) {
-        const row = document.createElement('tr');
-
-        const titleCell = document.createElement('td');
-        const title = document.createElement('strong');
-
-        title.textContent = String(
-          product.title ?? 'Untitled product'
-        );
-
-        titleCell.appendChild(title);
-
-        const priceCell = document.createElement('td');
-        const price = Number(product.price);
-
-        priceCell.textContent = Number.isFinite(price)
-          ? `KSh ${price.toLocaleString('en-KE')}`
-          : '—';
-
-        const stockCell = document.createElement('td');
-        const stock = Number(product.stock);
-
-        stockCell.textContent = Number.isFinite(stock)
-          ? String(stock)
-          : '—';
-
-        const statusCell = document.createElement('td');
-        const status = document.createElement('span');
-
-        const statusText = String(
-          product.status ?? 'unknown'
-        ).toLowerCase();
-
-        status.className =
-          `status ${statusText.replace(/[^a-z0-9_-]/g, '')}`;
-
-        status.textContent = statusLabel(statusText);
-        statusCell.appendChild(status);
-
-        row.append(titleCell, priceCell, stockCell, statusCell);
-        tbody.appendChild(row);
+      if (videos.length > 5) {
+        msg.textContent = 'Error: Maximum 5 video URLs allowed.';
+        msg.className = 'message error';
+        return;
       }
-    }
 
-    async function loadVendorProducts() {
-      const tbody = el('myProductsTbody');
-      tbody.replaceChildren();
-
-      const row = document.createElement('tr');
-      const cell = document.createElement('td');
-
-      cell.colSpan = 4;
-      cell.textContent = 'Loading products…';
-
-      row.appendChild(cell);
-      tbody.appendChild(row);
-
-      setMessage(el('productsMsg'), '');
+      const payload = {
+        title: document.getElementById('pTitle').value,
+        description: document.getElementById('pDesc').value,
+        category: document.getElementById('pCategory').value,
+        price: parseFloat(document.getElementById('pPrice').value),
+        stock: parseInt(document.getElementById('pStock').value),
+        rating: parseInt(document.getElementById('pRating').value),
+        reviews: document.getElementById('pReviews').value,
+        images,
+        videos
+      };
 
       try {
-        // The server must determine product ownership from the session.
-        // Do not send a vendor_id supplied by the browser.
-        const data = await apiFetch(API.products);
-
-        renderProducts(
-          data.products ||
-          data.data?.products ||
-          []
-        );
-      } catch (error) {
-        renderProducts([]);
-
-        setMessage(
-          el('productsMsg'),
-          `Could not load products: ${error.message}`,
-          'error'
-        );
-
-        if (error.status === 401) redirectToLogin();
-      }
-    }
-
-    async function loadApplicationStatus() {
-      const box = el('appStatusBox');
-
-      box.textContent = 'Checking application status…';
-      setMessage(el('appMsg'), '');
-
-      try {
-        const data = await apiFetch(API.application);
-        const application = data.application || data;
-
-        const status =
-          application.status ||
-          application.vendor_status;
-
-        box.textContent =
-          typeof status === 'string' && status.trim()
-            ? `Status: ${statusLabel(status)}`
-            : 'The server did not return an application status.';
-
-        if (application.business_name) {
-          box.textContent +=
-            ` · Business: ${String(application.business_name)}`;
-        }
-
-        if (application.message) {
-          setMessage(el('appMsg'), String(application.message));
-        }
-      } catch (error) {
-        box.textContent = 'Application status is currently unavailable.';
-
-        const detail = error.status === 404
-          ? 'The current Worker does not yet implement GET /api/vendor/application. Add that route before relying on this panel.'
-          : `Could not retrieve application status: ${error.message}`;
-
-        setMessage(el('appMsg'), detail, 'error');
-
-        if (error.status === 401) redirectToLogin();
-      }
-    }
-
-    async function initializePortal() {
-      try {
-        // Fetch a CSRF token before making protected POST requests.
-        const csrf = await apiFetch(API.csrf);
-
-        csrfToken = typeof csrf.csrfToken === 'string'
-          ? csrf.csrfToken
-          : '';
-
-        if (!csrfToken) {
-          throw new Error(
-            'The security-token endpoint did not return csrfToken.'
-          );
-        }
-
-        const data = await apiFetch(API.me);
-        const user = data.user || data.account || data;
-
-        if (!user || !user.email) {
-          throw new Error(
-            'Your session is not valid. Please sign in again.'
-          );
-        }
-
-        if (user.role !== 'vendor') {
-          throw new Error(
-            'This account is not identified by the server as a vendor. ' +
-            'Vendor approval and role assignment must be completed by an administrator.'
-          );
-        }
-
-        currentUser = user;
-
-        el('vendorHeader').textContent =
-          `${displayName(user)} (${user.email})`;
-
-        el('welcomeMsg').textContent =
-          `Welcome back, ${displayName(user)}!`;
-
-        el('portalLayout').hidden = false;
-
-        if (!user.vendor_id) {
-          setMessage(
-            el('dashboardNotice'),
-            'Your account has the vendor role but no vendor profile is linked. ' +
-            'Contact ZAVO support or the administrator to complete vendor setup.',
-            'error'
-          );
-        } else {
-          setMessage(
-            el('dashboardNotice'),
-            'Your account was authenticated. Product actions remain subject to server-side vendor approval.'
-          );
-        }
-
-        await Promise.allSettled([
-          loadVendorProducts(),
-          loadApplicationStatus()
-        ]);
-      } catch (error) {
-        el('vendorHeader').textContent = 'Unable to verify session';
-
-        el('dashboardNotice').textContent =
-          `Could not verify your account: ${error.message}`;
-
-        el('dashboardNotice').className = 'message error';
-        el('portalLayout').hidden = true;
-
-        if (
-          error.status === 401 ||
-          /session|sign in/i.test(error.message)
-        ) {
-          redirectToLogin();
-        }
-      }
-    }
-
-    el('productForm').addEventListener('submit', async (event) => {
-      event.preventDefault();
-
-      if (isSubmitting) return;
-
-      const title = el('pTitle').value.trim();
-      const description = el('pDesc').value.trim();
-      const image = el('pImage').value.trim();
-      const category = el('pCategory').value;
-      const price = Number(el('pPrice').value);
-      const stock = Number(el('pStock').value);
-      const msg = el('postMsg');
-
-      if (title.length < 3 || title.length > 120) {
-        return setMessage(
-          msg,
-          'Enter a product title between 3 and 120 characters.',
-          'error'
-        );
-      }
-
-      if (description.length < 10 || description.length > 3000) {
-        return setMessage(
-          msg,
-          'Enter a description between 10 and 3,000 characters.',
-          'error'
-        );
-      }
-
-      if (
-        containsForbiddenText(title) ||
-        containsForbiddenText(description)
-      ) {
-        return setMessage(
-          msg,
-          'Product title and description must not contain website links, domains, or phone numbers.',
-          'error'
-        );
-      }
-
-      if (!validHttpsImageUrl(image)) {
-        return setMessage(
-          msg,
-          'Enter a valid HTTPS image URL.',
-          'error'
-        );
-      }
-
-      if (
-        !Number.isSafeInteger(price) ||
-        price < 1 ||
-        price > 100000000
-      ) {
-        return setMessage(
-          msg,
-          'Enter a whole-number price from KSh 1 to KSh 100,000,000.',
-          'error'
-        );
-      }
-
-      if (
-        !Number.isSafeInteger(stock) ||
-        stock < 0 ||
-        stock > 1000000
-      ) {
-        return setMessage(
-          msg,
-          'Enter a whole-number stock quantity from 0 to 1,000,000.',
-          'error'
-        );
-      }
-
-      if (!csrfToken) {
-        return setMessage(
-          msg,
-          'Security token is missing. Refresh the page and sign in again.',
-          'error'
-        );
-      }
-
-      isSubmitting = true;
-
-      const button = el('submitProductBtn');
-      button.disabled = true;
-      button.textContent = 'Submitting…';
-
-      setMessage(msg, '');
-
-      try {
-        const data = await apiFetch(API.products, {
+        const res = await apiFetch('/api/vendor/products', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-
-          // The Worker accepts description (or desc).
-          // The image must be an HTTPS URL.
-          body: JSON.stringify({
-            title,
-            description,
-            price,
-            stock,
-            category,
-            images: [image]
-          })
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
         });
-
-        if (data.success === false) {
-          throw new Error(
-            data.error || 'Product submission failed.'
-          );
+        if (res.success) {
+          msg.textContent = 'Product published successfully!';
+          msg.className = 'message success';
+          document.getElementById('productForm').reset();
+          loadProducts();
         }
-
-        setMessage(
-          msg,
-          data.message ||
-            'Product submitted for review. Check your listings for its status.',
-          'success'
-        );
-
-        el('productForm').reset();
-
-        await loadVendorProducts();
-        switchTab('products');
-      } catch (error) {
-        setMessage(
-          msg,
-          `Could not submit product: ${error.message}`,
-          'error'
-        );
-
-        if (error.status === 401) redirectToLogin();
-      } finally {
-        isSubmitting = false;
-        button.disabled = false;
-        button.textContent = 'Submit for Admin Review';
+      } catch (err) {
+        msg.textContent = 'Error: ' + err.message;
+        msg.className = 'message error';
       }
     });
 
-    function switchTab(tabName) {
-      const allowed = [
-        'dashboard',
-        'products',
-        'add-product',
-        'application'
-      ];
-
-      if (!allowed.includes(tabName)) return;
-
-      for (const tab of allowed) {
-        el(`tab-${tab}`).classList.toggle(
-          'hidden',
-          tab !== tabName
-        );
-      }
-
-      document.querySelectorAll('.nav-btn[data-tab]').forEach((button) => {
-        const active = button.dataset.tab === tabName;
-
-        button.classList.toggle('active', active);
-
-        if (active) {
-          button.setAttribute('aria-current', 'page');
-        } else {
-          button.removeAttribute('aria-current');
-        }
+    // Tab switching logic
+    document.querySelectorAll('.nav-btn[data-tab]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.dataset.tab;
+        document.querySelectorAll('.panel').forEach(p => p.classList.add('hidden'));
+        document.getElementById(`tab-${tab}`).classList.remove('hidden');
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
       });
-
-      if (tabName === 'products') {
-        loadVendorProducts();
-      }
-
-      if (tabName === 'application') {
-        loadApplicationStatus();
-      }
-    }
-
-    document.querySelectorAll('.nav-btn[data-tab]').forEach((button) => {
-      button.addEventListener(
-        'click',
-        () => switchTab(button.dataset.tab)
-      );
     });
 
-    el('logoutBtn').addEventListener('click', async () => {
-      const button = el('logoutBtn');
-      button.disabled = true;
-
-      try {
-        if (!csrfToken) {
-          const csrf = await apiFetch(API.csrf);
-
-          csrfToken = typeof csrf.csrfToken === 'string'
-            ? csrf.csrfToken
-            : '';
-        }
-
-        await apiFetch(API.logout, {
-          method: 'POST'
-        });
-      } catch (error) {
-        console.warn(
-          'Server logout request failed:',
-          error.message
-        );
-      } finally {
-        // This only clears browser-side housekeeping data.
-        // The server must invalidate the session for a secure logout.
-        try {
-          localStorage.removeItem('zavo_user');
-        } catch {}
-
-        redirectToLogin();
-      }
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      try { await apiFetch('/api/auth/logout', { method: 'POST' }); } catch {}
+      window.location.replace('/login.html');
     });
 
-    initializePortal();
+    init();
   </script>
 </body>
 </html>
