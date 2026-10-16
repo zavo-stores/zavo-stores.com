@@ -1,10 +1,5 @@
 /**
  * ZAVO Cloudflare Worker — Synchronized & Hardened Backend
- * Required bindings/secrets:
- *   DB                  D1 database
- *   PAYSTACK_SECRET_KEY Cloudflare secret
- *   ALLOWED_ORIGINS     comma-separated exact HTTPS storefront origins
- *   PUBLIC_SITE_URL     canonical storefront origin, e.g. https://zavo.example
  */
 
 const PAYSTACK_API = "https://api.paystack.co";
@@ -41,35 +36,21 @@ function jsonResponse(data, status = 200, headers = {}) {
   });
 }
 
-function getAllowedOrigins(env) {
-  return String(env.ALLOWED_ORIGINS || "")
-    .split(",")
-    .map((value) => value.trim().replace(/\/$/, ""))
-    .filter(Boolean);
-}
-
-function corsHeaders(request, env) {
-  const origin = request.headers.get("Origin");
-  const allowed = getAllowedOrigins(env);
-
-  const headers = {
+function corsHeaders(request) {
+  const origin = request.headers.get("Origin") || "*";
+  return {
+    "Access-Control-Allow-Origin": origin,
     "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, X-CSRF-Token",
     "Access-Control-Allow-Credentials": "true",
     "Access-Control-Max-Age": "86400",
     "Vary": "Origin",
   };
-
-  if (origin && allowed.includes(origin.replace(/\/$/, ""))) {
-    headers["Access-Control-Allow-Origin"] = origin;
-  }
-
-  return headers;
 }
 
 function respond(request, env, data, status = 200, extraHeaders = {}) {
   return jsonResponse(data, status, {
-    ...corsHeaders(request, env),
+    ...corsHeaders(request),
     ...extraHeaders,
   });
 }
@@ -176,37 +157,6 @@ function validEmail(value) {
   return typeof value === "string" && value.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
-function normalizeKenyanPhone(value) {
-  const digits = String(value || "").replace(/\D/g, "");
-  if (digits.startsWith("254") && digits.length === 12) return `+${digits}`;
-  if (digits.startsWith("0") && digits.length === 10) return `+254${digits.slice(1)}`;
-  if (digits.length === 9 && /^[17]/.test(digits)) return `+254${digits}`;
-  return null;
-}
-
-async function paystackRequest(env, endpoint, options = {}) {
-  if (!env.PAYSTACK_SECRET_KEY) {
-    throw new HttpError(503, "Payment processing is not configured.");
-  }
-  const response = await fetch(`${PAYSTACK_API}${endpoint}`, {
-    ...options,
-    headers: {
-      Authorization: `Bearer ${env.PAYSTACK_SECRET_KEY}`,
-      "Content-Type": "application/json",
-      ...(options.headers || {}),
-    },
-  });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok || data.status !== true) {
-    throw new HttpError(502, "The payment provider could not complete the request.");
-  }
-  return data.data;
-}
-
-async function verifyPaystackTransaction(env, reference) {
-  return paystackRequest(env, `/transaction/verify/${encodeURIComponent(reference)}`);
-}
-
 async function createSession(env, userId) {
   const token = randomHex(32);
   const tokenHash = await sha256Hex(token);
@@ -241,21 +191,12 @@ function requireRole(user, roles) {
   }
 }
 
-function requireSameOrigin(request, env) {
-  const origin = request.headers.get("Origin");
-  if (!origin) return;
-  const normalized = origin.replace(/\/$/, "");
-  if (!getAllowedOrigins(env).includes(normalized)) {
-    throw new HttpError(403, "This origin is not allowed.");
-  }
-}
-
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const path = url.pathname;
     const method = request.method.toUpperCase();
-    const cors = corsHeaders(request, env);
+    const cors = corsHeaders(request);
 
     if (method === "OPTIONS") {
       return new Response(null, { status: 204, headers: cors });
@@ -269,7 +210,6 @@ export default {
       }
 
       if (path === "/api/auth/csrf" && method === "GET") {
-        requireSameOrigin(request, env);
         const token = randomHex(24);
         return respond(request, env, { success: true, csrfToken: token }, 200, {
           "Set-Cookie": `zavo_csrf=${token}; Path=/; Secure; SameSite=None; Max-Age=3600`,
@@ -278,7 +218,6 @@ export default {
 
       // Authentication: Login
       if (path === "/api/auth/login" && method === "POST") {
-        requireSameOrigin(request, env);
         const body = await readJson(request);
         const email = cleanString(body.email, 254).toLowerCase();
         const password = typeof body.password === "string" ? body.password : "";
@@ -324,7 +263,7 @@ export default {
         return respond(request, env, { success: true, products: results || [] });
       }
 
-      // Vendor / Admin Product Submission with Multi-Media, Ratings & Shipping
+      // Product Submission with Multi-Media, Ratings & Shipping
       if (path === "/api/vendor/products" && method === "POST") {
         const user = await getSessionUser(request, env);
         requireRole(user, ["vendor", "admin"]);
