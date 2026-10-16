@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="description" content="Create your ZAVO marketplace customer account.">
+  <title>ZAVO | Create Account</title>
+  <style>
+    :root{--yellow:#ffb703;--dark:#0f172a;--panel:#1e293b;--gray:#94a3b8;--red:#f87171;--green:#34d399;--border:#475569}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;min-height:100dvh;padding:24px 16px;display:flex;align-items:center;justify-content:center;background:var(--dark);color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+    button,input{font:inherit}.card{width:100%;max-width:440px;padding:28px;background:var(--panel);border:1px solid #334155;border-radius:16px;box-shadow:0 10px 25px #0004}
+    .logo{display:block;margin-bottom:14px;color:white;text-align:center;text-decoration:none;font-size:25px;font-weight:900;letter-spacing:1px}.logo span,h1{color:var(--yellow)}h1{margin:0 0 8px;text-align:center;font-size:22px}.intro{margin:0 0 22px;color:#cbd5e1;text-align:center;font-size:13px;line-height:1.5}
+    .field{margin-bottom:15px}label{display:block;margin-bottom:6px;color:#e2e8f0;font-size:13px;font-weight:650}input{width:100%;min-height:44px;padding:11px 12px;border:1px solid var(--border);border-radius:8px;outline:none;background:var(--dark);color:white;font-size:15px}input:focus-visible{border-color:var(--yellow);outline:2px solid #ffb7034d;outline-offset:1px}input::placeholder{color:var(--gray)}
+    .password-wrap{display:flex;gap:8px}.password-wrap input{flex:1;min-width:0}.toggle{padding:0 11px;border:1px solid var(--border);border-radius:8px;background:#334155;color:white;cursor:pointer;font-size:12px;font-weight:650}
+    .submit{width:100%;min-height:46px;margin-top:4px;padding:12px;border:0;border-radius:8px;background:var(--yellow);color:#111827;font-size:15px;font-weight:800;cursor:pointer}.submit:disabled{opacity:.7;cursor:wait}#msg{min-height:20px;margin-top:14px;text-align:center;font-size:13px;line-height:1.5;overflow-wrap:anywhere}#msg.error{color:var(--red)}#msg.success{color:var(--green)}#msg.info{color:#cbd5e1}.links{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:18px}.links a{color:var(--gray);text-align:center;text-decoration:none;font-size:13px}.links a:hover{color:white}.note{margin:18px 0 0;color:var(--gray);text-align:center;font-size:11px;line-height:1.5}
+    @media(max-width:360px){.card{padding:22px 18px}.password-wrap{flex-wrap:wrap}.toggle{min-height:40px}}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <a class="logo" href="/zavo-stores.com/" aria-label="ZAVO home">ZAVO<span>.</span></a>
+    <h1>Create your account</h1>
+    <p class="intro">Join ZAVO to shop products from marketplace vendors.</p>
+    <form id="registerForm" autocomplete="on">
+      <div class="field"><label for="name">Full name</label><input id="name" name="name" type="text" autocomplete="name" maxlength="100" minlength="2" placeholder="Your full name" required></div>
+      <div class="field"><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" maxlength="254" placeholder="you@example.com" required></div>
+      <div class="field"><label for="password">Password</label><div class="password-wrap"><input id="password" name="password" type="password" autocomplete="new-password" minlength="12" maxlength="128" aria-describedby="passwordHint" placeholder="At least 12 characters" required><button class="toggle" id="togglePassword" type="button" aria-controls="password" aria-pressed="false">Show</button></div><p id="passwordHint" class="note" style="text-align:left;margin:7px 0 0">Use at least 12 characters. Don't reuse a password from another site.</p></div>
+      <button class="submit" id="submitButton" type="submit">Create Account</button>
+    </form>
+    <div id="msg" role="status" aria-live="polite"></div>
+    <nav class="links" aria-label="Account navigation"><a href="/zavo-stores.com/login.html">Already registered? Sign in</a><a href="/zavo-stores.com/">← Return to storefront</a></nav>
+    <p class="note">Your password should remain private. ZAVO will never ask you to share it with support.</p>
+  </main>
+  <script>
+    (()=>{
+      "use strict";
+      const API_BASE="https://zavo-api.zavo-stores.workers.dev";
+      const REGISTER_ENDPOINT=`${API_BASE}/api/auth/register`;
+      const ME_ENDPOINT=`${API_BASE}/api/auth/me`;
+      const form=document.getElementById("registerForm");
+      const nameInput=document.getElementById("name");
+      const emailInput=document.getElementById("email");
+      const passwordInput=document.getElementById("password");
+      const submitButton=document.getElementById("submitButton");
+      const togglePassword=document.getElementById("togglePassword");
+      const msg=document.getElementById("msg");
+      function showMessage(message,type="info"){msg.textContent=message;msg.className=type;}
+      async function parseResponse(response){
+        const raw=await response.text();let data;
+        try{data=JSON.parse(raw);}catch{
+          throw new Error(`The API returned a non-JSON response (HTTP ${response.status}). Check the Worker URL, route, and CORS settings.`);
+        }
+        if(!data||typeof data!=="object")throw new Error(`The API returned an invalid response (HTTP ${response.status}).`);
+        return data;
+      }
+      togglePassword.addEventListener("click",()=>{const show=passwordInput.type==="password";passwordInput.type=show?"text":"password";togglePassword.textContent=show?"Hide":"Show";togglePassword.setAttribute("aria-pressed",String(show));});
+      form.addEventListener("submit",async event=>{
+        event.preventDefault();if(!form.reportValidity())return;
+        const name=nameInput.value.trim();const email=emailInput.value.trim().toLowerCase();const password=passwordInput.value;
+        if(name.length<2){showMessage("Enter your full name.","error");return;}
+        if(password.length<12){showMessage("Your password must contain at least 12 characters.","error");return;}
+        submitButton.disabled=true;submitButton.textContent="Creating account…";showMessage("Creating your ZAVO account securely…","info");
+        try{
+          const response=await fetch(REGISTER_ENDPOINT,{method:"POST",mode:"cors",credentials:"include",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({name,email,password}),cache:"no-store"});
+          const data=await parseResponse(response);
+          if(!response.ok||data.success!==true)throw new Error(typeof data.error==="string"?data.error:`Registration failed (HTTP ${response.status}). Please try again.`);
+          showMessage("Account created. Checking your sign-in session…","info");
+          let meResponse,me;
+          try{meResponse=await fetch(ME_ENDPOINT,{method:"GET",mode:"cors",credentials:"include",headers:{"Accept":"application/json"},cache:"no-store"});me=await parseResponse(meResponse);}catch(e){
+            throw new Error("Your account may have been created, but the session check failed. Do not submit registration repeatedly; try signing in, and if that fails we need to fix cross-site cookie settings.");
+          }
+          if(!meResponse.ok||me.success!==true){throw new Error("Your account was created, but the browser did not retain the session cookie. Try signing in once; if it still fails, we need to address cross-site cookie restrictions.");}
+          showMessage("Your account is ready. Redirecting to the storefront…","success");
+          window.location.assign("/zavo-stores.com/");
+        }catch(error){console.error("ZAVO registration error:",error);showMessage(error instanceof Error?error.message:"Unable to create your account. Please try again.","error");}
+        finally{submitButton.disabled=false;submitButton.textContent="Create Account";}
+      });
+    })();
+  </script>
+</body>
+</html>
