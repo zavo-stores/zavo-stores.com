@@ -10,19 +10,16 @@
 
   <style>
     :root {
-      --zavo-blue: #0f4c81;
-      --zavo-yellow: #ffb703;
-      --zavo-dark: #0f172a;
-      --zavo-panel: #1e293b;
-      --zavo-gray: #94a3b8;
-      --zavo-red: #f87171;
-      --zavo-green: #34d399;
-      --zavo-border: #475569;
+      --yellow: #ffb703;
+      --dark: #0f172a;
+      --panel: #1e293b;
+      --gray: #94a3b8;
+      --red: #f87171;
+      --green: #34d399;
+      --border: #475569;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -32,25 +29,22 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--zavo-dark);
+      background: var(--dark);
       color: white;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
         Roboto, Arial, sans-serif;
     }
 
-    button,
-    input {
-      font: inherit;
-    }
+    button, input { font: inherit; }
 
     .auth-card {
       width: 100%;
       max-width: 420px;
       padding: 28px;
-      background: var(--zavo-panel);
+      background: var(--panel);
       border: 1px solid #334155;
       border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 10px 25px rgba(0,0,0,.3);
     }
 
     .logo {
@@ -64,13 +58,10 @@
       letter-spacing: 1px;
     }
 
-    .logo span {
-      color: var(--zavo-yellow);
-    }
+    .logo span, h1 { color: var(--yellow); }
 
     h1 {
       margin: 0 0 8px;
-      color: var(--zavo-yellow);
       text-align: center;
       font-size: 22px;
     }
@@ -83,9 +74,7 @@
       line-height: 1.5;
     }
 
-    .field {
-      margin-bottom: 15px;
-    }
+    .field { margin-bottom: 15px; }
 
     label {
       display: block;
@@ -99,22 +88,19 @@
       width: 100%;
       min-height: 44px;
       padding: 11px 12px;
-      border: 1px solid var(--zavo-border);
+      border: 1px solid var(--border);
       border-radius: 8px;
       outline: none;
-      background: #0f172a;
+      background: var(--dark);
       color: white;
       font-size: 15px;
     }
 
-    input::placeholder {
-      color: #94a3b8;
-      opacity: 1;
-    }
+    input::placeholder { color: var(--gray); opacity: 1; }
 
     input:focus-visible {
-      border-color: var(--zavo-yellow);
-      outline: 2px solid rgba(255, 183, 3, 0.3);
+      border-color: var(--yellow);
+      outline: 2px solid rgba(255,183,3,.3);
       outline-offset: 1px;
     }
 
@@ -124,14 +110,11 @@
       gap: 8px;
     }
 
-    .password-wrap input {
-      flex: 1;
-      min-width: 0;
-    }
+    .password-wrap input { flex: 1; min-width: 0; }
 
     .toggle-password {
       padding: 0 11px;
-      border: 1px solid var(--zavo-border);
+      border: 1px solid var(--border);
       border-radius: 8px;
       background: #334155;
       color: white;
@@ -147,20 +130,16 @@
       padding: 12px;
       border: 0;
       border-radius: 8px;
-      background: var(--zavo-yellow);
+      background: var(--yellow);
       color: #111827;
       font-size: 15px;
       font-weight: 800;
       cursor: pointer;
     }
 
-    .btn-submit:hover:not(:disabled) {
-      filter: brightness(0.96);
-    }
-
     .btn-submit:disabled {
       cursor: wait;
-      opacity: 0.7;
+      opacity: .7;
     }
 
     #msg {
@@ -172,71 +151,50 @@
       overflow-wrap: anywhere;
     }
 
-    #msg.error {
-      color: var(--zavo-red);
-    }
-
-    #msg.success {
-      color: var(--zavo-green);
-    }
-
-    #msg.info {
-      color: #cbd5e1;
-    }
+    #msg.error { color: var(--red); }
+    #msg.success { color: var(--green); }
+    #msg.info { color: #cbd5e1; }
 
     .nav-link {
       display: block;
       margin-top: 18px;
-      color: var(--zavo-gray);
+      color: var(--gray);
       text-align: center;
       text-decoration: none;
       font-size: 13px;
+      line-height: 1.7;
     }
 
-    .nav-link:hover {
-      color: white;
-    }
+    .nav-link:hover { color: white; }
 
     .security-note {
       margin: 18px 0 0;
-      color: #94a3b8;
+      color: var(--gray);
       text-align: center;
       font-size: 11px;
       line-height: 1.5;
     }
 
     @media (max-width: 360px) {
-      .auth-card {
-        padding: 22px 18px;
-      }
-
-      .password-wrap {
-        flex-wrap: wrap;
-      }
-
-      .toggle-password {
-        min-height: 40px;
-      }
+      .auth-card { padding: 22px 18px; }
+      .password-wrap { flex-wrap: wrap; }
+      .toggle-password { min-height: 40px; }
     }
   </style>
 </head>
 
 <body>
   <main class="auth-card">
-    <a class="logo" href="/" aria-label="ZAVO home">
+    <a class="logo" href="/zavo-stores.com/" aria-label="ZAVO home">
       ZAVO<span>.</span>
     </a>
 
     <h1>Account Access</h1>
-
-    <p class="intro">
-      Sign in to access your ZAVO marketplace account.
-    </p>
+    <p class="intro">Sign in to access your ZAVO marketplace account.</p>
 
     <form id="authForm" autocomplete="on">
       <div class="field">
         <label for="email">Email address</label>
-
         <input
           type="email"
           id="email"
@@ -252,7 +210,6 @@
 
       <div class="field">
         <label for="password">Password</label>
-
         <div class="password-wrap">
           <input
             type="password"
@@ -260,35 +217,31 @@
             name="password"
             placeholder="Enter your password"
             autocomplete="current-password"
-            minlength="8"
             maxlength="128"
             required
           >
-
           <button
             class="toggle-password"
             id="togglePassword"
             type="button"
             aria-controls="password"
             aria-pressed="false"
-          >
-            Show
-          </button>
+          >Show</button>
         </div>
       </div>
 
-      <button
-        type="submit"
-        class="btn-submit"
-        id="submitButton"
-      >
+      <button type="submit" class="btn-submit" id="submitButton">
         Sign In
       </button>
     </form>
 
     <div id="msg" role="status" aria-live="polite"></div>
 
-    <a href="/" class="nav-link">
+    <a href="/zavo-stores.com/register.html" class="nav-link">
+      New to ZAVO? Create an account
+    </a>
+
+    <a href="/zavo-stores.com/" class="nav-link">
       ← Return to the ZAVO storefront
     </a>
 
@@ -301,7 +254,10 @@
     (() => {
       "use strict";
 
-      const LOGIN_ENDPOINT = "/api/auth/login";
+      const API_BASE = "https://zavo-api.zavo-stores.workers.dev";
+      const LOGIN_ENDPOINT = `${API_BASE}/api/auth/login`;
+      const ME_ENDPOINT = `${API_BASE}/api/auth/me`;
+      const STOREFRONT_BASE = "/zavo-stores.com/";
 
       const form = document.getElementById("authForm");
       const emailInput = document.getElementById("email");
@@ -315,6 +271,49 @@
         msg.className = type;
       }
 
+      async function readJsonResponse(response, label) {
+        const raw = await response.text();
+
+        let data;
+
+        try {
+          data = JSON.parse(raw);
+        } catch {
+          throw new Error(
+            `${label} returned a non-JSON response (HTTP ${response.status}). ` +
+            "Check the API URL, Worker routes and Cloudflare logs."
+          );
+        }
+
+        if (!data || typeof data !== "object") {
+          throw new Error(`${label} returned an invalid response.`);
+        }
+
+        return data;
+      }
+
+      function safeDestination(value) {
+        if (typeof value !== "string") return STOREFRONT_BASE;
+
+        // Never redirect to an external or protocol-relative destination.
+        if (
+          value === "/" ||
+          value === STOREFRONT_BASE
+        ) {
+          return STOREFRONT_BASE;
+        }
+
+        if (
+          value.startsWith("/zavo-stores.com/") &&
+          !value.startsWith("//") &&
+          !value.includes("\\")
+        ) {
+          return value;
+        }
+
+        return STOREFRONT_BASE;
+      }
+
       togglePassword.addEventListener("click", () => {
         const reveal = passwordInput.type === "password";
 
@@ -323,88 +322,92 @@
         togglePassword.setAttribute("aria-pressed", String(reveal));
       });
 
-      form.addEventListener("submit", async (event) => {
+      form.addEventListener("submit", async event => {
         event.preventDefault();
 
-        if (!form.reportValidity()) {
-          return;
-        }
+        if (!form.reportValidity()) return;
 
         const email = emailInput.value.trim().toLowerCase();
         const password = passwordInput.value;
 
         if (!email || !password) {
-          showMessage(
-            "Enter your email address and password.",
-            "error"
-          );
+          showMessage("Enter your email address and password.", "error");
           return;
         }
 
         submitButton.disabled = true;
         submitButton.textContent = "Signing in…";
-
-        showMessage("Checking your account…", "info");
+        showMessage("Connecting securely to ZAVO…", "info");
 
         try {
-          const response = await fetch(LOGIN_ENDPOINT, {
-            method: "POST",
-            credentials: "same-origin",
-            headers: {
-              "Content-Type": "application/json",
-              "Accept": "application/json"
-            },
-            body: JSON.stringify({
-              email,
-              password
-            })
-          });
-
-          let data;
+          let response;
 
           try {
-            data = await response.json();
+            response = await fetch(LOGIN_ENDPOINT, {
+              method: "POST",
+              mode: "cors",
+              credentials: "include",
+              cache: "no-store",
+              headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+              },
+              body: JSON.stringify({ email, password })
+            });
+          } catch (networkError) {
+            throw new Error(
+              "Could not connect to the ZAVO login API. Check your internet " +
+              "connection and the Worker CORS settings."
+            );
+          }
+
+          const data = await readJsonResponse(response, "Login API");
+
+          if (!response.ok || data.success !== true) {
+            throw new Error(
+              typeof data.error === "string"
+                ? data.error
+                : `Sign-in failed (HTTP ${response.status}).`
+            );
+          }
+
+          showMessage("Checking your sign-in session…", "info");
+
+          let sessionResponse;
+
+          try {
+            sessionResponse = await fetch(ME_ENDPOINT, {
+              method: "GET",
+              mode: "cors",
+              credentials: "include",
+              cache: "no-store",
+              headers: { "Accept": "application/json" }
+            });
           } catch {
             throw new Error(
-              "The server returned an unreadable response. Please try again."
+              "Your login request succeeded, but the session check could not " +
+              "connect. Check Worker CORS settings and network access."
             );
           }
 
-          if (!response.ok || !data || data.success !== true) {
-            const serverMessage =
-              data && typeof data.error === "string"
-                ? data.error
-                : "";
-
-            throw new Error(
-              serverMessage ||
-              "Sign-in failed. Check your details and try again."
-            );
-          }
-
-          showMessage(
-            "Sign-in successful. Redirecting…",
-            "success"
+          const sessionData = await readJsonResponse(
+            sessionResponse,
+            "Session check"
           );
 
-          /*
-           * SECURITY REQUIREMENTS:
-           * The Worker must verify the password, create a secure
-           * server-side session, and authorize the user's role.
-           *
-           * redirectTo must be generated or restricted by the server.
-           * Never trust a client-side role or email check for admin access.
-           */
+          if (!sessionResponse.ok || sessionData.success !== true) {
+            throw new Error(
+              "The login API accepted the request, but the session was not " +
+              "retained. Your browser may be blocking cross-site cookies. " +
+              "A same-site custom domain setup may be needed."
+            );
+          }
 
-          const destination =
-            typeof data.redirectTo === "string" &&
-            data.redirectTo.startsWith("/") &&
-            !data.redirectTo.startsWith("//") &&
-            !data.redirectTo.includes("\\")
-              ? data.redirectTo
-              : "/";
+          showMessage("Sign-in successful. Redirecting…", "success");
 
-          window.location.assign(destination);
+          window.location.assign(
+            safeDestination(data.redirectTo)
+          );
 
         } catch (error) {
           console.error("ZAVO sign-in error:", error);
@@ -415,7 +418,6 @@
               : "Unable to sign in. Please try again.",
             "error"
           );
-
         } finally {
           submitButton.disabled = false;
           submitButton.textContent = "Sign In";
