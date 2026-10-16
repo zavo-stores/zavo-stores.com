@@ -7,15 +7,16 @@
   <meta name="theme-color" content="#0f4c81">
   <meta name="description" content="Shop products from ZAVO marketplace vendors and discover great deals in Kenya.">
   <title>ZAVO | Multi-Vendor Marketplace</title>
+
   <style>
     :root {
-      --zavo-blue: #0f4c81;
-      --zavo-yellow: #ffb703;
-      --zavo-dark: #1e293b;
-      --zavo-light: #f8fafc;
-      --zavo-gray: #64748b;
-      --zavo-border: #e2e8f0;
-      --zavo-radius: 12px;
+      --blue: #0f4c81;
+      --yellow: #ffb703;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --border: #e2e8f0;
+      --radius: 12px;
     }
 
     * { box-sizing: border-box; }
@@ -24,8 +25,8 @@
     body {
       margin: 0;
       padding: 0 0 calc(76px + env(safe-area-inset-bottom));
-      background: var(--zavo-light);
-      color: var(--zavo-dark);
+      background: var(--light);
+      color: var(--dark);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
         Roboto, Arial, sans-serif;
     }
@@ -38,8 +39,8 @@
       top: 0;
       z-index: 10;
       padding: 12px 16px;
-      color: #fff;
-      background: var(--zavo-blue);
+      color: white;
+      background: var(--blue);
       box-shadow: 0 2px 8px rgba(0,0,0,.15);
     }
 
@@ -47,30 +48,43 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
       margin-bottom: 10px;
     }
 
     .logo {
-      color: #fff;
+      color: white;
       text-decoration: none;
       font-size: 24px;
       font-weight: 900;
       letter-spacing: 1px;
     }
 
-    .logo span { color: var(--zavo-yellow); }
+    .logo span { color: var(--yellow); }
+
+    .auth-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
 
     .btn-auth {
       display: inline-block;
-      padding: 8px 14px;
+      padding: 9px 12px;
       border-radius: 20px;
-      background: var(--zavo-yellow);
-      color: var(--zavo-dark);
+      background: var(--yellow);
+      color: var(--dark);
       text-decoration: none;
-      font-size: 13px;
-      font-weight: 700;
+      font-size: 12px;
+      font-weight: 800;
       white-space: nowrap;
+    }
+
+    .btn-auth.secondary {
+      background: white;
+      color: var(--blue);
     }
 
     .search-container {
@@ -78,21 +92,21 @@
       align-items: center;
       padding: 4px 12px;
       border-radius: 25px;
-      background: #fff;
+      background: white;
     }
 
     .search-container input {
       width: 100%;
       min-width: 0;
       padding: 9px 4px;
-      color: var(--zavo-dark);
+      color: var(--dark);
       background: transparent;
       border: 0;
       outline: 0;
     }
 
     .search-container input:focus-visible {
-      outline: 2px solid var(--zavo-yellow);
+      outline: 2px solid var(--yellow);
       outline-offset: 2px;
     }
 
@@ -100,8 +114,8 @@
       margin-bottom: 18px;
       padding: 26px 16px;
       text-align: center;
-      color: #fff;
-      background: linear-gradient(135deg, var(--zavo-blue), #1e3a8a);
+      color: white;
+      background: linear-gradient(135deg, var(--blue), #1e3a8a);
     }
 
     .hero h1 {
@@ -114,6 +128,33 @@
       color: #e2e8f0;
       font-size: 14px;
       line-height: 1.5;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .hero-actions a {
+      display: inline-block;
+      padding: 10px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .hero-primary {
+      background: var(--yellow);
+      color: #111827;
+    }
+
+    .hero-secondary {
+      border: 1px solid white;
+      color: white;
     }
 
     main {
@@ -132,7 +173,7 @@
     }
 
     .cart-link {
-      color: var(--zavo-blue);
+      color: var(--blue);
       text-decoration: none;
       font-size: 14px;
       font-weight: 700;
@@ -147,8 +188,8 @@
       align-items: center;
       justify-content: center;
       border-radius: 999px;
-      color: var(--zavo-dark);
-      background: var(--zavo-yellow);
+      color: var(--dark);
+      background: var(--yellow);
       font-size: 11px;
     }
 
@@ -164,9 +205,9 @@
       flex-direction: column;
       justify-content: space-between;
       padding: 10px;
-      border: 1px solid var(--zavo-border);
-      border-radius: var(--zavo-radius);
-      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: white;
       box-shadow: 0 1px 3px rgba(0,0,0,.06);
     }
 
@@ -180,16 +221,15 @@
       justify-content: center;
       border-radius: 8px;
       background: #f1f5f9;
-      color: var(--zavo-gray);
+      color: var(--gray);
     }
 
     .product-image { object-fit: contain; }
-
     .product-image-placeholder { font-size: 12px; }
 
     .product-title {
-      margin-bottom: 6px;
-      color: var(--zavo-dark);
+      margin: 0 0 6px;
+      color: var(--dark);
       font-size: 14px;
       font-weight: 650;
       line-height: 1.35;
@@ -198,7 +238,7 @@
 
     .product-price {
       margin-bottom: 10px;
-      color: var(--zavo-blue);
+      color: var(--blue);
       font-size: 15px;
       font-weight: 800;
     }
@@ -208,14 +248,12 @@
       padding: 10px 8px;
       border: 0;
       border-radius: 7px;
-      color: #fff;
-      background: var(--zavo-blue);
+      color: white;
+      background: var(--blue);
       font-size: 13px;
       font-weight: 700;
       cursor: pointer;
     }
-
-    .btn-add-cart:hover { filter: brightness(1.08); }
 
     .btn-add-cart:disabled {
       opacity: .55;
@@ -223,7 +261,8 @@
     }
 
     .btn-add-cart:focus-visible,
-    a:focus-visible {
+    a:focus-visible,
+    button:focus-visible {
       outline: 3px solid #d97706;
       outline-offset: 2px;
     }
@@ -234,9 +273,10 @@
       grid-column: 1 / -1;
       padding: 36px 16px;
       text-align: center;
-      color: var(--zavo-gray);
+      color: var(--gray);
       font-size: 14px;
-      line-height: 1.5;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
     }
 
     .retry-button {
@@ -244,8 +284,8 @@
       padding: 9px 14px;
       border: 0;
       border-radius: 7px;
-      background: var(--zavo-blue);
-      color: #fff;
+      background: var(--blue);
+      color: white;
       font-weight: 700;
       cursor: pointer;
     }
@@ -260,22 +300,22 @@
       justify-content: space-around;
       gap: 4px;
       padding: 10px 4px calc(10px + env(safe-area-inset-bottom));
-      border-top: 1px solid var(--zavo-border);
-      background: #fff;
+      border-top: 1px solid var(--border);
+      background: white;
       box-shadow: 0 -2px 10px rgba(0,0,0,.05);
     }
 
     .nav-item {
       flex: 1;
       text-align: center;
-      color: var(--zavo-gray);
+      color: var(--gray);
       text-decoration: none;
       font-size: 11px;
       font-weight: 650;
       padding: 4px 2px;
     }
 
-    .nav-item.active { color: var(--zavo-blue); }
+    .nav-item.active { color: var(--blue); }
 
     .sr-only {
       position: absolute;
@@ -288,6 +328,18 @@
       white-space: nowrap;
       border: 0;
     }
+
+    .site-footer {
+      max-width: 1200px;
+      margin: 24px auto 0;
+      padding: 16px;
+      color: var(--gray);
+      text-align: center;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .site-footer a { color: var(--blue); }
 
     @media (min-width: 620px) {
       .product-grid {
@@ -302,9 +354,7 @@
     }
 
     @media (min-width: 900px) {
-      .product-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-      }
+      .product-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
       .site-header {
         padding-right: max(16px, calc((100vw - 1168px) / 2));
@@ -317,8 +367,18 @@
 <body>
   <header class="site-header">
     <div class="header-top">
-      <a href="/" class="logo" aria-label="ZAVO home">ZAVO<span>.</span></a>
-      <a href="/login.html" class="btn-auth">Sign In</a>
+      <a href="/zavo-stores.com/" class="logo" aria-label="ZAVO home">
+        ZAVO<span>.</span>
+      </a>
+
+      <div class="auth-links">
+        <a href="/zavo-stores.com/login.html" class="btn-auth secondary">
+          Sign In
+        </a>
+        <a href="/zavo-stores.com/register.html" class="btn-auth">
+          Create Account
+        </a>
+      </div>
     </div>
 
     <form class="search-container" id="searchForm" role="search">
@@ -335,12 +395,20 @@
   <section class="hero" aria-labelledby="heroTitle">
     <h1 id="heroTitle">Discover Top Deals &amp; Reseller Hub</h1>
     <p>Discover products from suppliers and grow with the ZAVO network.</p>
+    <div class="hero-actions">
+      <a class="hero-primary" href="/zavo-stores.com/register.html">
+        Join ZAVO
+      </a>
+      <a class="hero-secondary" href="/zavo-stores.com/reseller.html">
+        Explore Reselling
+      </a>
+    </div>
   </section>
 
   <main>
     <div class="section-title">
       <h2 style="margin:0;font-size:inherit;">Featured Products</h2>
-      <a class="cart-link" href="/cart.html">
+      <a class="cart-link" href="/zavo-stores.com/cart.html">
         Cart <span id="cartCount" class="cart-count"
           aria-label="Items in cart">0</span>
       </a>
@@ -351,18 +419,28 @@
     </div>
   </main>
 
+  <footer class="site-footer">
+    <p>
+      ZAVO Marketplace · Kenya
+      <br>
+      Need help? <a href="mailto:zavo.org@proton.me">Contact ZAVO support</a>
+    </p>
+  </footer>
+
   <nav class="mobile-nav" aria-label="Main navigation">
-    <a href="/" class="nav-item active" aria-current="page">Shop</a>
-    <a href="/vendor.html" class="nav-item">Vendors</a>
-    <a href="/reseller.html" class="nav-item">Resellers</a>
-    <a href="/cart.html" class="nav-item">Cart</a>
+    <a href="/zavo-stores.com/" class="nav-item active" aria-current="page">Shop</a>
+    <a href="/zavo-stores.com/vendor.html" class="nav-item">Vendors</a>
+    <a href="/zavo-stores.com/reseller.html" class="nav-item">Resellers</a>
+    <a href="/zavo-stores.com/cart.html" class="nav-item">Cart</a>
   </nav>
 
   <script>
     (() => {
       "use strict";
 
-      const API_URL = "https://deals.zavo-stores.workers.dev/api/products";
+      // Confirmed ZAVO Cloudflare Worker.
+      const API_BASE = "https://zavo-api.zavo-stores.workers.dev";
+      const PRODUCTS_ENDPOINT = `${API_BASE}/api/products`;
       const CART_KEY = "zavo_cart";
 
       const grid = document.getElementById("productGrid");
@@ -379,9 +457,7 @@
       function formatPrice(value) {
         const amount = typeof value === "number" ? value : Number(value);
 
-        if (!Number.isFinite(amount) || amount < 0) {
-          return null;
-        }
+        if (!Number.isFinite(amount) || amount < 0) return null;
 
         return amount.toLocaleString("en-KE", {
           maximumFractionDigits: 2
@@ -390,9 +466,7 @@
 
       function getCart() {
         try {
-          const parsed = JSON.parse(
-            localStorage.getItem(CART_KEY) || "[]"
-          );
+          const parsed = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
 
           if (!Array.isArray(parsed)) return [];
 
@@ -400,31 +474,11 @@
             .filter(item => item && item.id != null)
             .map(item => ({
               ...item,
-              quantity: Math.max(
-                1,
-                Math.floor(Number(item.quantity) || 1)
-              )
+              quantity: Math.max(1, Math.floor(Number(item.quantity) || 1))
             }));
         } catch (error) {
           console.warn("Could not read the saved cart:", error);
           return [];
-        }
-      }
-
-      function saveCart(cart) {
-        try {
-          localStorage.setItem(CART_KEY, JSON.stringify(cart));
-          updateCartCount();
-          return true;
-        } catch (error) {
-          console.error("Could not save the cart:", error);
-
-          alert(
-            "Your browser could not save the cart. Check available " +
-            "device storage or browser settings and try again."
-          );
-
-          return false;
         }
       }
 
@@ -437,31 +491,56 @@
         cartCount.textContent = String(count);
       }
 
+      function saveCart(cart) {
+        try {
+          localStorage.setItem(CART_KEY, JSON.stringify(cart));
+          updateCartCount();
+          return true;
+        } catch (error) {
+          console.error("Could not save the cart:", error);
+          alert("Your browser could not save the cart. Check your browser storage settings.");
+          return false;
+        }
+      }
+
+      function getImageUrl(product) {
+        const candidate = asText(
+          product.image_url || product.image || product.imageUrl
+        ).trim();
+
+        if (!candidate) return "";
+
+        try {
+          const url = new URL(candidate, window.location.href);
+
+          if (url.protocol !== "https:" && url.protocol !== "http:") {
+            return "";
+          }
+
+          return url.href;
+        } catch {
+          return "";
+        }
+      }
+
       function addToCart(productId) {
         const product = allProducts.find(
           item => String(item.id) === String(productId)
         );
 
         if (!product) {
-          alert(
-            "This product could not be found. Please refresh the page " +
-            "and try again."
-          );
+          alert("Product not found. Refresh the page and try again.");
           return;
         }
 
-        const price = formatPrice(product.price);
+        const formattedPrice = formatPrice(product.price);
 
-        if (price === null) {
-          alert(
-            "This product currently has an invalid price and cannot " +
-            "be added to the cart."
-          );
+        if (formattedPrice === null) {
+          alert("This product has an invalid price and cannot be added.");
           return;
         }
 
         const cart = getCart();
-
         const existing = cart.find(
           item => String(item.id) === String(product.id)
         );
@@ -479,41 +558,30 @@
         }
 
         if (saveCart(cart)) {
-          alert(
-            asText(product.title || "Product") +
-            " added to your cart."
-          );
+          alert(asText(product.title || "Product") + " added to your cart.");
         }
       }
 
-      function getImageUrl(product) {
-        const candidate = asText(
-          product.image_url || product.image || product.imageUrl
-        ).trim();
+      function showMessage(message, className = "empty-state", retry = false) {
+        grid.replaceChildren();
 
-        if (!candidate) return "";
+        const box = document.createElement("div");
+        box.className = className;
+        box.appendChild(document.createTextNode(message));
 
-        try {
-          const url = new URL(candidate, window.location.href);
+        if (retry) {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "retry-button";
+          button.textContent = "Try again";
+          button.addEventListener("click", loadProducts);
 
-          if (
-            url.protocol !== "https:" &&
-            url.protocol !== "http:"
-          ) {
-            return "";
-          }
-
-          return url.href;
-        } catch {
-          return "";
+          box.appendChild(document.createElement("br"));
+          box.appendChild(button);
         }
-      }
 
-      function addPlaceholder(parent) {
-        const placeholder = document.createElement("div");
-        placeholder.className = "product-image-placeholder";
-        placeholder.textContent = "ZAVO Item";
-        parent.appendChild(placeholder);
+        grid.appendChild(box);
+        grid.setAttribute("aria-busy", "false");
       }
 
       function createProductCard(product) {
@@ -541,19 +609,19 @@
 
           content.appendChild(image);
         } else {
-          addPlaceholder(content);
+          const placeholder = document.createElement("div");
+          placeholder.className = "product-image-placeholder";
+          placeholder.textContent = "ZAVO Item";
+          content.appendChild(placeholder);
         }
 
         const title = document.createElement("h3");
         title.className = "product-title";
-        title.textContent = asText(
-          product.title || "Untitled product"
-        );
+        title.textContent = asText(product.title || "Untitled product");
         content.appendChild(title);
 
         const price = document.createElement("p");
         price.className = "product-price";
-
         const formattedPrice = formatPrice(product.price);
 
         price.textContent = formattedPrice === null
@@ -568,38 +636,10 @@
         button.textContent = "Add to Cart";
         button.disabled = formattedPrice === null || product.id == null;
 
-        button.addEventListener("click", () => {
-          addToCart(product.id);
-        });
+        button.addEventListener("click", () => addToCart(product.id));
 
         card.append(content, button);
         return card;
-      }
-
-      function showMessage(
-        message,
-        className = "empty-state",
-        retry = false
-      ) {
-        grid.replaceChildren();
-
-        const box = document.createElement("div");
-        box.className = className;
-        box.appendChild(document.createTextNode(message));
-
-        if (retry) {
-          const button = document.createElement("button");
-          button.type = "button";
-          button.className = "retry-button";
-          button.textContent = "Try again";
-          button.addEventListener("click", loadProducts);
-
-          box.appendChild(document.createElement("br"));
-          box.appendChild(button);
-        }
-
-        grid.appendChild(box);
-        grid.setAttribute("aria-busy", "false");
       }
 
       function renderProducts(products) {
@@ -609,7 +649,7 @@
           showMessage(
             searchInput.value.trim()
               ? "No products match your search. Try another keyword."
-              : "No products are available at the moment. Please check back soon."
+              : "No products are available yet. Please check back soon."
           );
           return;
         }
@@ -656,32 +696,39 @@
         grid.appendChild(loading);
 
         try {
-          const response = await fetch(API_URL, {
+          const response = await fetch(PRODUCTS_ENDPOINT, {
             method: "GET",
             headers: { "Accept": "application/json" },
             cache: "no-store"
           });
 
-          if (!response.ok) {
+          const raw = await response.text();
+          let data;
+
+          try {
+            data = JSON.parse(raw);
+          } catch {
             throw new Error(
-              "Product API returned HTTP " + response.status
+              `Products API returned non-JSON data (HTTP ${response.status}).`
             );
           }
 
-          const data = await response.json();
+          if (!response.ok || !data || data.success !== true) {
+            throw new Error(
+              typeof data?.error === "string"
+                ? data.error
+                : `Products request failed (HTTP ${response.status}).`
+            );
+          }
 
-          if (
-            !data ||
-            data.success !== true ||
-            !Array.isArray(data.products)
-          ) {
-            throw new Error("Unexpected product API response format");
+          if (!Array.isArray(data.products)) {
+            throw new Error(
+              "The products endpoint did not return a products array. Check the Worker response format."
+            );
           }
 
           allProducts = data.products.filter(product =>
-            product &&
-            product.id != null &&
-            product.title != null
+            product && product.id != null && product.title != null
           );
 
           filterProducts();
@@ -689,8 +736,9 @@
           console.error("Failed to load ZAVO products:", error);
 
           showMessage(
-            "We couldn't load the product catalog. Please check your " +
-            "connection and try again.",
+            error instanceof Error
+              ? error.message
+              : "Unable to load products. Please try again.",
             "error-state",
             true
           );
@@ -699,6 +747,7 @@
 
       searchForm.addEventListener("submit", event => {
         event.preventDefault();
+        filterProducts();
       });
 
       searchInput.addEventListener("input", filterProducts);
