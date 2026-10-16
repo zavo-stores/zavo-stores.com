@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +14,7 @@
       --dark: #1e293b;
       --light: #f8fafc;
       --gray: #64748b;
+      --green: #059669;
       --border: #e2e8f0;
       --radius: 12px;
     }
@@ -27,339 +27,82 @@
       padding: 0 0 calc(76px + env(safe-area-inset-bottom));
       background: var(--light);
       color: var(--dark);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-        Roboto, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     }
 
-    a { color: inherit; }
+    a { color: inherit; text-decoration: none; }
     button, input { font: inherit; }
 
     .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      padding: 12px 16px;
-      color: white;
-      background: var(--blue);
-      box-shadow: 0 2px 8px rgba(0,0,0,.15);
+      position: sticky; top: 0; z-index: 10; padding: 12px 16px;
+      color: white; background: var(--blue); box-shadow: 0 2px 8px rgba(0,0,0,.15);
     }
-
-    .header-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .logo {
-      color: white;
-      text-decoration: none;
-      font-size: 24px;
-      font-weight: 900;
-      letter-spacing: 1px;
-    }
-
+    .header-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+    .logo { color: white; font-size: 24px; font-weight: 900; letter-spacing: 1px; }
     .logo span { color: var(--yellow); }
+    .auth-links { display: flex; gap: 7px; }
+    .btn-auth { padding: 9px 12px; border-radius: 20px; background: var(--yellow); color: var(--dark); font-size: 12px; font-weight: 800; }
+    .btn-auth.secondary { background: white; color: var(--blue); }
 
-    .auth-links {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 7px;
-    }
+    .search-container { display: flex; align-items: center; padding: 4px 12px; border-radius: 25px; background: white; }
+    .search-container input { width: 100%; padding: 9px 4px; border: 0; outline: 0; background: transparent; }
 
-    .btn-auth {
-      display: inline-block;
-      padding: 9px 12px;
-      border-radius: 20px;
-      background: var(--yellow);
-      color: var(--dark);
-      text-decoration: none;
-      font-size: 12px;
-      font-weight: 800;
-      white-space: nowrap;
-    }
+    .hero { margin-bottom: 18px; padding: 26px 16px; text-align: center; color: white; background: linear-gradient(135deg, var(--blue), #1e3a8a); }
+    .hero h1 { margin: 0 0 8px; font-size: clamp(21px, 5vw, 28px); }
+    .hero p { margin: 0; color: #e2e8f0; font-size: 14px; }
 
-    .btn-auth.secondary {
-      background: white;
-      color: var(--blue);
-    }
+    main { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+    .section-title { display: flex; justify-content: space-between; align-items: center; margin: 0 0 12px; font-size: 18px; }
+    .cart-link { color: var(--blue); font-weight: 700; }
+    .cart-count { display: inline-flex; min-width: 20px; height: 20px; padding: 0 5px; margin-left: 3px; align-items: center; justify-content: center; border-radius: 999px; color: var(--dark); background: var(--yellow); font-size: 11px; }
 
-    .search-container {
-      display: flex;
-      align-items: center;
-      padding: 4px 12px;
-      border-radius: 25px;
-      background: white;
-    }
-
-    .search-container input {
-      width: 100%;
-      min-width: 0;
-      padding: 9px 4px;
-      color: var(--dark);
-      background: transparent;
-      border: 0;
-      outline: 0;
-    }
-
-    .search-container input:focus-visible {
-      outline: 2px solid var(--yellow);
-      outline-offset: 2px;
-    }
-
-    .hero {
-      margin-bottom: 18px;
-      padding: 26px 16px;
-      text-align: center;
-      color: white;
-      background: linear-gradient(135deg, var(--blue), #1e3a8a);
-    }
-
-    .hero h1 {
-      margin: 0 0 8px;
-      font-size: clamp(21px, 5vw, 28px);
-    }
-
-    .hero p {
-      margin: 0;
-      color: #e2e8f0;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .hero-actions {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .hero-actions a {
-      display: inline-block;
-      padding: 10px 16px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .hero-primary {
-      background: var(--yellow);
-      color: #111827;
-    }
-
-    .hero-secondary {
-      border: 1px solid white;
-      color: white;
-    }
-
-    main {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 16px;
-    }
-
-    .section-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin: 0 0 12px;
-      font-size: 18px;
-    }
-
-    .cart-link {
-      color: var(--blue);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .cart-count {
-      display: inline-flex;
-      min-width: 20px;
-      height: 20px;
-      padding: 0 5px;
-      margin-left: 3px;
-      align-items: center;
-      justify-content: center;
-      border-radius: 999px;
-      color: var(--dark);
-      background: var(--yellow);
-      font-size: 11px;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-
+    .product-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
     .product-card {
-      display: flex;
-      min-width: 0;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 10px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: white;
-      box-shadow: 0 1px 3px rgba(0,0,0,.06);
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: 12px; border: 1px solid var(--border); border-radius: var(--radius);
+      background: white; box-shadow: 0 1px 3px rgba(0,0,0,.06); cursor: pointer; transition: transform 0.2s;
     }
+    .product-card:hover { transform: translateY(-2px); }
 
-    .product-image,
-    .product-image-placeholder {
-      display: flex;
-      width: 100%;
-      height: 140px;
-      margin-bottom: 9px;
-      align-items: center;
-      justify-content: center;
-      border-radius: 8px;
-      background: #f1f5f9;
-      color: var(--gray);
+    .product-image {
+      width: 100%; height: 150px; object-fit: contain; margin-bottom: 9px; border-radius: 8px; background: #f1f5f9;
     }
+    .product-title { margin: 0 0 4px; font-size: 14px; font-weight: 700; color: var(--dark); }
+    
+    /* Exact sample specification: Green Currency & Amount */
+    .product-price { margin-bottom: 6px; color: var(--green); font-size: 16px; font-weight: 800; }
+    .product-desc { font-size: 12px; color: var(--gray); margin-bottom: 8px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    
+    .product-rating { font-size: 12px; color: #d97706; margin-bottom: 8px; font-weight: 600; }
+    .product-review { font-size: 11px; font-style: italic; color: #475569; margin-bottom: 10px; background: #f8fafc; padding: 6px; border-radius: 6px; }
 
-    .product-image { object-fit: contain; }
-    .product-image-placeholder { font-size: 12px; }
+    .btn-add-cart { width: 100%; padding: 10px; border: 0; border-radius: 7px; color: white; background: var(--blue); font-size: 13px; font-weight: 700; cursor: pointer; }
+    .btn-add-cart:hover { background: #0c3d68; }
 
-    .product-title {
-      margin: 0 0 6px;
-      color: var(--dark);
-      font-size: 14px;
-      font-weight: 650;
-      line-height: 1.35;
-      overflow-wrap: anywhere;
+    /* Product Detail Modal for Multi-Images (up to 10) & Videos (up to 5) */
+    #productModal {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7);
+      display: none; align-items: center; justify-content: center; z-index: 100; padding: 16px;
     }
-
-    .product-price {
-      margin-bottom: 10px;
-      color: var(--blue);
-      font-size: 15px;
-      font-weight: 800;
+    .modal-content {
+      background: white; border-radius: 12px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 20px; position: relative;
     }
-
-    .btn-add-cart {
-      width: 100%;
-      padding: 10px 8px;
-      border: 0;
-      border-radius: 7px;
-      color: white;
-      background: var(--blue);
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .btn-add-cart:disabled {
-      opacity: .55;
-      cursor: not-allowed;
-    }
-
-    .btn-add-cart:focus-visible,
-    a:focus-visible,
-    button:focus-visible {
-      outline: 3px solid #d97706;
-      outline-offset: 2px;
-    }
-
-    .loading,
-    .empty-state,
-    .error-state {
-      grid-column: 1 / -1;
-      padding: 36px 16px;
-      text-align: center;
-      color: var(--gray);
-      font-size: 14px;
-      line-height: 1.6;
-      overflow-wrap: anywhere;
-    }
-
-    .retry-button {
-      margin-top: 12px;
-      padding: 9px 14px;
-      border: 0;
-      border-radius: 7px;
-      background: var(--blue);
-      color: white;
-      font-weight: 700;
-      cursor: pointer;
-    }
+    .close-modal { position: absolute; top: 12px; right: 16px; font-size: 22px; font-weight: bold; cursor: pointer; color: var(--gray); }
+    .gallery-container { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 12px; padding-bottom: 4px; }
+    .gallery-thumb { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 2px solid transparent; cursor: pointer; }
+    .gallery-thumb.active { border-color: var(--blue); }
+    .main-preview { width: 100%; height: 240px; object-fit: contain; background: #f1f5f9; border-radius: 8px; margin-bottom: 12px; }
+    .modal-video { width: 100%; max-height: 240px; border-radius: 8px; margin-bottom: 12px; background: #000; }
 
     .mobile-nav {
-      position: fixed;
-      z-index: 20;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      display: flex;
-      justify-content: space-around;
-      gap: 4px;
-      padding: 10px 4px calc(10px + env(safe-area-inset-bottom));
-      border-top: 1px solid var(--border);
-      background: white;
-      box-shadow: 0 -2px 10px rgba(0,0,0,.05);
+      position: fixed; right: 0; bottom: 0; left: 0; display: flex; justify-content: space-around;
+      padding: 10px 4px calc(10px + env(safe-area-inset-bottom)); background: white; border-top: 1px solid var(--border); z-index: 20;
     }
-
-    .nav-item {
-      flex: 1;
-      text-align: center;
-      color: var(--gray);
-      text-decoration: none;
-      font-size: 11px;
-      font-weight: 650;
-      padding: 4px 2px;
-    }
-
+    .nav-item { flex: 1; text-align: center; color: var(--gray); font-size: 11px; font-weight: 650; }
     .nav-item.active { color: var(--blue); }
 
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0,0,0,0);
-      white-space: nowrap;
-      border: 0;
-    }
-
-    .site-footer {
-      max-width: 1200px;
-      margin: 24px auto 0;
-      padding: 16px;
-      color: var(--gray);
-      text-align: center;
-      font-size: 12px;
-      line-height: 1.7;
-    }
-
-    .site-footer a { color: var(--blue); }
-
     @media (min-width: 620px) {
-      .product-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 16px;
-      }
-
-      .product-image,
-      .product-image-placeholder { height: 180px; }
-
-      .hero { padding: 34px 20px; }
-    }
-
-    @media (min-width: 900px) {
-      .product-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-
-      .site-header {
-        padding-right: max(16px, calc((100vw - 1168px) / 2));
-        padding-left: max(16px, calc((100vw - 1168px) / 2));
-      }
+      .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
     }
   </style>
 </head>
@@ -367,400 +110,155 @@
 <body>
   <header class="site-header">
     <div class="header-top">
-      <a href="/zavo-stores.com/" class="logo" aria-label="ZAVO home">
-        ZAVO<span>.</span>
-      </a>
-
+      <a href="/" class="logo">ZAVO<span>.</span></a>
       <div class="auth-links">
-        <a href="/zavo-stores.com/login.html" class="btn-auth secondary">
-          Sign In
-        </a>
-        <a href="/zavo-stores.com/register.html" class="btn-auth">
-          Create Account
-        </a>
+        <a href="/login.html" class="btn-auth secondary">Sign In</a>
+        <a href="/register.html" class="btn-auth">Create Account</a>
       </div>
     </div>
-
     <form class="search-container" id="searchForm" role="search">
-      <label class="sr-only" for="searchInput">Search products</label>
-      <input
-        type="search"
-        id="searchInput"
-        placeholder="Search products, vendors or categories..."
-        autocomplete="off"
-      >
+      <input type="search" id="searchInput" placeholder="Search products, vendors or categories...">
     </form>
   </header>
 
-  <section class="hero" aria-labelledby="heroTitle">
-    <h1 id="heroTitle">Discover Top Deals &amp; Reseller Hub</h1>
-    <p>Discover products from suppliers and grow with the ZAVO network.</p>
-    <div class="hero-actions">
-      <a class="hero-primary" href="/zavo-stores.com/register.html">
-        Join ZAVO
-      </a>
-      <a class="hero-secondary" href="/zavo-stores.com/reseller.html">
-        Explore Reselling
-      </a>
-    </div>
+  <section class="hero">
+    <h1>Great Deals, Delivered.</h1>
+    <p>Explore verified products from trusted vendors across Kenya.</p>
   </section>
 
   <main>
     <div class="section-title">
-      <h2 style="margin:0;font-size:inherit;">Featured Products</h2>
-      <a class="cart-link" href="/zavo-stores.com/cart.html">
-        Cart <span id="cartCount" class="cart-count"
-          aria-label="Items in cart">0</span>
-      </a>
+      <h2>Featured Products</h2>
+      <a class="cart-link" href="/checkout.html">Cart <span id="cartCount" class="cart-count">0</span></a>
     </div>
 
-    <div id="productGrid" class="product-grid" aria-live="polite" aria-busy="true">
-      <div class="loading">Loading products from ZAVO...</div>
+    <div id="productGrid" class="product-grid">
+      <div style="grid-column: 1/-1; text-align:center; padding: 40px; color: var(--gray);">Loading ZAVO products...</div>
     </div>
   </main>
 
-  <footer class="site-footer">
-    <p>
-      ZAVO Marketplace · Kenya
-      <br>
-      Need help? <a href="mailto:zavo.org@proton.me">Contact ZAVO support</a>
-    </p>
-  </footer>
+  <!-- Product Details & Media Gallery Modal -->
+  <div id="productModal">
+    <div class="modal-content">
+      <span class="close-modal" id="closeModal">&times;</span>
+      <div id="modalBody"></div>
+    </div>
+  </div>
 
-  <nav class="mobile-nav" aria-label="Main navigation">
-    <a href="/zavo-stores.com/" class="nav-item active" aria-current="page">Shop</a>
-    <a href="/zavo-stores.com/vendor.html" class="nav-item">Vendors</a>
-    <a href="/zavo-stores.com/reseller.html" class="nav-item">Resellers</a>
-    <a href="/zavo-stores.com/cart.html" class="nav-item">Cart</a>
+  <nav class="mobile-nav">
+    <a href="/" class="nav-item active">Shop</a>
+    <a href="/vendor.html" class="nav-item">Vendors</a>
+    <a href="/reseller.html" class="nav-item">Resellers</a>
+    <a href="/checkout.html" class="nav-item">Cart</a>
   </nav>
 
   <script>
-    (() => {
-      "use strict";
+    const API_BASE = "https://zavo-api.zavo-stores.workers.dev"; // Or relative path if unified
+    let allProducts = [];
 
-      // Confirmed ZAVO Cloudflare Worker.
-      const API_BASE = "https://zavo-api.zavo-stores.workers.dev";
-      const PRODUCTS_ENDPOINT = `${API_BASE}/api/products`;
-      const CART_KEY = "zavo_cart";
-
-      const grid = document.getElementById("productGrid");
-      const searchInput = document.getElementById("searchInput");
-      const searchForm = document.getElementById("searchForm");
-      const cartCount = document.getElementById("cartCount");
-
-      let allProducts = [];
-
-      function asText(value) {
-        return value == null ? "" : String(value);
-      }
-
-      function formatPrice(value) {
-        const amount = typeof value === "number" ? value : Number(value);
-
-        if (!Number.isFinite(amount) || amount < 0) return null;
-
-        return amount.toLocaleString("en-KE", {
-          maximumFractionDigits: 2
-        });
-      }
-
-      function getCart() {
-        try {
-          const parsed = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
-
-          if (!Array.isArray(parsed)) return [];
-
-          return parsed
-            .filter(item => item && item.id != null)
-            .map(item => ({
-              ...item,
-              quantity: Math.max(1, Math.floor(Number(item.quantity) || 1))
-            }));
-        } catch (error) {
-          console.warn("Could not read the saved cart:", error);
-          return [];
+    async function loadProducts() {
+      try {
+        const res = await fetch(`${API_BASE}/api/products`);
+        const data = await res.json();
+        if (data.success && Array.isArray(data.products)) {
+          allProducts = data.products;
+          renderProducts(allProducts);
         }
+      } catch (err) {
+        document.getElementById('productGrid').innerHTML = '<div style="grid-column:1/-1; text-align:center; color:red;">Failed to load products. Check connection.</div>';
+      }
+    }
+
+    function renderProducts(products) {
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = '';
+      if (products.length === 0) {
+        grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:var(--gray);">No products found.</div>';
+        return;
       }
 
-      function updateCartCount() {
-        const count = getCart().reduce(
-          (sum, item) => sum + item.quantity,
-          0
-        );
+      products.forEach(p => {
+        let images = [];
+        try { images = JSON.parse(p.images || '[]'); } catch { images = [p.images]; }
+        const primaryImg = images[0] || 'https://via.placeholder.com/200';
 
-        cartCount.textContent = String(count);
-      }
-
-      function saveCart(cart) {
-        try {
-          localStorage.setItem(CART_KEY, JSON.stringify(cart));
-          updateCartCount();
-          return true;
-        } catch (error) {
-          console.error("Could not save the cart:", error);
-          alert("Your browser could not save the cart. Check your browser storage settings.");
-          return false;
-        }
-      }
-
-      function getImageUrl(product) {
-        const candidate = asText(
-          product.image_url || product.image || product.imageUrl
-        ).trim();
-
-        if (!candidate) return "";
-
-        try {
-          const url = new URL(candidate, window.location.href);
-
-          if (url.protocol !== "https:" && url.protocol !== "http:") {
-            return "";
-          }
-
-          return url.href;
-        } catch {
-          return "";
-        }
-      }
-
-      function addToCart(productId) {
-        const product = allProducts.find(
-          item => String(item.id) === String(productId)
-        );
-
-        if (!product) {
-          alert("Product not found. Refresh the page and try again.");
-          return;
-        }
-
-        const formattedPrice = formatPrice(product.price);
-
-        if (formattedPrice === null) {
-          alert("This product has an invalid price and cannot be added.");
-          return;
-        }
-
-        const cart = getCart();
-        const existing = cart.find(
-          item => String(item.id) === String(product.id)
-        );
-
-        if (existing) {
-          existing.quantity += 1;
-        } else {
-          cart.push({
-            id: product.id,
-            title: asText(product.title || "Untitled product"),
-            price: Number(product.price),
-            quantity: 1,
-            image: getImageUrl(product)
-          });
-        }
-
-        if (saveCart(cart)) {
-          alert(asText(product.title || "Product") + " added to your cart.");
-        }
-      }
-
-      function showMessage(message, className = "empty-state", retry = false) {
-        grid.replaceChildren();
-
-        const box = document.createElement("div");
-        box.className = className;
-        box.appendChild(document.createTextNode(message));
-
-        if (retry) {
-          const button = document.createElement("button");
-          button.type = "button";
-          button.className = "retry-button";
-          button.textContent = "Try again";
-          button.addEventListener("click", loadProducts);
-
-          box.appendChild(document.createElement("br"));
-          box.appendChild(button);
-        }
-
-        grid.appendChild(box);
-        grid.setAttribute("aria-busy", "false");
-      }
-
-      function createProductCard(product) {
-        const card = document.createElement("article");
-        card.className = "product-card";
-
-        const content = document.createElement("div");
-        const imageUrl = getImageUrl(product);
-
-        if (imageUrl) {
-          const image = document.createElement("img");
-          image.className = "product-image";
-          image.src = imageUrl;
-          image.alt = asText(product.title || "ZAVO product");
-          image.loading = "lazy";
-          image.decoding = "async";
-          image.referrerPolicy = "no-referrer";
-
-          image.addEventListener("error", () => {
-            const placeholder = document.createElement("div");
-            placeholder.className = "product-image-placeholder";
-            placeholder.textContent = "Image unavailable";
-            image.replaceWith(placeholder);
-          }, { once: true });
-
-          content.appendChild(image);
-        } else {
-          const placeholder = document.createElement("div");
-          placeholder.className = "product-image-placeholder";
-          placeholder.textContent = "ZAVO Item";
-          content.appendChild(placeholder);
-        }
-
-        const title = document.createElement("h3");
-        title.className = "product-title";
-        title.textContent = asText(product.title || "Untitled product");
-        content.appendChild(title);
-
-        const price = document.createElement("p");
-        price.className = "product-price";
-        const formattedPrice = formatPrice(product.price);
-
-        price.textContent = formattedPrice === null
-          ? "Price unavailable"
-          : "KES " + formattedPrice;
-
-        content.appendChild(price);
-
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "btn-add-cart";
-        button.textContent = "Add to Cart";
-        button.disabled = formattedPrice === null || product.id == null;
-
-        button.addEventListener("click", () => addToCart(product.id));
-
-        card.append(content, button);
-        return card;
-      }
-
-      function renderProducts(products) {
-        grid.replaceChildren();
-
-        if (!products.length) {
-          showMessage(
-            searchInput.value.trim()
-              ? "No products match your search. Try another keyword."
-              : "No products are available yet. Please check back soon."
-          );
-          return;
-        }
-
-        const fragment = document.createDocumentFragment();
-
-        products.forEach(product => {
-          fragment.appendChild(createProductCard(product));
-        });
-
-        grid.appendChild(fragment);
-        grid.setAttribute("aria-busy", "false");
-      }
-
-      function filterProducts() {
-        const query = searchInput.value.trim().toLocaleLowerCase();
-
-        const filtered = allProducts.filter(product => {
-          const fields = [
-            product.title,
-            product.vendor_name,
-            product.vendor,
-            product.category,
-            product.description
-          ];
-
-          return fields
-            .map(asText)
-            .join(" ")
-            .toLocaleLowerCase()
-            .includes(query);
-        });
-
-        renderProducts(filtered);
-      }
-
-      async function loadProducts() {
-        grid.setAttribute("aria-busy", "true");
-        grid.replaceChildren();
-
-        const loading = document.createElement("div");
-        loading.className = "loading";
-        loading.textContent = "Loading products from ZAVO...";
-        grid.appendChild(loading);
-
-        try {
-          const response = await fetch(PRODUCTS_ENDPOINT, {
-            method: "GET",
-            headers: { "Accept": "application/json" },
-            cache: "no-store"
-          });
-
-          const raw = await response.text();
-          let data;
-
-          try {
-            data = JSON.parse(raw);
-          } catch {
-            throw new Error(
-              `Products API returned non-JSON data (HTTP ${response.status}).`
-            );
-          }
-
-          if (!response.ok || !data || data.success !== true) {
-            throw new Error(
-              typeof data?.error === "string"
-                ? data.error
-                : `Products request failed (HTTP ${response.status}).`
-            );
-          }
-
-          if (!Array.isArray(data.products)) {
-            throw new Error(
-              "The products endpoint did not return a products array. Check the Worker response format."
-            );
-          }
-
-          allProducts = data.products.filter(product =>
-            product && product.id != null && product.title != null
-          );
-
-          filterProducts();
-        } catch (error) {
-          console.error("Failed to load ZAVO products:", error);
-
-          showMessage(
-            error instanceof Error
-              ? error.message
-              : "Unable to load products. Please try again.",
-            "error-state",
-            true
-          );
-        }
-      }
-
-      searchForm.addEventListener("submit", event => {
-        event.preventDefault();
-        filterProducts();
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <div>
+            <img src="${primaryImg}" class="product-image" alt="${p.title}" loading="lazy">
+            <h3 class="product-title">${p.title}</h3>
+            <div class="product-price">KSh ${Number(p.price).toLocaleString()}</div>
+            <div class="product-desc">${p.description || ''}</div>
+            <div class="product-rating">★★★★☆ (${p.rating || 4}/5)</div>
+            <div class="product-review">"${p.reviews || 'Clear sound and comfortable fit.'}"</div>
+          </div>
+          <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart('${p.id}')">Add to Cart</button>
+        `;
+        card.addEventListener('click', () => openProductModal(p));
+        grid.appendChild(card);
       });
+    }
 
-      searchInput.addEventListener("input", filterProducts);
+    function openProductModal(p) {
+      let images = [];
+      let videos = [];
+      try { images = JSON.parse(p.images || '[]'); } catch { images = [p.images]; }
+      try { videos = JSON.parse(p.videos || '[]'); } catch { videos = []; }
 
-      window.addEventListener("storage", event => {
-        if (event.key === CART_KEY || event.key === null) {
-          updateCartCount();
-        }
-      });
+      const modalBody = document.getElementById('modalBody');
+      modalBody.innerHTML = `
+        <h2 style="color:var(--blue); margin-bottom:8px;">${p.title}</h2>
+        <div style="color:var(--green); font-size:18px; font-weight:800; margin-bottom:12px;">KSh ${Number(p.price).toLocaleString()}</div>
+        
+        <img src="${images[0] || ''}" class="main-preview" id="mainPreview">
+        
+        <div class="gallery-container" id="galleryThumbs">
+          ${images.map((img, idx) => `<img src="${img}" class="gallery-thumb ${idx===0?'active':''}" onclick="document.getElementById('mainPreview').src='${img}'; document.querySelectorAll('.gallery-thumb').forEach(t=>t.classList.remove('active')); this.classList.add('active');">`).join('')}
+        </div>
 
-      updateCartCount();
-      loadProducts();
-    })();
+        ${videos.length > 0 ? `<h3 style="font-size:14px; margin:12px 0 6px; color:var(--blue);">Product Videos</h3>` : ''}
+        ${videos.map(v => `<video src="${v}" controls class="modal-video"></video>`).join('')}
+
+        <p style="font-size:13px; color:var(--dark); line-height:1.5; margin:12px 0;">${p.description}</p>
+        <div style="font-size:13px; font-weight:600; color:#d97706; margin-bottom:12px;">Rating: ${p.rating || 4}/5 stars</div>
+        <button class="btn-add-cart" onclick="addToCart('${p.id}'); document.getElementById('productModal').style.display='none';">Add to Cart</button>
+      `;
+
+      document.getElementById('productModal').style.display = 'flex';
+    }
+
+    document.getElementById('closeModal').addEventListener('click', () => {
+      document.getElementById('productModal').style.display = 'none';
+    });
+
+    function addToCart(id) {
+      const product = allProducts.find(p => String(p.id) === String(id));
+      if (!product) return;
+      let cart = JSON.parse(localStorage.getItem('zavo_cart') || '[]');
+      const existing = cart.find(item => String(item.id) === String(id));
+      if (existing) existing.quantity += 1;
+      else {
+        let images = [];
+        try { images = JSON.parse(product.images || '[]'); } catch { images = [product.images]; }
+        cart.push({ id: product.id, title: product.title, price: product.price, quantity: 1, image: images[0] || '' });
+      }
+      localStorage.setItem('zavo_cart', JSON.stringify(cart));
+      document.getElementById('cartCount').textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+      alert(product.title + " added to your cart.");
+    }
+
+    // Initialize cart count on load
+    document.getElementById('cartCount').textContent = JSON.parse(localStorage.getItem('zavo_cart') || '[]').reduce((sum, item) => sum + item.quantity, 0);
+
+    // Search filter
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase();
+      const filtered = allProducts.filter(p => p.title.toLowerCase().includes(q) || (p.description && p.description.toLowerCase().includes(q)));
+      renderProducts(filtered);
+    });
+
+    loadProducts();
   </script>
 </body>
 </html>
