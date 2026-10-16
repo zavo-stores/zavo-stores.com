@@ -1,8 +1,22 @@
+
+# ZAVO API — Cloudflare Workers configuration
+# Keep this file in the same project directory as worker.js.
+# The D1 binding name "DB" must match the binding used by worker.js (env.DB).
+
 name = "zavo-api"
-main = "worker.js"
+main = "./worker.js"
 compatibility_date = "2026-03-01"
 
 [[d1_databases]]
 binding = "DB"
 database_name = "zavo-stores-db"
 database_id = "65c289e6-876b-466b-8faa-c575748df3af"
+
+# Security notes:
+# - Store secret values (for example PAYSTACK_SECRET_KEY and REFERRAL_IP_SALT,
+#   if required by worker.js) with Cloudflare Wrangler secrets, not in this file.
+# - Configure non-secret environment values such as PUBLIC_SITE_URL and
+#   ALLOWED_ORIGINS in the deployment environment if worker.js requires them.
+# - This configuration points to the existing D1 database. It does not create
+#   tables or migrations.
+# - Add a separate staging environment/database before testing against production.
